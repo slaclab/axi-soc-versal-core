@@ -1,0 +1,49 @@
+/ {
+	chosen {
+		bootargs = " earlycon console=ttyPS0,115200 clk_ignore_unused root=/dev/ram0 rw net.ifnames=0 biosdevname=0 cma=1536M";
+		stdout-path = "serial0:115200n8";
+		xlnx,eeprom = &eeprom;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		cma_reserved: cma@0 {
+			compatible = "shared-dma-pool";
+			reusable;
+			reg = <0x0 0x80000000 0x0 0x60000000>; /* 1.5 GB reserved at 2GB boundary */
+			alignment = <0 0x1000>;
+			no-map;
+		};
+	};
+};
+&i2c1 { /* PMC_MIO44/45 */
+	/* Use for storing information about SC board */
+	eeprom: eeprom@54 { /* u34 - m24128 16kB */
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "st,24c128", "atmel,24c128";
+		reg = <0x54>; /* & 0x5c */
+		mac_address: mac-address@20 {
+			reg = <0x20 6>;
+		};
+	};
+};
+&gem0 { /* PMC_MIO_48, LPD_MIO0-11/24/25 */
+	nvmem-cells = <&mac_address>;
+	nvmem-cell-names = "mac-address";
+};
+&sdhci1 { /* PMC_MIO26-36/51 */
+	status = "okay";
+	disable-wp;
+};
+/ {
+	axi_stream_dma_0@80000000 {
+		compatible = "axi_stream_dma";
+		reg = <0x0 0x80000000 0x0 0x10000>;
+		interrupts = <0 84 4>;
+		interrupt-parent = <&gic>;
+	};
+};
