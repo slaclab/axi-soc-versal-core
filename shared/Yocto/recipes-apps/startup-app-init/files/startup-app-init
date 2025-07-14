@@ -98,7 +98,7 @@ fi
 ##############################################################################
 
 # Load the user's firmware (PL) .pdi file (A.K.A. "2nd stage boot")
-if [ -f "/boot/system.bit" ]
+if [ -f "/boot/system.pdi" ]
 then
    # fpgautil is "flaky" command and sometimes needs multiple retries to be successful
    while [ ! -z "$(fpgautil -o /boot/pl.dtbo -b /boot/system.pdi | grep failed)" ]
