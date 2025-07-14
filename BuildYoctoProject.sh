@@ -218,7 +218,7 @@ sed -i "s/default  = 32,/default  = $numDest,/" $proj_dir/sources/meta-user/reci
 # Add commonly used packages
 ##############################################################################
 
-# xrt is required for running xmutil executable
+# XRT is required to run applications compiled with AI Engine tools (e.g., libadf.a) and integrated into the .xclbin
 echo "IMAGE_INSTALL:append = \" xrt\"" >> $proj_dir/build/conf/local.conf
 
 # Usuful for debugging
@@ -252,6 +252,7 @@ cd $proj_dir/build/tmp/deploy/images/versal-user
 
 # Copy over the FSBL, U-boot and .bit files
 cp -rfL boot.bin-extracted/base-design.pdi $proj_dir/linux/system.pdi
+cp -rfL devicetree/pl.dtbo                 $proj_dir/linux/pl.dtbo
 cp -rfL boot.bin                           $proj_dir/linux/BOOT.BIN
 cp -rfL boot.scr                           $proj_dir/linux/boot.scr
 
@@ -262,7 +263,7 @@ cp $axi_soc_versal_core/shared/Yocto/image.its .
 mkimage -f image.its $proj_dir/linux/image.ub  > /dev/null
 
 # Default file list
-fileList="linux/system.pdi linux/BOOT.BIN linux/boot.scr linux/image.ub"
+fileList="linux/system.pdi linux/pl.dtbo linux/BOOT.BIN linux/boot.scr linux/image.ub"
 
 if [[ -v SOC_IP_STATIC ]]; then
    # File list with static IP

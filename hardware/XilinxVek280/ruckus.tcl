@@ -23,3 +23,15 @@ if  { $::env(VIVADO_VERSION) >= 2025.1 } {
 }
 loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
 # loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
+
+##############################################
+# Note on how I added the AXI stream interface
+##############################################
+# set_property -dict [list \
+   # CONFIG.CLK_NAMES {aclk0} \
+   # CONFIG.NAME_MI_AXIS {M00_AXIS,M01_AXIS,M02_AXIS,M03_AXIS,M04_AXIS,M05_AXIS,M06_AXIS,M07_AXIS,M08_AXIS,M09_AXIS,M10_AXIS,M11_AXIS,M12_AXIS,M13_AXIS,M14_AXIS,M15_AXIS,} \
+   # CONFIG.NAME_SI_AXIS {S00_AXIS,S01_AXIS,S02_AXIS,S03_AXIS,S04_AXIS,S05_AXIS,S06_AXIS,S07_AXIS,S08_AXIS,S09_AXIS,S10_AXIS,S11_AXIS,S12_AXIS,S13_AXIS,S14_AXIS,S15_AXIS,} \
+   # CONFIG.NUM_CLKS {1} \
+   # CONFIG.NUM_MI_AXIS {16} \
+   # CONFIG.NUM_SI_AXIS {16} \
+# ] [get_bd_cells ai_engine_0]

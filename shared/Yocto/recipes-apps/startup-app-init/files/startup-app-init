@@ -97,11 +97,14 @@ fi
 
 ##############################################################################
 
-# Load the user's firmware .pdi file (A.K.A. "2nd stage boot")
-if [ -f "/boot/system.pdi" ]
+# Load the user's firmware (PL) .pdi file (A.K.A. "2nd stage boot")
+if [ -f "/boot/system.bit" ]
 then
-   while xmutil loadapp /boot/system.pdi 2>&1 | grep -qi "error"; do sleep 1; done
-   xmutil listapps
+   # fpgautil is "flaky" command and sometimes needs multiple retries to be successful
+   while [ ! -z "$(fpgautil -o /boot/pl.dtbo -b /boot/system.pdi | grep failed)" ]
+   do
+      sleep 1
+   done
 fi
 
 # Load custom kernel driver
