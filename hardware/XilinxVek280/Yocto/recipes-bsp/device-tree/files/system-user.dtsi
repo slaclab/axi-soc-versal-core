@@ -26,8 +26,8 @@
 		#size-cells = <1>;
 		compatible = "st,24c128", "atmel,24c128";
 		reg = <0x54>; /* & 0x5c */
-		mac_address: mac-address@20 {
-			reg = <0x20 6>;
+		mac_address: mac-address@99 {
+			reg = <0x99 6>;
 		};
 	};
 };
