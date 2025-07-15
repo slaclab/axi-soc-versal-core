@@ -32,6 +32,7 @@ entity AxiSocVersalCore is
       ROGUE_SIM_PORT_NUM_G : natural range 1024 to 49151 := 10000;
       ROGUE_SIM_CH_COUNT_G : natural range 1 to 256      := 256;
       BUILD_INFO_G         : BuildInfoType;
+      AIE_SIZE_G           : positive range 1 to 16      := 1;
       EXT_AXIL_MASTER_G    : boolean                     := false;
       DESC_MEMORY_TYPE_G   : string                      := "ultra";
       DMA_BURST_BYTES_G    : positive range 256 to 4096  := 256;
@@ -46,7 +47,14 @@ entity AxiSocVersalCore is
       -- AUX Clock and Reset
       auxClk          : out   sl;       -- 100 MHz
       auxRst          : out   sl;
-      -- DMA Interfaces  (dmaClk domain)
+      -- AIE Stream Interfaces (aieClk domain)
+      aieClk          : in    sl;
+      aieRst          : in    sl;
+      aieIbMasters    : in    AxiStreamMasterArray(AIE_SIZE_G-1 downto 0);
+      aieIbSlaves     : out   AxiStreamSlaveArray(AIE_SIZE_G-1 downto 0);
+      aieObMasters    : out   AxiStreamMasterArray(AIE_SIZE_G-1 downto 0);
+      aieObSlaves     : in    AxiStreamSlaveArray(AIE_SIZE_G-1 downto 0);
+      -- DMA Interfaces (dmaClk domain)
       dmaClk          : out   sl;       -- 250 MHz
       dmaRst          : out   sl;
       dmaBuffGrpPause : out   slv(7 downto 0);
@@ -54,7 +62,7 @@ entity AxiSocVersalCore is
       dmaObSlaves     : in    AxiStreamSlaveArray(DMA_SIZE_G-1 downto 0);
       dmaIbMasters    : in    AxiStreamMasterArray(DMA_SIZE_G-1 downto 0);
       dmaIbSlaves     : out   AxiStreamSlaveArray(DMA_SIZE_G-1 downto 0);
-      -- External AXI-Lite Interfaces  (dmaClk domain): EXT_AXIL_MASTER_G = true
+      -- External AXI-Lite Interfaces (dmaClk domain): EXT_AXIL_MASTER_G = true
       extReadMaster   : in    AxiLiteReadMasterType  := AXI_LITE_READ_MASTER_INIT_C;
       extReadSlave    : out   AxiLiteReadSlaveType   := AXI_LITE_READ_SLAVE_EMPTY_DECERR_C;
       extWriteMaster  : in    AxiLiteWriteMasterType := AXI_LITE_WRITE_MASTER_INIT_C;
@@ -135,13 +143,21 @@ begin
 
       U_CPU : entity axi_soc_versal_core.AxiSocVersalCpu
          generic map (
-            TPD_G => TPD_G)
+            TPD_G      => TPD_G,
+            AIE_SIZE_G => AIE_SIZE_G)
          port map (
             -- Clock and Reset
             axiClk             => sysClock,
             axiRst             => sysReset,
             auxClk             => auxClock,
             auxRst             => auxReset,
+            -- AIE Stream Interfaces
+            aieClk             => aieClk,
+            aieRst             => aieRst,
+            aieIbMasters       => aieIbMasters,
+            aieIbSlaves        => aieIbSlaves,
+            aieObMasters       => aieObMasters,
+            aieObSlaves        => aieObSlaves,
             -- Slave AXI4 Interface
             dmaReadMaster      => dmaReadMaster,
             dmaReadSlave       => dmaReadSlave,
@@ -186,6 +202,9 @@ begin
          port map (
             clkP => auxClock,
             rst  => auxReset);
+
+      aieIbSlaves  <= (others => AXI_STREAM_SLAVE_FORCE_C);
+      aieObMasters <= (others => AXI_STREAM_MASTER_INIT_C);
 
    end generate;
 

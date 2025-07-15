@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x751D91ED60AB54F7",
+      "boundary_crc": "0xE0585499F80DE206",
       "device": "xcve2802-vsvh1760-2MP-e-S",
       "gen_directory": "../../../../SimpleVek280Example_project.gen/sources_1/bd/2025",
       "name": "AxiSocVersalCpuCore",
@@ -1603,6 +1603,2742 @@
             "right": "0"
           }
         }
+      },
+      "S00_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S00_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S00_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S00_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S00_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S00_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S01_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S01_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S01_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S01_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S01_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S01_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S02_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S02_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S02_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S02_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S02_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S02_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S03_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S03_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S03_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S03_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S03_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S03_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S04_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S04_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S04_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S04_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S04_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S04_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S05_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S05_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S05_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S05_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S05_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S05_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S06_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S06_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S06_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S06_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S06_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S06_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S07_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S07_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S07_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S07_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S07_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S07_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S08_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S08_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S08_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S08_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S08_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S08_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S09_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S09_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S09_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S09_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S09_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S09_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S10_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S10_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S10_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S10_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S10_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S10_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S11_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S11_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S11_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S11_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S11_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S11_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S12_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S12_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S12_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S12_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S12_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S12_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S13_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S13_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S13_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S13_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S13_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S13_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S14_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S14_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S14_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S14_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S14_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S14_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "S15_AXIS_0": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "HAS_TREADY": {
+            "value": "1"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "S15_AXIS_0_tdata",
+            "direction": "I",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "S15_AXIS_0_tkeep",
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "S15_AXIS_0_tlast",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "S15_AXIS_0_tvalid",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "S15_AXIS_0_tready",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M00_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M00_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M00_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M00_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M00_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M00_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M01_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M01_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M01_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M01_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M01_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M01_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M02_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M02_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M02_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M02_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M02_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M02_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M03_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M03_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M03_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M03_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M03_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M03_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M04_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M04_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M04_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M04_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M04_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M04_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M05_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M05_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M05_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M05_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M05_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M05_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M06_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M06_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M06_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M06_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M06_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M06_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M07_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M07_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M07_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M07_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M07_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M07_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M08_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M08_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M08_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M08_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M08_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M08_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M09_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M09_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M09_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M09_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M09_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M09_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M10_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M10_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M10_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M10_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M10_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M10_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M11_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M11_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M11_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M11_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M11_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M11_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M12_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M12_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M12_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M12_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M12_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M12_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M13_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M13_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M13_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M13_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M13_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M13_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M14_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M14_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M14_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M14_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M14_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M14_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "M15_AXIS_0": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "HAS_TKEEP": {
+            "value": "1",
+            "value_src": "auto_prop"
+          },
+          "HAS_TLAST": {
+            "value": "1",
+            "value_src": "user_prop"
+          },
+          "HAS_TREADY": {
+            "value": "1",
+            "value_src": "const_prop"
+          },
+          "HAS_TSTRB": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "LAYERED_METADATA": {
+            "value": "undef",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          },
+          "TDATA_NUM_BYTES": {
+            "value": "16",
+            "value_src": "user_prop"
+          },
+          "TDEST_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TID_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          },
+          "TUSER_WIDTH": {
+            "value": "0",
+            "value_src": "const_prop"
+          }
+        },
+        "port_maps": {
+          "TDATA": {
+            "physical_name": "M15_AXIS_0_tdata",
+            "direction": "O",
+            "left": "127",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "M15_AXIS_0_tkeep",
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "TLAST": {
+            "physical_name": "M15_AXIS_0_tlast",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TVALID": {
+            "physical_name": "M15_AXIS_0_tvalid",
+            "direction": "O",
+            "left": "0",
+            "right": "0"
+          },
+          "TREADY": {
+            "physical_name": "M15_AXIS_0_tready",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
       }
     },
     "ports": {
@@ -1684,6 +4420,34 @@
           },
           "POLARITY": {
             "value": "ACTIVE_LOW",
+            "value_src": "default"
+          }
+        }
+      },
+      "aieClk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_BUSIF": {
+            "value": "M00_AXIS_0:M15_AXIS_0:M14_AXIS_0:M13_AXIS_0:M12_AXIS_0:M11_AXIS_0:M10_AXIS_0:M09_AXIS_0:M08_AXIS_0:M07_AXIS_0:M06_AXIS_0:M05_AXIS_0:M04_AXIS_0:M03_AXIS_0:M02_AXIS_0:M01_AXIS_0:S00_AXIS_0:S01_AXIS_0:S02_AXIS_0:S03_AXIS_0:S04_AXIS_0:S05_AXIS_0:S06_AXIS_0:S07_AXIS_0:S08_AXIS_0:S09_AXIS_0:S10_AXIS_0:S11_AXIS_0:S12_AXIS_0:S13_AXIS_0:S14_AXIS_0:S15_AXIS_0"
+          },
+          "CLK_DOMAIN": {
+            "value": "AxiSocVersalCpuCore_aclk0_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "250000000"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
             "value_src": "default"
           }
         }
@@ -4859,6 +7623,26 @@
         "xci_path": "ip/AxiSocVersalCpuCore_ai_engine_0_0/AxiSocVersalCpuCore_ai_engine_0_0.xci",
         "inst_hier_path": "ai_engine_0",
         "has_run_ip_tcl": "true",
+        "parameters": {
+          "CLK_NAMES": {
+            "value": "aclk0"
+          },
+          "NAME_MI_AXIS": {
+            "value": "M00_AXIS,M01_AXIS,M02_AXIS,M03_AXIS,M04_AXIS,M05_AXIS,M06_AXIS,M07_AXIS,M08_AXIS,M09_AXIS,M10_AXIS,M11_AXIS,M12_AXIS,M13_AXIS,M14_AXIS,M15_AXIS,"
+          },
+          "NAME_SI_AXIS": {
+            "value": "S00_AXIS,S01_AXIS,S02_AXIS,S03_AXIS,S04_AXIS,S05_AXIS,S06_AXIS,S07_AXIS,S08_AXIS,S09_AXIS,S10_AXIS,S11_AXIS,S12_AXIS,S13_AXIS,S14_AXIS,S15_AXIS,"
+          },
+          "NUM_CLKS": {
+            "value": "1"
+          },
+          "NUM_MI_AXIS": {
+            "value": "16"
+          },
+          "NUM_SI_AXIS": {
+            "value": "16"
+          }
+        },
         "interface_ports": {
           "S00_AXI": {
             "mode": "Slave",
@@ -4870,6 +7654,374 @@
               }
             },
             "memory_map_ref": "S00_AXI"
+          },
+          "M00_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M01_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M02_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M03_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M04_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M05_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M06_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M07_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M08_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M09_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M10_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M11_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M12_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M13_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M14_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "M15_AXIS": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              },
+              "TDATA_NUM_BYTES": {
+                "value": "16"
+              }
+            }
+          },
+          "S00_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S01_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S02_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S03_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S04_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S05_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S06_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S07_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S08_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S09_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S10_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S11_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S12_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S13_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S14_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
+          },
+          "S15_AXIS": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "CATEGORY": {
+                "value": "PL"
+              }
+            }
           }
         },
         "addressing": {
@@ -5359,6 +8511,102 @@
           "ConfigNoc/S00_INI"
         ]
       },
+      "S00_AXIS_0_1": {
+        "interface_ports": [
+          "S00_AXIS_0",
+          "ai_engine_0/S00_AXIS"
+        ]
+      },
+      "S01_AXIS_0_1": {
+        "interface_ports": [
+          "S01_AXIS_0",
+          "ai_engine_0/S01_AXIS"
+        ]
+      },
+      "S02_AXIS_0_1": {
+        "interface_ports": [
+          "S02_AXIS_0",
+          "ai_engine_0/S02_AXIS"
+        ]
+      },
+      "S03_AXIS_0_1": {
+        "interface_ports": [
+          "S03_AXIS_0",
+          "ai_engine_0/S03_AXIS"
+        ]
+      },
+      "S04_AXIS_0_1": {
+        "interface_ports": [
+          "S04_AXIS_0",
+          "ai_engine_0/S04_AXIS"
+        ]
+      },
+      "S05_AXIS_0_1": {
+        "interface_ports": [
+          "S05_AXIS_0",
+          "ai_engine_0/S05_AXIS"
+        ]
+      },
+      "S06_AXIS_0_1": {
+        "interface_ports": [
+          "S06_AXIS_0",
+          "ai_engine_0/S06_AXIS"
+        ]
+      },
+      "S07_AXIS_0_1": {
+        "interface_ports": [
+          "S07_AXIS_0",
+          "ai_engine_0/S07_AXIS"
+        ]
+      },
+      "S08_AXIS_0_1": {
+        "interface_ports": [
+          "S08_AXIS_0",
+          "ai_engine_0/S08_AXIS"
+        ]
+      },
+      "S09_AXIS_0_1": {
+        "interface_ports": [
+          "S09_AXIS_0",
+          "ai_engine_0/S09_AXIS"
+        ]
+      },
+      "S10_AXIS_0_1": {
+        "interface_ports": [
+          "S10_AXIS_0",
+          "ai_engine_0/S10_AXIS"
+        ]
+      },
+      "S11_AXIS_0_1": {
+        "interface_ports": [
+          "S11_AXIS_0",
+          "ai_engine_0/S11_AXIS"
+        ]
+      },
+      "S12_AXIS_0_1": {
+        "interface_ports": [
+          "S12_AXIS_0",
+          "ai_engine_0/S12_AXIS"
+        ]
+      },
+      "S13_AXIS_0_1": {
+        "interface_ports": [
+          "S13_AXIS_0",
+          "ai_engine_0/S13_AXIS"
+        ]
+      },
+      "S14_AXIS_0_1": {
+        "interface_ports": [
+          "S14_AXIS_0",
+          "ai_engine_0/S14_AXIS"
+        ]
+      },
+      "S15_AXIS_0_1": {
+        "interface_ports": [
+          "S15_AXIS_0",
+          "ai_engine_0/S15_AXIS"
+        ]
+      },
       "S_AXI_FPD_0_1": {
         "interface_ports": [
           "dma",
@@ -5381,6 +8629,102 @@
         "interface_ports": [
           "aggr_noc/M02_INI",
           "noc_lpddr2/S01_INI"
+        ]
+      },
+      "ai_engine_0_M00_AXIS": {
+        "interface_ports": [
+          "M00_AXIS_0",
+          "ai_engine_0/M00_AXIS"
+        ]
+      },
+      "ai_engine_0_M01_AXIS": {
+        "interface_ports": [
+          "M01_AXIS_0",
+          "ai_engine_0/M01_AXIS"
+        ]
+      },
+      "ai_engine_0_M02_AXIS": {
+        "interface_ports": [
+          "M02_AXIS_0",
+          "ai_engine_0/M02_AXIS"
+        ]
+      },
+      "ai_engine_0_M03_AXIS": {
+        "interface_ports": [
+          "M03_AXIS_0",
+          "ai_engine_0/M03_AXIS"
+        ]
+      },
+      "ai_engine_0_M04_AXIS": {
+        "interface_ports": [
+          "M04_AXIS_0",
+          "ai_engine_0/M04_AXIS"
+        ]
+      },
+      "ai_engine_0_M05_AXIS": {
+        "interface_ports": [
+          "M05_AXIS_0",
+          "ai_engine_0/M05_AXIS"
+        ]
+      },
+      "ai_engine_0_M06_AXIS": {
+        "interface_ports": [
+          "M06_AXIS_0",
+          "ai_engine_0/M06_AXIS"
+        ]
+      },
+      "ai_engine_0_M07_AXIS": {
+        "interface_ports": [
+          "M07_AXIS_0",
+          "ai_engine_0/M07_AXIS"
+        ]
+      },
+      "ai_engine_0_M08_AXIS": {
+        "interface_ports": [
+          "M08_AXIS_0",
+          "ai_engine_0/M08_AXIS"
+        ]
+      },
+      "ai_engine_0_M09_AXIS": {
+        "interface_ports": [
+          "M09_AXIS_0",
+          "ai_engine_0/M09_AXIS"
+        ]
+      },
+      "ai_engine_0_M10_AXIS": {
+        "interface_ports": [
+          "M10_AXIS_0",
+          "ai_engine_0/M10_AXIS"
+        ]
+      },
+      "ai_engine_0_M11_AXIS": {
+        "interface_ports": [
+          "M11_AXIS_0",
+          "ai_engine_0/M11_AXIS"
+        ]
+      },
+      "ai_engine_0_M12_AXIS": {
+        "interface_ports": [
+          "M12_AXIS_0",
+          "ai_engine_0/M12_AXIS"
+        ]
+      },
+      "ai_engine_0_M13_AXIS": {
+        "interface_ports": [
+          "M13_AXIS_0",
+          "ai_engine_0/M13_AXIS"
+        ]
+      },
+      "ai_engine_0_M14_AXIS": {
+        "interface_ports": [
+          "M14_AXIS_0",
+          "ai_engine_0/M14_AXIS"
+        ]
+      },
+      "ai_engine_0_M15_AXIS": {
+        "interface_ports": [
+          "M15_AXIS_0",
+          "ai_engine_0/M15_AXIS"
         ]
       },
       "lpddr4_clk1_1": {
@@ -5497,6 +8841,12 @@
         "ports": [
           "CIPS_0/pmc_axi_noc_axi0_clk",
           "Master_NoC/aclk7"
+        ]
+      },
+      "aclk0_0_1": {
+        "ports": [
+          "aieClk",
+          "ai_engine_0/aclk0"
         ]
       },
       "ai_engine_0_s00_axi_aclk": {

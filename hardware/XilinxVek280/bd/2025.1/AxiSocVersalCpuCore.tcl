@@ -277,6 +277,310 @@ proc create_root_design { parentCell } {
    CONFIG.PROTOCOL {AXI4} \
    ] $axiLite
 
+  set S00_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S00_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S00_AXIS_0
+
+  set S01_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S01_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S01_AXIS_0
+
+  set S02_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S02_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S02_AXIS_0
+
+  set S03_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S03_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S03_AXIS_0
+
+  set S04_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S04_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S04_AXIS_0
+
+  set S05_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S05_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S05_AXIS_0
+
+  set S06_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S06_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S06_AXIS_0
+
+  set S07_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S07_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S07_AXIS_0
+
+  set S08_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S08_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S08_AXIS_0
+
+  set S09_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S09_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S09_AXIS_0
+
+  set S10_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S10_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S10_AXIS_0
+
+  set S11_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S11_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S11_AXIS_0
+
+  set S12_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S12_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S12_AXIS_0
+
+  set S13_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S13_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S13_AXIS_0
+
+  set S14_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S14_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S14_AXIS_0
+
+  set S15_AXIS_0 [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 S15_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.HAS_TREADY {1} \
+   CONFIG.HAS_TSTRB {0} \
+   CONFIG.LAYERED_METADATA {undef} \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.TDEST_WIDTH {0} \
+   CONFIG.TID_WIDTH {0} \
+   CONFIG.TUSER_WIDTH {0} \
+   ] $S15_AXIS_0
+
+  set M00_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M00_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M00_AXIS_0
+
+  set M01_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M01_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M01_AXIS_0
+
+  set M02_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M02_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M02_AXIS_0
+
+  set M03_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M03_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M03_AXIS_0
+
+  set M04_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M04_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M04_AXIS_0
+
+  set M05_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M05_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M05_AXIS_0
+
+  set M06_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M06_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M06_AXIS_0
+
+  set M07_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M07_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M07_AXIS_0
+
+  set M08_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M08_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M08_AXIS_0
+
+  set M09_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M09_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M09_AXIS_0
+
+  set M10_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M10_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M10_AXIS_0
+
+  set M11_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M11_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M11_AXIS_0
+
+  set M12_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M12_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M12_AXIS_0
+
+  set M13_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M13_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M13_AXIS_0
+
+  set M14_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M14_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M14_AXIS_0
+
+  set M15_AXIS_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 M15_AXIS_0 ]
+  set_property -dict [ list \
+   CONFIG.FREQ_HZ {250000000} \
+   ] $M15_AXIS_0
+
 
   # Create ports
   set dmaIrq [ create_bd_port -dir I -type intr dmaIrq ]
@@ -286,6 +590,10 @@ proc create_root_design { parentCell } {
  ] $dmaClk
   set plClk [ create_bd_port -dir O -type clk plClk ]
   set plRstL [ create_bd_port -dir O -type rst plRstL ]
+  set aieClk [ create_bd_port -dir I -type clk -freq_hz 250000000 aieClk ]
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {M00_AXIS_0:M15_AXIS_0:M14_AXIS_0:M13_AXIS_0:M12_AXIS_0:M11_AXIS_0:M10_AXIS_0:M09_AXIS_0:M08_AXIS_0:M07_AXIS_0:M06_AXIS_0:M05_AXIS_0:M04_AXIS_0:M03_AXIS_0:M02_AXIS_0:M01_AXIS_0:S00_AXIS_0:S01_AXIS_0:S02_AXIS_0:S03_AXIS_0:S04_AXIS_0:S05_AXIS_0:S06_AXIS_0:S07_AXIS_0:S08_AXIS_0:S09_AXIS_0:S10_AXIS_0:S11_AXIS_0:S12_AXIS_0:S13_AXIS_0:S14_AXIS_0:S15_AXIS_0} \
+ ] $aieClk
 
   # Create instance: CIPS_0, and set properties
   set CIPS_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.4 CIPS_0 ]
@@ -531,10 +839,167 @@ proc create_root_design { parentCell } {
 
   # Create instance: ai_engine_0, and set properties
   set ai_engine_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ai_engine:2.0 ai_engine_0 ]
+  set_property -dict [list \
+    CONFIG.CLK_NAMES {aclk0} \
+    CONFIG.NAME_MI_AXIS {M00_AXIS,M01_AXIS,M02_AXIS,M03_AXIS,M04_AXIS,M05_AXIS,M06_AXIS,M07_AXIS,M08_AXIS,M09_AXIS,M10_AXIS,M11_AXIS,M12_AXIS,M13_AXIS,M14_AXIS,M15_AXIS,} \
+    CONFIG.NAME_SI_AXIS {S00_AXIS,S01_AXIS,S02_AXIS,S03_AXIS,S04_AXIS,S05_AXIS,S06_AXIS,S07_AXIS,S08_AXIS,S09_AXIS,S10_AXIS,S11_AXIS,S12_AXIS,S13_AXIS,S14_AXIS,S15_AXIS,} \
+    CONFIG.NUM_CLKS {1} \
+    CONFIG.NUM_MI_AXIS {16} \
+    CONFIG.NUM_SI_AXIS {16} \
+  ] $ai_engine_0
+
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M00_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M01_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M02_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M03_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M04_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M05_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M06_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M07_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M08_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M09_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M10_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M11_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M12_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M13_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M14_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.TDATA_NUM_BYTES {16} \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/M15_AXIS]
 
   set_property -dict [ list \
    CONFIG.CATEGORY {NOC} \
  ] [get_bd_intf_pins /ai_engine_0/S00_AXI]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S00_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S01_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S02_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S03_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S04_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S05_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S06_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S07_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S08_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S09_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S10_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S11_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S12_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S13_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S14_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.CATEGORY {PL} \
+ ] [get_bd_intf_pins /ai_engine_0/S15_AXIS]
+
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {M00_AXIS:M01_AXIS:M02_AXIS:M03_AXIS:M04_AXIS:M05_AXIS:M06_AXIS:M07_AXIS:M08_AXIS:M09_AXIS:M10_AXIS:M11_AXIS:M12_AXIS:M13_AXIS:M14_AXIS:M15_AXIS:S00_AXIS:S01_AXIS:S02_AXIS:S03_AXIS:S04_AXIS:S05_AXIS:S06_AXIS:S07_AXIS:S08_AXIS:S09_AXIS:S10_AXIS:S11_AXIS:S12_AXIS:S13_AXIS:S14_AXIS:S15_AXIS} \
+ ] [get_bd_pins /ai_engine_0/aclk0]
 
   # Create instance: ConfigNoc, and set properties
   set ConfigNoc [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 ConfigNoc ]
@@ -645,10 +1110,42 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net Master_NoC_M04_INI [get_bd_intf_pins Master_NoC/M04_INI] [get_bd_intf_pins noc_lpddr1/S00_INI]
   connect_bd_intf_net -intf_net Master_NoC_M05_INI [get_bd_intf_pins Master_NoC/M05_INI] [get_bd_intf_pins noc_lpddr2/S00_INI]
   connect_bd_intf_net -intf_net Master_NoC_M06_INI [get_bd_intf_pins Master_NoC/M06_INI] [get_bd_intf_pins ConfigNoc/S00_INI]
+  connect_bd_intf_net -intf_net S00_AXIS_0_1 [get_bd_intf_ports S00_AXIS_0] [get_bd_intf_pins ai_engine_0/S00_AXIS]
+  connect_bd_intf_net -intf_net S01_AXIS_0_1 [get_bd_intf_ports S01_AXIS_0] [get_bd_intf_pins ai_engine_0/S01_AXIS]
+  connect_bd_intf_net -intf_net S02_AXIS_0_1 [get_bd_intf_ports S02_AXIS_0] [get_bd_intf_pins ai_engine_0/S02_AXIS]
+  connect_bd_intf_net -intf_net S03_AXIS_0_1 [get_bd_intf_ports S03_AXIS_0] [get_bd_intf_pins ai_engine_0/S03_AXIS]
+  connect_bd_intf_net -intf_net S04_AXIS_0_1 [get_bd_intf_ports S04_AXIS_0] [get_bd_intf_pins ai_engine_0/S04_AXIS]
+  connect_bd_intf_net -intf_net S05_AXIS_0_1 [get_bd_intf_ports S05_AXIS_0] [get_bd_intf_pins ai_engine_0/S05_AXIS]
+  connect_bd_intf_net -intf_net S06_AXIS_0_1 [get_bd_intf_ports S06_AXIS_0] [get_bd_intf_pins ai_engine_0/S06_AXIS]
+  connect_bd_intf_net -intf_net S07_AXIS_0_1 [get_bd_intf_ports S07_AXIS_0] [get_bd_intf_pins ai_engine_0/S07_AXIS]
+  connect_bd_intf_net -intf_net S08_AXIS_0_1 [get_bd_intf_ports S08_AXIS_0] [get_bd_intf_pins ai_engine_0/S08_AXIS]
+  connect_bd_intf_net -intf_net S09_AXIS_0_1 [get_bd_intf_ports S09_AXIS_0] [get_bd_intf_pins ai_engine_0/S09_AXIS]
+  connect_bd_intf_net -intf_net S10_AXIS_0_1 [get_bd_intf_ports S10_AXIS_0] [get_bd_intf_pins ai_engine_0/S10_AXIS]
+  connect_bd_intf_net -intf_net S11_AXIS_0_1 [get_bd_intf_ports S11_AXIS_0] [get_bd_intf_pins ai_engine_0/S11_AXIS]
+  connect_bd_intf_net -intf_net S12_AXIS_0_1 [get_bd_intf_ports S12_AXIS_0] [get_bd_intf_pins ai_engine_0/S12_AXIS]
+  connect_bd_intf_net -intf_net S13_AXIS_0_1 [get_bd_intf_ports S13_AXIS_0] [get_bd_intf_pins ai_engine_0/S13_AXIS]
+  connect_bd_intf_net -intf_net S14_AXIS_0_1 [get_bd_intf_ports S14_AXIS_0] [get_bd_intf_pins ai_engine_0/S14_AXIS]
+  connect_bd_intf_net -intf_net S15_AXIS_0_1 [get_bd_intf_ports S15_AXIS_0] [get_bd_intf_pins ai_engine_0/S15_AXIS]
   connect_bd_intf_net -intf_net S_AXI_FPD_0_1 [get_bd_intf_ports dma] [get_bd_intf_pins CIPS_0/S_AXI_FPD]
   connect_bd_intf_net -intf_net aggr_noc_M00_INI [get_bd_intf_pins aggr_noc/M00_INI] [get_bd_intf_pins noc_lpddr0/S04_INI]
   connect_bd_intf_net -intf_net aggr_noc_M01_INI [get_bd_intf_pins aggr_noc/M01_INI] [get_bd_intf_pins noc_lpddr1/S01_INI]
   connect_bd_intf_net -intf_net aggr_noc_M02_INI [get_bd_intf_pins aggr_noc/M02_INI] [get_bd_intf_pins noc_lpddr2/S01_INI]
+  connect_bd_intf_net -intf_net ai_engine_0_M00_AXIS [get_bd_intf_ports M00_AXIS_0] [get_bd_intf_pins ai_engine_0/M00_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M01_AXIS [get_bd_intf_ports M01_AXIS_0] [get_bd_intf_pins ai_engine_0/M01_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M02_AXIS [get_bd_intf_ports M02_AXIS_0] [get_bd_intf_pins ai_engine_0/M02_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M03_AXIS [get_bd_intf_ports M03_AXIS_0] [get_bd_intf_pins ai_engine_0/M03_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M04_AXIS [get_bd_intf_ports M04_AXIS_0] [get_bd_intf_pins ai_engine_0/M04_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M05_AXIS [get_bd_intf_ports M05_AXIS_0] [get_bd_intf_pins ai_engine_0/M05_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M06_AXIS [get_bd_intf_ports M06_AXIS_0] [get_bd_intf_pins ai_engine_0/M06_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M07_AXIS [get_bd_intf_ports M07_AXIS_0] [get_bd_intf_pins ai_engine_0/M07_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M08_AXIS [get_bd_intf_ports M08_AXIS_0] [get_bd_intf_pins ai_engine_0/M08_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M09_AXIS [get_bd_intf_ports M09_AXIS_0] [get_bd_intf_pins ai_engine_0/M09_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M10_AXIS [get_bd_intf_ports M10_AXIS_0] [get_bd_intf_pins ai_engine_0/M10_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M11_AXIS [get_bd_intf_ports M11_AXIS_0] [get_bd_intf_pins ai_engine_0/M11_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M12_AXIS [get_bd_intf_ports M12_AXIS_0] [get_bd_intf_pins ai_engine_0/M12_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M13_AXIS [get_bd_intf_ports M13_AXIS_0] [get_bd_intf_pins ai_engine_0/M13_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M14_AXIS [get_bd_intf_ports M14_AXIS_0] [get_bd_intf_pins ai_engine_0/M14_AXIS]
+  connect_bd_intf_net -intf_net ai_engine_0_M15_AXIS [get_bd_intf_ports M15_AXIS_0] [get_bd_intf_pins ai_engine_0/M15_AXIS]
   connect_bd_intf_net -intf_net lpddr4_clk1_1 [get_bd_intf_ports lpddr4_clk1] [get_bd_intf_pins noc_lpddr0/sys_clk0]
   connect_bd_intf_net -intf_net lpddr4_clk2_1 [get_bd_intf_ports lpddr4_clk2] [get_bd_intf_pins noc_lpddr1/sys_clk0]
   connect_bd_intf_net -intf_net lpddr4_clk3_1 [get_bd_intf_ports lpddr4_clk3] [get_bd_intf_pins noc_lpddr2/sys_clk0]
@@ -680,6 +1177,8 @@ proc create_root_design { parentCell } {
   [get_bd_ports plRstL]
   connect_bd_net -net CIPS_0_pmc_axi_noc_axi0_clk  [get_bd_pins CIPS_0/pmc_axi_noc_axi0_clk] \
   [get_bd_pins Master_NoC/aclk7]
+  connect_bd_net -net aclk0_0_1  [get_bd_ports aieClk] \
+  [get_bd_pins ai_engine_0/aclk0]
   connect_bd_net -net ai_engine_0_s00_axi_aclk  [get_bd_pins ai_engine_0/s00_axi_aclk] \
   [get_bd_pins ConfigNoc/aclk0]
   connect_bd_net -net m_axi_fpd_aclk_0_1  [get_bd_ports dmaClk] \

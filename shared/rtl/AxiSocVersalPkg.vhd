@@ -49,6 +49,16 @@ package AxiSocVersalPkg is
       TUSER_BITS_C  => 4,
       TUSER_MODE_C  => TUSER_FIRST_LAST_C);
 
+   -- AIE AXI Stream Configuration
+   constant AIE_AXIS_CONFIG_C : AxiStreamConfigType := (
+      TSTRB_EN_C    => false,
+      TDATA_BYTES_C => 16,              -- 128-bit data interface
+      TDEST_BITS_C  => 0,
+      TID_BITS_C    => 0,
+      TKEEP_MODE_C  => TKEEP_NORMAL_C,
+      TUSER_BITS_C  => 0,
+      TUSER_MODE_C  => TUSER_NONE_C);
+
    -- List of PCIe Hardware Types
    constant HW_TYPE_UNDEFINED_C     : slv(31 downto 0) := x"00_00_00_00";
    constant HW_TYPE_XILINX_VEK280_C : slv(31 downto 0) := x"00_00_00_01";  -- XilinxVek280
