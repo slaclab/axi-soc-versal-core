@@ -98,13 +98,16 @@ fi
 ##############################################################################
 
 # Load the user's firmware (PL) .pdi file (A.K.A. "2nd stage boot")
-if [ -f "/boot/system.pdi" ]
+if [ -f "/boot/pl.pdi" ]
 then
-   # fpgautil is "flaky" command and sometimes needs multiple retries to be successful
-   while [ ! -z "$(fpgautil -o /boot/pl.dtbo -b /boot/system.pdi | grep failed)" ]
-   do
-      sleep 1
-   done
+   # Remove Full Overlay
+   fpgautil -R -n full
+
+   # Program the PL overlay
+   fpgautil -o /boot/pl.dtbo -b /boot/pl.pdi
+
+   # Get the status
+   echo "/sys/class/fpga_manager/fpga0/state: $(cat /sys/class/fpga_manager/fpga0/state)"
 fi
 
 # Load custom kernel driver
