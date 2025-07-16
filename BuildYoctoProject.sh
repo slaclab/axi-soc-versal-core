@@ -95,7 +95,7 @@ then
 fi
 
 # Check if the XSA file exists and has .xsa extension
-if [ ! -f "$xsa" ] || [[ "$xsa" != *.xsa ]]; then
+if [ ! -f "$xsa" ] || [[ "${xsa##*.}" != "xsa" ]]; then
    echo "File $xsa does NOT exist or is not a .xsa file"
    exit 1
 fi
@@ -179,15 +179,15 @@ echo "hostname:pn-base-files = \"$Name\""        >> $proj_dir/build/conf/local.c
 # Add the hardware specific BSP
 ##############################################################################
 
+# Copy the meta layers from local source
 cp -rfL $hwDir/Yocto/recipes-bsp $proj_dir/sources/meta-user/.
 
 ##############################################################################
 # Add the axi-stream-dma & axi_memory_map kernel modules
 ##############################################################################
 
+# Copy the meta layers from local source
 cp -rfL $aes_stream_drivers/Yocto/recipes-kernel $proj_dir/sources/meta-user/.
-echo "MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS:append = \" axistreamdma aximemorymap\"" >> $proj_dir/sources/meta-user/conf/machine/versal-user.conf
-echo "MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS:append = \" axistreamdma aximemorymap\"" >> $proj_dir/sources/meta-user/conf/machine/versal-user.conf
 
 # Update DMA engine with user configuration
 sed -i "s/int cfgTxCount0 = 128;/int cfgTxCount0 = $dmaTxBuffCount;/"  $proj_dir/sources/meta-user/recipes-kernel/axistreamdma/files/axistreamdma.c
@@ -198,47 +198,18 @@ sed -i "s/int cfgSize0    = 2097152;/int cfgSize0    = $dmaBuffSize;/" $proj_dir
 # Add axi-soc-versal-core's recipes-apps
 ##############################################################################
 
+# Copy the meta layers from local source
 cp -rfL $axi_soc_versal_core/shared/Yocto/recipes-apps $proj_dir/sources/meta-user/.
-echo "IMAGE_INSTALL:append = \" rogue rogue-dev\""  >> $proj_dir/sources/meta-user/conf/layer.conf
-echo "IMAGE_INSTALL:append = \" roguetcpbridge\""   >> $proj_dir/sources/meta-user/conf/layer.conf
-echo "IMAGE_INSTALL:append = \" axiversiondump\""   >> $proj_dir/sources/meta-user/conf/layer.conf
-echo "IMAGE_INSTALL:append = \" startup-app-init\"" >> $proj_dir/sources/meta-user/conf/layer.conf
 
 # Update Application with user configuration
 sed -i "s/default  = 2,/default  = $numLane,/"  $proj_dir/sources/meta-user/recipes-apps/roguetcpbridge/files/roguetcpbridge
 sed -i "s/default  = 32,/default  = $numDest,/" $proj_dir/sources/meta-user/recipes-apps/roguetcpbridge/files/roguetcpbridge
-
-## Check if including RFDC utility
-#if grep -q 'MACHINE_FEATURES:append = " rfsoc"' "$hwDir/Yocto/versal-user.conf"; then
-#   echo "MACHINE_FEATURES=rfsoc detected: Including RFDC utility"
-#   echo "IMAGE_INSTALL:append = \" pyrfdc\"" >> $proj_dir/sources/meta-user/conf/layer.conf
-#fi
-
-##############################################################################
-# Add commonly used packages
-##############################################################################
-
-# XRT is required to run applications compiled with AI Engine tools (e.g., libadf.a) and integrated into the .xclbin
-echo "IMAGE_INSTALL:append = \" xrt\"" >> $proj_dir/build/conf/local.conf
-
-# Usuful for debugging
-echo "IMAGE_INSTALL:append = \" peekpoke\"" >> $proj_dir/build/conf/local.conf
-echo "IMAGE_INSTALL:append = \" nano\""     >> $proj_dir/build/conf/local.conf
-
-# Enable debug-tweaks for development convenience; do not use in production images!!!
-echo "IMAGE_FEATURES:append = \" debug-tweaks\"" >> $proj_dir/build/conf/local.conf
 
 ##############################################################################
 # Build Everything!
 ##############################################################################
 
 bitbake petalinux-image-minimal
-
-# Check if we need to manual run xilinx-bootbin
-if [ ! -f "$proj_dir/build/tmp/deploy/images/versal-user/boot.bin" ]; then
-  echo "boot.bin not found. Running bitbake xilinx-bootbin..."
-  bitbake xilinx-bootbin
-fi
 
 ##############################################################################
 # Package all the images into a .tar.gz
