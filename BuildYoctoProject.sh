@@ -9,8 +9,8 @@
 ## the terms contained in the LICENSE.txt file.
 ##############################################################################
 
-# Clear terminal output
-echo -ne "\033c"
+## Clear terminal output
+#echo -ne "\033c"
 
 while getopts p:n:h:x:l:d:t:r:s:f: flag
 do
@@ -174,6 +174,13 @@ sed -i "/MACHINE ??=/c\MACHINE ??= \"versal-user\"" $proj_dir/build/conf/local.c
 echo ""                                          >> $proj_dir/build/conf/local.conf
 echo "# Custom Configurations "                  >> $proj_dir/build/conf/local.conf
 echo "hostname:pn-base-files = \"$Name\""        >> $proj_dir/build/conf/local.conf
+
+# Keep the sstate-cache in a location outside the proj_dir to make sure it is
+# not deleted when re-running the build. Use of sstate-cache allows for re-use
+# of already build components which should significantly speed up build time
+# (except for the first time).
+sstate_dir=$path
+sed -i "/^#SSTATE_DIR ?= /c\SSTATE_DIR ?= \"$sstate_dir/sstate-cache\"" $proj_dir/build/conf/local.conf
 
 ##############################################################################
 # Add the hardware specific BSP

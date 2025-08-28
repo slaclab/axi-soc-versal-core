@@ -39,5 +39,5 @@ loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/ip"
 # loadIpCore -dir "$::DIR_PATH/ip/AxiPcie16BCrossbarIpCore"
 loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/ip/AxiPcie16BCrossbarIpCore"
 
-# Enable DFX in a project
-set_property PR_FLOW 1 [current_project]
+## Enable DFX in a project
+#set_property PR_FLOW 1 [current_project]
