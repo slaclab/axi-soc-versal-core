@@ -1,0 +1,74 @@
+# ----------------------------------------------------------------------------
+# Title      : Release Integration
+# ----------------------------------------------------------------------------
+# This file is part of the 'axi-soc-ultra-plus-core'. It is subject to
+# the license terms in the LICENSE.txt file found in the top-level directory
+# of this distribution and at:
+#    https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html.
+# No part of the 'axi-soc-ultra-plus-core', including this file, may be
+# copied, modified, propagated, or distributed except according to the terms
+# contained in the LICENSE.txt file.
+# ----------------------------------------------------------------------------
+# The following environment variables are required for this process:
+# secrets.GH_TOKEN
+# secrets.CONDA_UPLOAD_TOKEN_TAG
+
+name: Release Integration
+on: [push]
+
+jobs:
+
+# ----------------------------------------------------------------------------
+
+  test_and_document:
+    name: Test And Generate Documentation
+    runs-on: ubuntu-24.04
+    steps:
+
+      # This step checks out a copy of your repository.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Check for trailing whitespace
+        run: |
+          if grep -rnI '[[:blank:]]$' --include=\*.{vhd,sh,tcl,py,xdc} .; then
+            echo "Error: Trailing whitespace found in the repository!"
+            exit 1
+          fi
+
+      - name: Python Syntax Check
+        run: |
+          python -m compileall -f python/
+          flake8 --count python/
+
+# ----------------------------------------------------------------------------
+
+  gen_release:
+    needs: [test_and_document]
+    uses: slaclab/ruckus/.github/workflows/gen_release.yml@main
+    with:
+      version: '1.0.0'
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+# ----------------------------------------------------------------------------
+
+  conda_build_lib:
+    needs: [test_and_document]
+    uses: slaclab/ruckus/.github/workflows/conda_build_lib.yml@main
+    with:
+      version: '1.0.0'
+    secrets:
+      CONDA_UPLOAD_TOKEN_TAG: ${{ secrets.CONDA_UPLOAD_TOKEN_TAG }}
+
+# ----------------------------------------------------------------------------
