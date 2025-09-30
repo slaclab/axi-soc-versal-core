@@ -1,5 +1,7 @@
 # axi-soc-versal-core
 
+[DOE Code](https://www.osti.gov/doecode/biblio/165458)
+
 <!--- ######################################################## -->
 
 ### Versal Adaptive SoC Register Reference (AM012)
