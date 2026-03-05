@@ -65,7 +65,6 @@ aes_stream_drivers=$(realpath $axi_soc_versal_core/../aes-stream-drivers)
 hwDir=$axi_soc_versal_core/hardware/$hwType
 imageDump=${xsa%.*}.linux.tar.gz
 proj_dir=$(realpath "$path/$Name")
-image_dir="$proj_dir/build/tmp/deploy/images/versal-user"
 
 ##############################################################################
 # Check total buffer size
@@ -337,15 +336,24 @@ fi
 
 bitbake petalinux-image-minimal
 
+# Resolve deploy directory: honour BitBake's TMPDIR override if set
+deploy_dir="${TMPDIR:-$proj_dir/build/tmp}/deploy/images/versal-user"
+
+# Check if we need to manual run xilinx-bootbin
+if [ ! -f "$deploy_dir/boot.bin" ]; then
+  echo "boot.bin not found. Running bitbake xilinx-bootbin..."
+  bitbake xilinx-bootbin
+fi
+
 ##############################################################################
 # Package all the images into a .tar.gz
 ##############################################################################
 
-# mkdir custom image dump dir
-mkdir $proj_dir/linux
+# mkdir custom image dump dir (if not existing)
+mkdir -p $proj_dir/linux
 
 # Go to deploy image dir
-cd $proj_dir/build/tmp/deploy/images/versal-user
+cd $deploy_dir
 
 # Copy over the FSBL, U-boot and .bit files
 cp -rfL boot.bin-extracted/base-design.pdi $proj_dir/linux/pl.pdi
