@@ -16,7 +16,7 @@ function show_help {
    echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-c]"
    echo " -p PATH      - Path to the build dir (required)"
    echo " -n NAME      - Target name (required)"
-   echo " -h HWTYPE    - Hardware type, must match directory name in axi-soc-ultra-plus-core/hardware (required)"
+   echo " -h HWTYPE    - Hardware type, must match directory name in axi-soc-versal-core/hardware (required)"
    echo " -x XSA       - Path to the XSA file (required)"
    echo " -T top       - Path to the firmware/ directory. This is usually just above the build/ directory (required)"
    echo " -l LANES     - Num DMA lanes"
@@ -65,7 +65,6 @@ aes_stream_drivers=$(realpath $axi_soc_versal_core/../aes-stream-drivers)
 hwDir=$axi_soc_versal_core/hardware/$hwType
 imageDump=${xsa%.*}.linux.tar.gz
 proj_dir=$(realpath "$path/$Name")
-image_dir="$proj_dir/build/tmp/deploy/images/versal-user"
 
 ##############################################################################
 # Check total buffer size
@@ -96,6 +95,15 @@ if [ $missing -ne 0 ]; then
    echo "sudo apt install -y bash curl chrpath diffstat git gzip liblz4-tool u-boot-tools"
    exit 1
 fi
+
+##############################################################################
+# Utils
+##############################################################################
+
+function die {
+    echo "$@"
+    exit 1
+}
 
 ##############################################################################
 # Misc. file and dir checking
@@ -256,7 +264,7 @@ then
    echo "IMAGE_INSTALL:append = \" axidmasamples\"" >> $proj_dir/build/conf/local.conf
 
    ##############################################################################
-   # Add axi-soc-ultra-plus-core's recipes-devtools
+   # Add axi-soc-versal-core's recipes-devtools
    ##############################################################################
 
    # Copy the meta layers from local source (for now, only a temporary patch for Qemu)
@@ -274,7 +282,7 @@ then
    echo "DMA_NUM_DEST  = \"${numDest}\"" >> $proj_dir/build/conf/local.conf
 
    # Check if including RFDC utility
-   if grep -q 'MACHINE_FEATURES:append = " rfsoc"' "$hwDir/Yocto/zynqmp-user.conf"; then
+   if grep -q 'MACHINE_FEATURES:append = " rfsoc"' "$hwDir/Yocto/versal-user.conf"; then
       echo "MACHINE_FEATURES=rfsoc detected: Including RFDC utility"
       echo "IMAGE_INSTALL:append = \" pyrfdc\"" >> $proj_dir/sources/meta-user/conf/layer.conf
    fi
@@ -315,6 +323,14 @@ then
       done
    fi
 
+   ##############################################################################
+   # Append any user-provided configuration data
+   ##############################################################################
+   if [ -f "$projTop/shared/Yocto/local.conf" ]
+   then
+      echo -e "\n#====== > $projTop/shared/Yocto/local.conf < ======#" >> "$proj_dir/build/conf/local.conf"
+      cat "$projTop/shared/Yocto/local.conf" >> "$proj_dir/build/conf/local.conf"
+   fi
 else
    # cd to project dir in preparation for build
    cd $proj_dir
@@ -327,17 +343,26 @@ fi
 # Build Everything!
 ##############################################################################
 
-bitbake petalinux-image-minimal
+bitbake petalinux-image-minimal || die "bitbake petalinux-image-minimal returned non-zero. Aborting."
+
+# Resolve deploy directory: honour BitBake's TMPDIR override if set
+deploy_dir="${TMPDIR:-$proj_dir/build/tmp}/deploy/images/versal-user"
+
+# Check if we need to manual run xilinx-bootbin
+if [ ! -f "$deploy_dir/boot.bin" ]; then
+    echo "boot.bin not found. Running bitbake xilinx-bootbin..."
+    bitbake xilinx-bootbin || die "bitbake xilinx-bootbin returned non-zero. Aborting."
+fi
 
 ##############################################################################
 # Package all the images into a .tar.gz
 ##############################################################################
 
-# mkdir custom image dump dir
-mkdir $proj_dir/linux
+# mkdir custom image dump dir (if not existing)
+mkdir -p $proj_dir/linux
 
 # Go to deploy image dir
-cd $proj_dir/build/tmp/deploy/images/versal-user
+cd $deploy_dir
 
 # Copy over the FSBL, U-boot and .bit files
 cp -rfL boot.bin-extracted/base-design.pdi $proj_dir/linux/pl.pdi
