@@ -98,16 +98,45 @@ fi
 ##############################################################################
 
 # Load the user's firmware (PL) .pdi file (A.K.A. "2nd stage boot")
-if [ -f "/boot/pl.pdi" ]
+# Versal Segmented Configuration: pl.pdi is the runtime/dynamic PDI.
+# The base PDI lives in BOOT.BIN. See axi-soc-versal-core README
+# section "Why Versal differs from ZynqMP for runtime PL loading".
+if [ -f "/boot/pl.pdi" ] && [ -f "/boot/pl.dtbo" ]
 then
-   # Remove Full Overlay
-   fpgautil -R -n full
+   echo "2nd-stage PL load: /boot/pl.pdi + /boot/pl.dtbo present"
 
-   # Program the PL overlay
-   fpgautil -o /boot/pl.dtbo -b /boot/pl.pdi
+   # Remove Full Overlay (fpgautil is "flaky" - retry with 30-iteration cap)
+   retry=0
+   while [ ! -z "$(fpgautil -R -n full 2>&1 | grep -i failed)" ]
+   do
+      retry=$((retry + 1))
+      if [ "$retry" -ge 30 ]
+      then
+         echo "ERROR: fpgautil remove overlay failed after $retry retries"
+         break
+      fi
+      sleep 1
+   done
+
+   # Program the PL overlay (fpgautil is "flaky" - retry with 30-iteration cap)
+   retry=0
+   while [ ! -z "$(fpgautil -o /boot/pl.dtbo -b /boot/pl.pdi 2>&1 | grep -i failed)" ]
+   do
+      retry=$((retry + 1))
+      if [ "$retry" -ge 30 ]
+      then
+         echo "ERROR: fpgautil program PDI failed after $retry retries"
+         break
+      fi
+      sleep 1
+   done
 
    # Get the status
    echo "/sys/class/fpga_manager/fpga0/state: $(cat /sys/class/fpga_manager/fpga0/state)"
+elif [ -f "/boot/pl.pdi" ] || [ -f "/boot/pl.dtbo" ]
+then
+   echo "WARNING: 2nd-stage PL load skipped - need BOTH /boot/pl.pdi and /boot/pl.dtbo"
+   ls -la /boot/pl.pdi /boot/pl.dtbo 2>&1
 fi
 
 # Load custom kernel driver
