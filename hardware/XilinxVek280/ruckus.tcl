@@ -9,7 +9,7 @@ if { $::env(PRJ_PART) != "xcve2802-vsvh1760-2MP-e-S" } {
    puts "\n\nERROR: PRJ_PART must be either xcve2802-vsvh1760-2MP-e-S in the Makefile\n\n"; exit -1
 }
 
-# Load shared source code (USE_SEGMENTED_CONFIG check lives in shared/ruckus.tcl)
+# Load shared source code
 loadRuckusTcl "$::DIR_PATH/../../shared"
 loadConstraints -dir "$::DIR_PATH/xdc"
 loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/rtl"
