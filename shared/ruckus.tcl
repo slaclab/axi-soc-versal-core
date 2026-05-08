@@ -3,9 +3,9 @@ source $::env(RUCKUS_PROC_TCL)
 
 # Check for submodule tagging
 if { [info exists ::env(OVERRIDE_SUBMODULE_LOCKS)] != 1 || $::env(OVERRIDE_SUBMODULE_LOCKS) == 0 } {
-   if { [SubmoduleCheck {aes-stream-drivers}  {6.7.0} ] < 0 } {exit -1}
-   if { [SubmoduleCheck {ruckus}             {4.18.0} ] < 0 } {exit -1}
-   if { [SubmoduleCheck {surf}               {2.60.0} ] < 0 } {exit -1}
+   if { [SubmoduleCheck {aes-stream-drivers}  {7.2.1} ] < 0 } {exit -1}
+   if { [SubmoduleCheck {ruckus}             {4.26.0} ] < 0 } {exit -1}
+   if { [SubmoduleCheck {surf}               {2.70.0} ] < 0 } {exit -1}
 } else {
    puts "\n\n*********************************************************"
    puts "OVERRIDE_SUBMODULE_LOCKS != 0"
@@ -25,6 +25,18 @@ if { $::env(GEN_PDI_IMAGE) == 0 } {
 if { $::env(GEN_XSA_IMAGE) == 0 } {
    puts "\n\n*********************************************************"
    puts "GEN_XSA_IMAGE env var must be defined as 1 in Makefile"
+   puts "*********************************************************\n\n"
+   exit -1
+}
+
+# Versal runtime PL reload requires Segmented Configuration (issue #6).
+# The PMC rejects loading the base PDI as a runtime PDI; the dynamic PDI
+# from a Segmented Configuration build is the only artifact the PMC accepts.
+if { ![info exists ::env(USE_SEGMENTED_CONFIG)] || $::env(USE_SEGMENTED_CONFIG) == 0 } {
+   puts "\n\n*********************************************************"
+   puts "USE_SEGMENTED_CONFIG env var must be defined as 1 in Makefile"
+   puts "Required for runtime PL reload; see README section"
+   puts "'Why Versal differs from ZynqMP'."
    puts "*********************************************************\n\n"
    exit -1
 }
