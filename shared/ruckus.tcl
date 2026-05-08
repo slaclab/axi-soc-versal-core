@@ -29,6 +29,18 @@ if { $::env(GEN_XSA_IMAGE) == 0 } {
    exit -1
 }
 
+# Versal runtime PL reload requires Segmented Configuration (issue #6).
+# The PMC rejects loading the base PDI as a runtime PDI; the dynamic PDI
+# from a Segmented Configuration build is the only artifact the PMC accepts.
+if { ![info exists ::env(USE_SEGMENTED_CONFIG)] || $::env(USE_SEGMENTED_CONFIG) == 0 } {
+   puts "\n\n*********************************************************"
+   puts "USE_SEGMENTED_CONFIG env var must be defined as 1 in Makefile"
+   puts "Required for runtime PL reload; see README section"
+   puts "'Why Versal differs from ZynqMP'."
+   puts "*********************************************************\n\n"
+   exit -1
+}
+
 # Check for version 2025.1 of Vivado (or later)
 if { [VersionCheck 2025.1] < 0 } {exit -1}
 
