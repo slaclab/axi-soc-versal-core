@@ -365,7 +365,11 @@ mkdir -p $proj_dir/linux
 cd $deploy_dir
 
 # Copy over the FSBL, U-boot and .bit files
-cp -rfL boot.bin-extracted/base-design.pdi $proj_dir/linux/pl.pdi
+dynamicPdi="${xsa%.xsa}_dynamic.pdi"
+if [ ! -f "$dynamicPdi" ]; then
+   die "Dynamic PDI not found at $dynamicPdi. Did the build run with USE_SEGMENTED_CONFIG=1?"
+fi
+cp -rfL "$dynamicPdi" $proj_dir/linux/pl.pdi
 cp -rfL devicetree/pl.dtbo                 $proj_dir/linux/pl.dtbo
 cp -rfL boot.bin                           $proj_dir/linux/BOOT.BIN
 cp -rfL boot.scr                           $proj_dir/linux/boot.scr
