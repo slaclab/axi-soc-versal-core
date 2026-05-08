@@ -9,6 +9,14 @@ if { $::env(PRJ_PART) != "xcve2802-vsvh1760-2MP-e-S" } {
    puts "\n\nERROR: PRJ_PART must be either xcve2802-vsvh1760-2MP-e-S in the Makefile\n\n"; exit -1
 }
 
+# VEK280 requires Segmented Configuration for runtime PL reload (issue #6)
+if { ![info exists ::env(USE_SEGMENTED_CONFIG)] || $::env(USE_SEGMENTED_CONFIG) == 0 } {
+   puts "\n\nERROR: VEK280 platform requires Segmented Configuration."
+   puts "Add 'export USE_SEGMENTED_CONFIG = 1' to the target Makefile"
+   puts "before 'include \$(TOP_DIR)/submodules/ruckus/system_vivado.mk'."
+   puts "See axi-soc-versal-core README section 'Why Versal differs from ZynqMP'.\n\n"; exit -1
+}
+
 # Load shared source code
 loadRuckusTcl "$::DIR_PATH/../../shared"
 loadConstraints -dir "$::DIR_PATH/xdc"
