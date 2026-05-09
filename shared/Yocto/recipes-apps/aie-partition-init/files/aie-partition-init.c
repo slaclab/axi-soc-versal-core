@@ -82,7 +82,9 @@ int main(void)
     /*
      * Note: aie_partition_init_args has no partition_id field — the
      * partition fd returned by AIE_REQUEST_PART_IOCTL identifies it.
-     * Layout: {locs, num_tiles, init_opts, ecc_scrub, handshake_cols, handshake}.
+     * Layout (per July 2025 upstream — board kernel 6.12.10-xilinx):
+     *   { locs*, num_tiles, init_opts, ecc_scrub, handshake*, handshake_size }
+     * Designated init zero-fills the unused fields.
      */
     struct aie_partition_init_args init_args = {
         .locs         = NULL,

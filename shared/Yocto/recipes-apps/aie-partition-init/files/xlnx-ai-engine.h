@@ -4,12 +4,20 @@
  * Vendored from Xilinx/linux-xlnx UAPI for the SLAC AIE userspace
  * partition-init agent. Refresh source command:
  *
- *     curl -fsSL https://raw.githubusercontent.com/Xilinx/linux-xlnx/master/\
+ *     curl -fsSL https://raw.githubusercontent.com/Xilinx/linux-xlnx/<sha>/\
  *         include/uapi/linux/xlnx-ai-engine.h \
  *         > xlnx-ai-engine.h
  *
  * Pulled at: 2026-05-09
- * Upstream commit SHA: 865e73109750d465f06dee019396406a354eb9d2
+ * Upstream commit SHA: e7bf796ae779cad3d8b3e687d4b1ddec98ef76d2
+ *
+ * Why this SHA (and not master-tip): the SLAC VEK280 image runs kernel
+ * 6.12.10-xilinx-g297834623cf6 (Jul 2025); commit e7bf796 is the
+ * upstream xlnx-ai-engine.h state at that build date. Master-tip diverges
+ * struct aie_partition_init_args (handshake_cols + handshake* vs
+ * handshake* + handshake_size) — the encoded _IOW size mismatches and
+ * dispatch returns EINVAL.  Always re-vendor against the kernel actually
+ * shipped on the target board.
  *
  * Defines used by the agent:
  *   AIE_REQUEST_PART_IOCTL
@@ -278,19 +286,6 @@ struct aie_partition_req {
 };
 
 /**
- * struct aie_op_handshake_data - AI engine uc handshake region information
- * @addr: handshake data address from where the data needs to be copied.
- * @size: handshake data size.
- * @offset: offset for handshake region update.
- */
-struct aie_op_handshake_data {
-	void *addr;
-	__kernel_size_t size;
-	__kernel_size_t offset;
-	struct aie_location loc;
-};
-
-/**
  * struct aie_partition_init_args - AIE partition initialization arguments
  * @locs: Allocated array of tile locations that will be used
  * @num_tiles: Number of tiles to use
@@ -304,8 +299,8 @@ struct aie_partition_init_args {
 	__u32 num_tiles;
 	__u32 init_opts;
 	__u32 ecc_scrub;
-	__u32 handshake_cols;
-	struct aie_op_handshake_data *handshake;
+	__u32 *handshake;
+	__u32 handshake_size;
 };
 
 /*
