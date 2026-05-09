@@ -41,10 +41,11 @@
 #define AIE_DEV           "/dev/aie0"
 #define AIE_PARTITION_ID  0x2600u
 #define AIE_PARTITION_UID 0xc8f9a8afu
-#define AIE_INIT_OPTS    (AIE_PART_INIT_OPT_COLUMN_RST  | \
-                          AIE_PART_INIT_OPT_SHIM_RST    | \
-                          AIE_PART_INIT_OPT_ZEROIZEMEM  | \
-                          AIE_PART_INIT_ERROR_HANDLING  | \
+/* COLUMN_RST, SHIM_RST, and ZEROIZEMEM are intentionally omitted.
+ * Those flags halt and zero AIE compute tiles, destroying the loopback
+ * graph that aie_cdo_elfs.bin + aie_cdo_enable.bin loaded at PDI time.
+ * Keep only the non-destructive options so the running graph is preserved. */
+#define AIE_INIT_OPTS    (AIE_PART_INIT_ERROR_HANDLING  | \
                           AIE_PART_INIT_OPT_ENB_COLCLK_BUFF)
 
 static volatile sig_atomic_t g_stop = 0;
