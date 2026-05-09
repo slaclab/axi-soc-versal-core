@@ -1,0 +1,16 @@
+[Unit]
+Description=AIE userspace partition-init agent (holds /dev/aie0 partition fd open)
+Requires=local-fs.target
+After=startup-app-init.service local-fs.target
+Wants=startup-app-init.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/aie-partition-init
+Restart=on-failure
+RestartSec=2
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target

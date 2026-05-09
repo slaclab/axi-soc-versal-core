@@ -22,6 +22,7 @@ RDEPENDS:${PN} += " \
    python3 \
    axiversiondump \
    roguetcpbridge \
+   aie-partition-init \
 "
 
 INITSCRIPT_NAME = "startup-app-init"
