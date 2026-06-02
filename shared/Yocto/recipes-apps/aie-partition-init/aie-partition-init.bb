@@ -13,7 +13,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI = "file://aie-partition-init.c \
-           file://aie-partition-init.service \
+           file://aie-partition-init@.service \
            file://xlnx-ai-engine.h \
 "
 
@@ -24,8 +24,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 inherit systemd
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE:${PN} = "aie-partition-init.service"
-SYSTEMD_AUTO_ENABLE:${PN} = "enable"
+SYSTEMD_SERVICE:${PN} = "aie-partition-init@.service"
 
 do_compile() {
     ${CC} ${CFLAGS} ${LDFLAGS} -Wall -Wextra -I${WORKDIR} \
@@ -36,9 +35,10 @@ do_install() {
     install -d ${D}${bindir}
     install -m 0755 ${WORKDIR}/aie-partition-init ${D}${bindir}/
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 ${WORKDIR}/aie-partition-init.service ${D}${systemd_system_unitdir}/
+    install -m 0644 ${WORKDIR}/aie-partition-init@.service \
+        ${D}${systemd_system_unitdir}/aie-partition-init@.service
 }
 
 FILES:${PN} = "${bindir}/aie-partition-init \
-               ${systemd_system_unitdir}/aie-partition-init.service \
+               ${systemd_system_unitdir}/aie-partition-init@.service \
 "
