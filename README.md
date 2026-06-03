@@ -137,13 +137,16 @@ A non-AIE Versal board simply omits the ` aie` token from its own
 ### Runtime AIE PDI load
 
 After the PL fabric is programmed at boot, `startup-app-init` loads one or
-more AIE PDI overlays from `/boot/aie/`. Each image is expected as a triple:
+more AIE PDIs from `/boot/aie/`. Each image is expected as a pair:
 
 ```
-/boot/aie/<name>.pdi             # CDO-only segmented overlay
-/boot/aie/<name>.dtbo            # device-tree overlay
+/boot/aie/<name>.pdi             # CDO-only partial PDI (stacks on the PL)
 /boot/aie/<name>.partition.conf  # sidecar: PARTITION_ID + UID
 ```
+
+No device-tree overlay is needed: the `ai_engine` node is already live from
+`pl.dtbo`, so the PDI is delivered straight to the PLM through the kernel
+`request_firmware` path.
 
 The entire loop is conditioned on `[ -d /sys/class/aie ]`: if the kernel
 driver has not exposed that directory (non-AIE board or driver not loaded),
@@ -154,19 +157,24 @@ shell glob. User controls load order via filename prefix, e.g.
 `00_loopback.pdi` before `10_extra.pdi`. This is a convention, not enforced
 by the loader.
 
-**Load-bearing invariant — no `fpgautil -R -n full` in the AIE loop.** The
-code comment states this explicitly: do NOT issue `fpgautil -R -n full` here
-— that would tear down the PL fabric. The single `-R -n full` that clears
-prior overlays runs only before the `pl.pdi` load; by the time the AIE loop
-runs, the PL is already programmed and must not be disturbed.
+**Load-bearing invariant — no `fpgautil` in the AIE loop.** The code comment
+states this explicitly. A second `fpgautil -o` collides with the `full`
+overlay name created by the `pl.pdi` load above, and `fpgautil` reports that
+as `Error: Overlay already exists in the live tree` — which a `grep -i
+failed` retry loop never catches, silently skipping the load. And `fpgautil
+-R -n full` would tear down the PL fabric; the single `-R -n full` that
+clears prior overlays runs only before the `pl.pdi` load.
 
 For each PDI in the glob:
 
-- If the matching `.dtbo` is absent: log `WARNING: skipping <pdi> - no
-  matching <dtbo>` and continue to the next image (not a fatal error).
-- If the `.dtbo` is present: run `fpgautil -o <dtbo> -b <pdi>` with the
-  existing retry-cap-30 idiom.
-- After a successful `fpgautil` load: if `<name>.partition.conf` exists, run
+- Copy the PDI to `/lib/firmware/<name>.pdi` and write the name to
+  `/sys/class/fpga_manager/fpga0/firmware`. The write is synchronous:
+  `fpga0/state` reflects the result when it returns — `operating` on
+  success, `write error: 0x<plm-status>` on PLM rejection (e.g.
+  `0x03260014` = IDCODE check failed).
+- If the state is not `operating`: log `ERROR: AIE PDI load failed for
+  <pdi>` and continue to the next image (not a fatal error).
+- After a successful load: if `<name>.partition.conf` exists, run
   `systemctl start aie-partition-init@<name>.service`. The unit's own
   `ConditionPathExists=/boot/aie/%i.partition.conf` provides a second gate.
   If `.partition.conf` is absent: log `WARNING: <conf> missing - skipping
@@ -181,7 +189,7 @@ Loading more than one AIE PDI is supported by the loop above, but carries
 constraints the kernel driver does not enforce automatically.
 
 **Overlapping column geometry is undefined.** If two PDIs claim the same AIE
-column range, the second `fpgautil` call will appear to succeed but the
+column range, the second firmware-sysfs load will appear to succeed but the
 resulting partition state is undefined — the `xilinx-ai-engine` driver does
 not detect or refuse the conflict. First-loaded PDI wins any column conflict.
 
