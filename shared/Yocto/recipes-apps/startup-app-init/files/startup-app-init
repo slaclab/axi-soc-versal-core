@@ -145,6 +145,62 @@ insmod /lib/modules/$(uname -r)/updates/axi_stream_dma.ko cfgTxCount0=@DMA_TX_BU
 
 ##############################################################################
 
+# Load AIE PDI(s) from /boot/aie/, then start a per-image
+# aie-partition-init@<name>.service instance for each one.
+# Each AIE PDI is a CDO-only partial PDI that stacks on the PL programmed
+# above. No device-tree overlay is needed: the ai_engine node is already
+# live from pl.dtbo, so the PDI is delivered straight to the PLM through
+# /sys/class/fpga_manager/fpga0/firmware (kernel request_firmware path).
+# Do NOT use fpgautil here: a second overlay collides with the "full"
+# overlay name created by the pl.pdi load above, and fpgautil reports that
+# as "Error: Overlay already exists in the live tree" — which a
+# `grep -i failed` retry loop never catches, silently skipping the load.
+# Multiple images are loaded in lexicographic order; user controls order via
+# filename prefix (e.g. 00_loopback.pdi, 10_extra.pdi).
+if [ ! -d /sys/class/aie ]
+then
+   echo "AIE not present (no /sys/class/aie) - skipping AIE PDI load"
+elif [ ! -d /boot/aie ]
+then
+   echo "No /boot/aie directory - no AIE images to load"
+else
+   for pdi in /boot/aie/*.pdi
+   do
+      [ -f "$pdi" ] || continue   # empty glob guard
+      base="${pdi%.pdi}"
+      name="$(basename "$base")"
+      conf="${base}.partition.conf"
+      echo "AIE load: $pdi"
+
+      # Deliver the partial PDI to the PLM via the fpga_manager firmware
+      # attribute (synchronous: state reflects the result when the write
+      # returns; "operating" on success, "write error: 0x<plm-status>" on
+      # PLM rejection, e.g. 0x03260014 = IDCODE check failed).
+      mkdir -p /lib/firmware
+      cp "$pdi" "/lib/firmware/${name}.pdi"
+      echo "${name}.pdi" > /sys/class/fpga_manager/fpga0/firmware
+      state=$(cat /sys/class/fpga_manager/fpga0/state)
+      rm -f "/lib/firmware/${name}.pdi"
+      echo "/sys/class/fpga_manager/fpga0/state: $state"
+      if [ "$state" != "operating" ]
+      then
+         echo "ERROR: AIE PDI load failed for $pdi (state: $state)"
+         continue
+      fi
+
+      if [ -f "$conf" ]
+      then
+         echo "AIE partition-init: starting aie-partition-init@${name}.service"
+         systemctl start "aie-partition-init@${name}.service" || \
+            echo "WARNING: aie-partition-init@${name}.service failed to start"
+      else
+         echo "WARNING: $conf missing - skipping aie-partition-init for $name"
+      fi
+   done
+fi
+
+##############################################################################
+
 # Dump AxiVersion Status
 /usr/bin/axiversiondump
 
