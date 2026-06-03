@@ -145,6 +145,70 @@ insmod /lib/modules/$(uname -r)/updates/axi_stream_dma.ko cfgTxCount0=@DMA_TX_BU
 
 ##############################################################################
 
+# Load AIE PDI overlay(s) from /boot/aie/, then start a per-image
+# aie-partition-init@<name>.service instance for each one.
+# Each AIE PDI is a CDO-only segmented overlay that stacks on the PL
+# programmed above; do NOT issue `fpgautil -R -n full` here — that would tear
+# down the PL fabric. The single -R -n full executed before the pl.pdi load
+# already cleared any prior overlays, so re-entry is safe.
+# Multiple images are loaded in lexicographic order; user controls order via
+# filename prefix (e.g. 00_loopback.pdi, 10_extra.pdi).
+if [ ! -d /sys/class/aie ]
+then
+   echo "AIE not present (no /sys/class/aie) - skipping AIE PDI load"
+elif [ ! -d /boot/aie ]
+then
+   echo "No /boot/aie directory - no AIE images to load"
+else
+   for pdi in /boot/aie/*.pdi
+   do
+      [ -f "$pdi" ] || continue   # empty glob guard
+      base="${pdi%.pdi}"
+      name="$(basename "$base")"
+      dtbo="${base}.dtbo"
+      conf="${base}.partition.conf"
+      if [ ! -f "$dtbo" ]
+      then
+         echo "WARNING: skipping $pdi - no matching $dtbo"
+         continue
+      fi
+      echo "AIE load: $pdi + $dtbo"
+
+      # Program the AIE overlay (fpgautil is "flaky" - retry with 30-iteration cap)
+      ok=0
+      retry=0
+      while [ ! -z "$(fpgautil -o $dtbo -b $pdi 2>&1 | grep -i failed)" ]
+      do
+         retry=$((retry + 1))
+         if [ "$retry" -ge 30 ]
+         then
+            echo "ERROR: fpgautil program AIE PDI $pdi failed after $retry retries"
+            break
+         fi
+         sleep 1
+      done
+      if [ "$retry" -lt 30 ]
+      then
+         ok=1
+      fi
+      echo "/sys/class/fpga_manager/fpga0/state: $(cat /sys/class/fpga_manager/fpga0/state)"
+
+      if [ "$ok" -eq 1 ]
+      then
+         if [ -f "$conf" ]
+         then
+            echo "AIE partition-init: starting aie-partition-init@${name}.service"
+            systemctl start "aie-partition-init@${name}.service" || \
+               echo "WARNING: aie-partition-init@${name}.service failed to start"
+         else
+            echo "WARNING: $conf missing - skipping aie-partition-init for $name"
+         fi
+      fi
+   done
+fi
+
+##############################################################################
+
 # Dump AxiVersion Status
 /usr/bin/axiversiondump
 
