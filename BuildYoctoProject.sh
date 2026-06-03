@@ -287,6 +287,12 @@ then
       echo "IMAGE_INSTALL:append = \" pyrfdc\"" >> $proj_dir/sources/meta-user/conf/layer.conf
    fi
 
+   # Check if including AIE partition-init
+   if grep -q ' aie' "$hwDir/Yocto/versal-user.conf"; then
+      echo "MACHINE_FEATURES=aie detected: Including AIE partition-init"
+      echo "IMAGE_INSTALL:append = \" aie-partition-init\"" >> $proj_dir/sources/meta-user/conf/layer.conf
+   fi
+
    # Install common debugging tools
    echo "IMAGE_INSTALL:append = \" valgrind perf\"" >> $proj_dir/sources/meta-user/conf/layer.conf
    echo "EXTRA_IMAGE_FEATURES += \"tools-debug\"" >> $proj_dir/sources/meta-user/conf/layer.conf
