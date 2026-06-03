@@ -1,0 +1,17 @@
+[Unit]
+Description=AIE userspace partition-init agent (instance %i)
+Requires=local-fs.target
+After=startup-app-init.service local-fs.target
+ConditionPathExists=/boot/aie/%i.partition.conf
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/aie-partition-init --conf /boot/aie/%i.partition.conf
+Restart=on-failure
+RestartSec=2
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+# No WantedBy — instances are started at runtime by startup-app-init,
+# not statically enabled at image build time.
