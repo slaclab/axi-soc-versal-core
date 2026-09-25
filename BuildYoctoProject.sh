@@ -274,6 +274,9 @@ then
    # Copy the meta layers from local source
    ln -s $axi_soc_versal_core/shared/Yocto/recipes-apps $proj_dir/sources/meta-user/recipes-apps
 
+   # Add the shared netboot-hooks BitBake layer (u-boot-xlnx netboot env override)
+   bitbake-layers add-layer "$axi_soc_versal_core/shared/Yocto"
+
    # Update Application with user configuration
    echo "DMA_NUM_LANES = \"${numLane}\"" >> $proj_dir/build/conf/local.conf
    echo "DMA_NUM_DEST  = \"${numDest}\"" >> $proj_dir/build/conf/local.conf
