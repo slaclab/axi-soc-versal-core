@@ -13,7 +13,7 @@
 #echo -ne "\033c"
 
 function show_help {
-   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-i IMAGE] [-e] [-c]"
+   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-i IMAGE] [-m MODE] [-e] [-c]"
    echo ""
    echo "Required:"
    echo " -p PATH      - Path to the build dir"
@@ -29,6 +29,10 @@ function show_help {
    echo " -r RXCNT     - Number of DMA RX buffers"
    echo " -s BUFFSZ    - DMA buffer size in bytes"
    echo " -i IMAGE     - Name of the target image (Default: petalinux-image-minimal)"
+   echo " -m MODE      - U-Boot boot mode (Default: sd-only):"
+   echo "                  'sd-only'   skips netboot entirely; fastest boot, no TFTP server needed"
+   echo "                  'fallback'  tries TFTP first, then boots from SD if that fails"
+   echo "                  'tftp-only' tries TFTP first, then halts instead of booting from SD"
    echo " -e           - Activate the Yocto environment and drop into a shell in the build dir"
    echo "                (instead of running bitbake)"
    echo " -c           - Force reconfigure if the project has already been configured"
@@ -38,8 +42,10 @@ function show_help {
 
 doConfigure=0
 image=petalinux-image-minimal
+uboot_netboot_mode=sd-only
+modeExplicit=0
 activateEnv=0
-while getopts p:n:h:x:l:d:t:r:s:ceHT:i: flag
+while getopts p:n:h:x:l:d:t:r:s:ceHT:i:m: flag
 do
     case "${flag}" in
         p) path=${OPTARG};;
@@ -55,9 +61,19 @@ do
         e) activateEnv=1;;
         T) projTop=${OPTARG};;
         i) image=${OPTARG};;
+        m) uboot_netboot_mode=${OPTARG}; modeExplicit=1;;
         H) show_help;;
     esac
 done
+
+case "$uboot_netboot_mode" in
+   tftp-only)
+      echo "ERROR: -m tftp-only is not yet implemented on Versal (planned for a later phase)."
+      exit 1
+      ;;
+   sd-only|fallback) ;;
+   *) echo "Invalid -m MODE '$uboot_netboot_mode' (expected 'sd-only', 'fallback' or 'tftp-only')"; show_help;;
+esac
 
 if [ -z "$name" ] || [ -z "$path" ] || [ -z "$hwType" ] || [ -z "$xsa" ] || [ -z "$projTop" ]
 then
@@ -271,6 +287,9 @@ then
    echo "DMA_RX_BUFF_COUNT = \"${dmaRxBuffCount}\"" >> $proj_dir/build/conf/local.conf
    echo "DMA_BUFF_SIZE = \"${dmaBuffSize}\""        >> $proj_dir/build/conf/local.conf
 
+   # Set the shared U-Boot netboot hook's build-time mode in the local.conf
+   echo "UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"" >> $proj_dir/build/conf/local.conf
+
    # Install the samples/tests
    echo "IMAGE_INSTALL:append = \" axidmasamples\"" >> $proj_dir/build/conf/local.conf
 
@@ -350,6 +369,30 @@ else
 
    # Xilinx environment specific Yocto setup and automation scripts
    BDIR=build source setupsdk > /dev/null
+fi
+
+##############################################################################
+# Re-sync an explicitly requested -m MODE on an existing project
+##############################################################################
+
+# UBOOT_NETBOOT_MODE is only written to local.conf on a fresh/-c configure, so
+# without this a plain re-run would silently ignore -m and rebuild the mode the
+# project was originally configured with. Switching an already-built board to
+# sd-only is exactly the case that hits this, so keep the two in sync.
+#
+# Gated on -m being passed explicitly: editing UBOOT_NETBOOT_MODE in local.conf
+# by hand and re-running bitbake is a supported way to switch modes without a
+# reconfigure, and an unconditional rewrite would silently revert it.
+if [ $modeExplicit -eq 1 ]
+then
+   localConf="$proj_dir/build/conf/local.conf"
+   if grep -q '^UBOOT_NETBOOT_MODE = ' "$localConf"
+   then
+      sed -i "s|^UBOOT_NETBOOT_MODE = .*|UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"|" "$localConf"
+   else
+      echo "UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"" >> "$localConf"
+   fi
+   echo "U-Boot boot mode: ${uboot_netboot_mode}"
 fi
 
 ##############################################################################
