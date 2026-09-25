@@ -167,8 +167,16 @@ clears prior overlays runs only before the `pl.pdi` load.
 
 For each PDI in the glob:
 
-- Copy the PDI to `/lib/firmware/<name>.pdi` and write the name to
-  `/sys/class/fpga_manager/fpga0/firmware`. The write is synchronous:
+- Copy the PDI to `/lib/firmware/<name>.pdi` and write the filename
+  `<name>.pdi` — *with* the `.pdi` extension — to
+  `/sys/class/fpga_manager/fpga0/firmware`. That write triggers the kernel
+  `request_firmware()` path, which searches `/lib/firmware/` (and
+  `/lib/firmware/updates/`) for a file whose name is the *exact string
+  written*. Two things therefore matter when driving this by hand: the file
+  must be staged under `/lib/firmware/` first (`/boot/aie/` is not a firmware
+  search path), and the written name must include `.pdi` — writing the bare
+  `<name>` gives `Direct firmware load for <name> failed with error -2`
+  (`-ENOENT`) before the PDI is ever parsed. The write is synchronous:
   `fpga0/state` reflects the result when it returns — `operating` on
   success, `write error: 0x<plm-status>` on PLM rejection (e.g.
   `0x03260014` = IDCODE check failed).
@@ -180,6 +188,21 @@ For each PDI in the glob:
   If `.partition.conf` is absent: log `WARNING: <conf> missing - skipping
   aie-partition-init for <name>` — the PDI remains programmed; only
   partition-init is skipped.
+
+The `aie-partition-init` agent holds the partition fd open (via `pause()`) for
+the lifetime of the service, because the `xilinx-ai-engine` driver tears the
+partition down on *last close*. So running the agent a second time by hand
+while the service holds the partition fails the request ioctl with `Invalid
+argument`. `systemctl stop` the service before running it manually — and note
+that a stopped service is not proof the fd is released: if
+`/sys/class/aie/aiepart_<col>_<numcols>/` still exists afterward, some process
+(e.g. a stray manual run, which systemd does not track) still holds
+`/dev/aie0`. Find and clear the holder before retrying:
+
+```bash
+fuser /dev/aie0                 # who has the device open
+kill <process number>
+```
 
 <!--- ######################################################## -->
 
