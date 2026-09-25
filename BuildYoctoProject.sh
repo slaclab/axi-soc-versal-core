@@ -13,7 +13,7 @@
 #echo -ne "\033c"
 
 function show_help {
-   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-e] [-c]"
+   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-i IMAGE] [-e] [-c]"
    echo ""
    echo "Required:"
    echo " -p PATH      - Path to the build dir"
@@ -28,6 +28,7 @@ function show_help {
    echo " -t TXCNT     - Number of DMA TX buffers"
    echo " -r RXCNT     - Number of DMA RX buffers"
    echo " -s BUFFSZ    - DMA buffer size in bytes"
+   echo " -i IMAGE     - Name of the target image (Default: petalinux-image-minimal)"
    echo " -e           - Activate the Yocto environment and drop into a shell in the build dir"
    echo "                (instead of running bitbake)"
    echo " -c           - Force reconfigure if the project has already been configured"
@@ -36,8 +37,9 @@ function show_help {
 }
 
 doConfigure=0
+image=petalinux-image-minimal
 activateEnv=0
-while getopts p:n:h:x:l:d:t:r:s:ceHT: flag
+while getopts p:n:h:x:l:d:t:r:s:ceHT:i: flag
 do
     case "${flag}" in
         p) path=${OPTARG};;
@@ -52,6 +54,7 @@ do
         c) doConfigure=1;;
         e) activateEnv=1;;
         T) projTop=${OPTARG};;
+        i) image=${OPTARG};;
         H) show_help;;
     esac
 done
@@ -369,7 +372,7 @@ fi
 # Build Everything!
 ##############################################################################
 
-bitbake petalinux-image-minimal || die "bitbake petalinux-image-minimal returned non-zero. Aborting."
+bitbake "${image}" || die "bitbake ${image} returned non-zero. Aborting."
 
 # Resolve the deploy directory from BitBake itself (local.conf may override
 # TMPDIR / DEPLOY_DIR_IMAGE). Do NOT use the shell environment's TMPDIR —
