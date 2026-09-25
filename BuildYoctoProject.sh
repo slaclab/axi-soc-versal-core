@@ -13,7 +13,7 @@
 #echo -ne "\033c"
 
 function show_help {
-   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-c]"
+   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-e] [-c]"
    echo " -p PATH      - Path to the build dir (required)"
    echo " -n NAME      - Target name (required)"
    echo " -h HWTYPE    - Hardware type, must match directory name in axi-soc-versal-core/hardware (required)"
@@ -24,13 +24,16 @@ function show_help {
    echo " -t TXCNT     - Num TX buffers"
    echo " -r RXCNT     - Num RX buffers"
    echo " -s BUFFSZ    - DMA buffer size"
+   echo " -e           - Activate the Yocto environment and drop into a shell in the build dir"
+   echo "                (instead of running bitbake)"
    echo " -c           - Force reconfigure if the project has already been configured"
    echo " -H           - Show this help text"
    exit 1
 }
 
 doConfigure=0
-while getopts p:n:h:x:l:d:t:r:s:f:cHT: flag
+activateEnv=0
+while getopts p:n:h:x:l:d:t:r:s:f:ceHT: flag
 do
     case "${flag}" in
         p) path=${OPTARG};;
@@ -43,6 +46,7 @@ do
         r) dmaRxBuffCount=${OPTARG};;
         s) dmaBuffSize=${OPTARG};;
         c) doConfigure=1;;
+        e) activateEnv=1;;
         T) projTop=${OPTARG};;
         H) show_help;;
     esac
@@ -336,6 +340,22 @@ else
 
    # Xilinx environment specific Yocto setup and automation scripts
    BDIR=build source setupsdk > /dev/null
+fi
+
+##############################################################################
+# Activate the environment instead of building, if -e was requested
+##############################################################################
+
+# setupsdk has been sourced by both the fresh-configure and existing-project
+# paths above, so the Yocto environment is live here. exec into an interactive
+# shell rather than returning: this script is a child process of the caller, so
+# a plain exit could not hand back either the working directory or the
+# environment, which is the whole point of -e.
+if [ $activateEnv -eq 1 ]
+then
+   cd "$proj_dir/build"
+   echo "Yocto environment active in $proj_dir/build. Type 'exit' to return."
+   exec "${SHELL:-bash}" -i
 fi
 
 ##############################################################################
