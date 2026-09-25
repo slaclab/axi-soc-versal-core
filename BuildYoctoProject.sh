@@ -13,17 +13,21 @@
 #echo -ne "\033c"
 
 function show_help {
-   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-e] [-c]"
-   echo " -p PATH      - Path to the build dir (required)"
-   echo " -n NAME      - Target name (required)"
-   echo " -h HWTYPE    - Hardware type, must match directory name in axi-soc-versal-core/hardware (required)"
-   echo " -x XSA       - Path to the XSA file (required)"
-   echo " -T top       - Path to the firmware/ directory. This is usually just above the build/ directory (required)"
-   echo " -l LANES     - Num DMA lanes"
-   echo " -d DESTS     - Num dests"
-   echo " -t TXCNT     - Num TX buffers"
-   echo " -r RXCNT     - Num RX buffers"
-   echo " -s BUFFSZ    - DMA buffer size"
+   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-e] [-c]"
+   echo ""
+   echo "Required:"
+   echo " -p PATH      - Path to the build dir"
+   echo " -n NAME      - Target name"
+   echo " -h HWTYPE    - Hardware type, must match a directory name in axi-soc-versal-core/hardware"
+   echo " -x XSA       - Path to the XSA file"
+   echo " -T PATH      - Path to the firmware/ directory (usually just above the build/ directory)"
+   echo ""
+   echo "Optional:"
+   echo " -l LANES     - Number of DMA lanes"
+   echo " -d DESTS     - Number of DEST per lane"
+   echo " -t TXCNT     - Number of DMA TX buffers"
+   echo " -r RXCNT     - Number of DMA RX buffers"
+   echo " -s BUFFSZ    - DMA buffer size in bytes"
    echo " -e           - Activate the Yocto environment and drop into a shell in the build dir"
    echo "                (instead of running bitbake)"
    echo " -c           - Force reconfigure if the project has already been configured"
@@ -33,7 +37,7 @@ function show_help {
 
 doConfigure=0
 activateEnv=0
-while getopts p:n:h:x:l:d:t:r:s:f:ceHT: flag
+while getopts p:n:h:x:l:d:t:r:s:ceHT: flag
 do
     case "${flag}" in
         p) path=${OPTARG};;
