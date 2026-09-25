@@ -75,6 +75,12 @@ case "$uboot_netboot_mode" in
    *) echo "Invalid -m MODE '$uboot_netboot_mode' (expected 'sd-only', 'fallback' or 'tftp-only')"; show_help;;
 esac
 
+##############################################################################
+# Versal: BOOT.BIN carries only the PLM and the static PDI (PS + NoC), which
+# every mode needs, so nothing here is gated per mode. The PL ships separately
+# as pl.pdi plus pl.dtbo below, so there is no BIF_BITSTREAM_ATTR equivalent.
+##############################################################################
+
 if [ -z "$name" ] || [ -z "$path" ] || [ -z "$hwType" ] || [ -z "$xsa" ] || [ -z "$projTop" ]
 then
    echo "Missing required parameter"
@@ -423,7 +429,7 @@ bitbake "${image}" || die "bitbake ${image} returned non-zero. Aborting."
 # tooling) and is unrelated to BitBake's TMPDIR.
 deploy_dir=$(bitbake-getvar --value DEPLOY_DIR_IMAGE 2>/dev/null | tail -1)
 if [ -z "$deploy_dir" ] || [ ! -d "$deploy_dir" ]; then
-   deploy_dir="$proj_dir/build/tmp/deploy/images/versal-user"
+  deploy_dir="$proj_dir/build/tmp/deploy/images/versal-user"
 fi
 
 # Check if we need to manual run xilinx-bootbin
@@ -431,6 +437,12 @@ if [ ! -f "$deploy_dir/boot.bin" ]; then
     echo "boot.bin not found. Running bitbake xilinx-bootbin..."
     bitbake xilinx-bootbin || die "bitbake xilinx-bootbin returned non-zero. Aborting."
 fi
+
+##############################################################################
+# Versal: the PL image is the Vivado _dynamic.pdi beside the XSA, copied below
+# as pl.pdi; no Yocto recipe builds it, so there is no bitstream provider to
+# force-build here the way xilinx-bootbin is above.
+##############################################################################
 
 ##############################################################################
 # Package all the images into a .tar.gz
@@ -442,7 +454,8 @@ mkdir -p $proj_dir/linux
 # Go to deploy image dir
 cd $deploy_dir
 
-# Copy over the FSBL, U-boot and .bit files
+# Copy over the pl.pdi, pl.dtbo, BOOT.BIN and boot.scr files
+# Versal: there is no FSBL here, since the PLM inside BOOT.BIN replaces it.
 dynamicPdi="${xsa%.xsa}_dynamic.pdi"
 if [ ! -f "$dynamicPdi" ]; then
    die "Dynamic PDI not found at $dynamicPdi. Did the build run with USE_SEGMENTED_CONFIG=1?"
