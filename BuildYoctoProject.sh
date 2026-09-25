@@ -78,7 +78,8 @@ esac
 ##############################################################################
 # Versal: BOOT.BIN carries only the PLM and the static PDI (PS + NoC), which
 # every mode needs, so nothing here is gated per mode. The PL ships separately
-# as pl.pdi plus pl.dtbo below, so there is no BIF_BITSTREAM_ATTR equivalent.
+# as pl.pdi plus pl.dtbo below, so there is no per-mode local.conf attribute
+# to set here.
 ##############################################################################
 
 if [ -z "$name" ] || [ -z "$path" ] || [ -z "$hwType" ] || [ -z "$xsa" ] || [ -z "$projTop" ]
