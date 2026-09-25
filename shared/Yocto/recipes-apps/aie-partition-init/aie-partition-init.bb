@@ -14,7 +14,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "file://aie-partition-init.c \
            file://aie-partition-init@.service \
-           file://xlnx-ai-engine.h \
 "
 
 S = "${WORKDIR}"
@@ -25,6 +24,21 @@ inherit systemd
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "aie-partition-init@.service"
+
+DEPENDS += "virtual/kernel"
+do_configure[depends] += "virtual/kernel:do_shared_workdir"
+
+do_configure:prepend() {
+    kern_uapi="${STAGING_KERNEL_DIR}/include/uapi/linux/xlnx-ai-engine.h"
+    if [ ! -f "${kern_uapi}" ]; then
+        bbfatal "aie-partition-init: AIE UAPI header not found at ${kern_uapi}. \
+The agent must be compiled against the running kernel's ioctl ABI; refusing \
+to build against a stale header. Check that virtual/kernel exports \
+include/uapi/linux/xlnx-ai-engine.h (CONFIG_XILINX_AIE) for this release."
+    fi
+    bbnote "aie-partition-init: using AIE UAPI header from kernel source ${kern_uapi}"
+    install -m 0644 "${kern_uapi}" "${WORKDIR}/xlnx-ai-engine.h"
+}
 
 do_compile() {
     ${CC} ${CFLAGS} ${LDFLAGS} -Wall -Wextra -I${WORKDIR} \
