@@ -24,6 +24,12 @@ if  { $::env(VIVADO_VERSION) >= 2025.1 } {
 loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
 # loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
 
+# When using Segmented Configuration, lock the NoC to a pre-computed solution so
+# the static NoC stays identical between the static and dynamic partitions.
+if { $::env(USE_SEGMENTED_CONFIG) != 0 } {
+   loadNoCSolution -path "$::DIR_PATH/bd/XilinxVek280NoC.ncr"
+}
+
 #####################################################
 # Note on how I added the AXI stream interface to AIE
 #####################################################
