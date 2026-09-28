@@ -55,3 +55,7 @@ slprj*
 *.pdi
 *.bif
 *.elf
+
+# Sphinx build output
+docs/_build/
+.venv-docs/
