@@ -67,11 +67,7 @@ do
 done
 
 case "$uboot_netboot_mode" in
-   tftp-only)
-      echo "ERROR: -m tftp-only is not yet implemented on Versal (planned for a later phase)."
-      exit 1
-      ;;
-   sd-only|fallback) ;;
+   sd-only|fallback|tftp-only) ;;
    *) echo "Invalid -m MODE '$uboot_netboot_mode' (expected 'sd-only', 'fallback' or 'tftp-only')"; show_help;;
 esac
 
@@ -455,14 +451,20 @@ mkdir -p $proj_dir/linux
 # Go to deploy image dir
 cd $deploy_dir
 
-# Copy over the pl.pdi, pl.dtbo, BOOT.BIN and boot.scr files
+# Copy over the pl.pdi, pl.dtbo, system-top.dtb, BOOT.BIN and boot.scr files
 # Versal: there is no FSBL here, since the PLM inside BOOT.BIN replaces it.
+# system-top.dtb is the standalone base DTB, the same file image.its embeds
+# as versal-user-system.dtb (it carries __symbols__); a tftp-only U-Boot
+# fetches it over TFTP and applies pl.dtbo onto it. It is not named
+# system.dtb because the stock boot.scr probes /system.dtb on the SD boot
+# partition.
 dynamicPdi="${xsa%.xsa}_dynamic.pdi"
 if [ ! -f "$dynamicPdi" ]; then
    die "Dynamic PDI not found at $dynamicPdi. Did the build run with USE_SEGMENTED_CONFIG=1?"
 fi
 cp -rfL "$dynamicPdi" $proj_dir/linux/pl.pdi
 cp -rfL devicetree/pl.dtbo                 $proj_dir/linux/pl.dtbo
+cp -rfL devicetree/system-top.dtb          $proj_dir/linux/system-top.dtb
 cp -rfL boot.bin                           $proj_dir/linux/BOOT.BIN
 cp -rfL boot.scr                           $proj_dir/linux/boot.scr
 
@@ -478,7 +480,7 @@ cp $axi_soc_versal_core/shared/Yocto/image.its .
 mkimage -f image.its $proj_dir/linux/image.ub  > /dev/null
 
 # Default file list
-fileList="linux/pl.pdi linux/pl.dtbo linux/BOOT.BIN linux/boot.scr linux/image.ub"
+fileList="linux/pl.pdi linux/pl.dtbo linux/system-top.dtb linux/BOOT.BIN linux/boot.scr linux/image.ub"
 
 if [[ -v SOC_IP_STATIC ]]; then
    # File list with static IP

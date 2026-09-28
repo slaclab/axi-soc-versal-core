@@ -97,11 +97,25 @@ fi
 
 ##############################################################################
 
+# The VEK280 boots BOOT.BIN from SD in every mode, so SD file presence alone
+# cannot signal a diskless boot. A tftp-only U-Boot sets the /chosen string
+# property slac,boot-mode to tftp-only only after it has itself loaded
+# pl.pdi and applied pl.dtbo.
+boot_mode=$(cat /proc/device-tree/chosen/slac,boot-mode 2>/dev/null | tr -d '\000')
+pl_programmed=0
+
+##############################################################################
+
 # Load the user's firmware (PL) .pdi file (A.K.A. "2nd stage boot")
 # Versal Segmented Configuration: pl.pdi is the runtime/dynamic PDI.
 # The base PDI lives in BOOT.BIN. See axi-soc-versal-core README
 # section "Why Versal differs from ZynqMP for runtime PL loading".
-if [ -f "/boot/pl.pdi" ] && [ -f "/boot/pl.dtbo" ]
+if [ "$boot_mode" = "tftp-only" ]
+then
+   echo "tftp-only boot (/chosen slac,boot-mode): U-Boot loaded pl.pdi and applied pl.dtbo, skipping the SD fpgautil load"
+   echo "/sys/class/fpga_manager/fpga0/state: $(cat /sys/class/fpga_manager/fpga0/state)"
+   pl_programmed=1
+elif [ -f "/boot/pl.pdi" ] && [ -f "/boot/pl.dtbo" ]
 then
    echo "2nd-stage PL load: /boot/pl.pdi + /boot/pl.dtbo present"
 
@@ -133,6 +147,10 @@ then
 
    # Get the status
    echo "/sys/class/fpga_manager/fpga0/state: $(cat /sys/class/fpga_manager/fpga0/state)"
+   if [ "$retry" -lt 30 ]
+   then
+      pl_programmed=1
+   fi
 elif [ -f "/boot/pl.pdi" ] || [ -f "/boot/pl.dtbo" ]
 then
    echo "WARNING: 2nd-stage PL load skipped - need BOTH /boot/pl.pdi and /boot/pl.dtbo"
@@ -140,8 +158,16 @@ then
 fi
 
 # Load custom kernel driver
-insmod /lib/modules/$(uname -r)/updates/axi_memory_map.ko
-insmod /lib/modules/$(uname -r)/updates/axi_stream_dma.ko cfgTxCount0=@DMA_TX_BUFF_COUNT@ cfgRxCount0=@DMA_RX_BUFF_COUNT@ cfgSize0=@DMA_BUFF_SIZE@
+# Gated on pl_programmed (this script's own fpgautil success, or the
+# tftp-only marker); no fpga0/state check here, since Versal's fpga manager
+# has no state op and always reports unknown after a U-Boot PL load.
+if [ "$pl_programmed" -eq 1 ]
+then
+   insmod /lib/modules/$(uname -r)/updates/axi_memory_map.ko
+   insmod /lib/modules/$(uname -r)/updates/axi_stream_dma.ko cfgTxCount0=@DMA_TX_BUFF_COUNT@ cfgRxCount0=@DMA_RX_BUFF_COUNT@ cfgSize0=@DMA_BUFF_SIZE@
+else
+   echo "ERROR: PL not programmed (no tftp-only boot marker and no successful fpgautil load of /boot/pl.pdi + /boot/pl.dtbo) - skipping the DMA driver load"
+fi
 
 ##############################################################################
 
@@ -157,9 +183,52 @@ insmod /lib/modules/$(uname -r)/updates/axi_stream_dma.ko cfgTxCount0=@DMA_TX_BU
 # `grep -i failed` retry loop never catches, silently skipping the load.
 # Multiple images are loaded in lexicographic order; user controls order via
 # filename prefix (e.g. 00_loopback.pdi, 10_extra.pdi).
+# aie-partition-init@.service reads /run/aie/<name>.partition.conf in every
+# mode: the SD path below copies the /boot/aie sidecar there once that
+# image's PDI load succeeds, and a tftp-only boot writes it straight from
+# /chosen/slac,aie/<name>.
 if [ ! -d /sys/class/aie ]
 then
    echo "AIE not present (no /sys/class/aie) - skipping AIE PDI load"
+elif [ "$boot_mode" = "tftp-only" ]
+then
+   echo "tftp-only boot: U-Boot stacked the AIE PDI(s), skipping the /boot/aie load"
+   found=0
+   for node in /proc/device-tree/chosen/slac,aie/*/
+   do
+      [ -d "$node" ] || continue   # empty glob guard
+      name="$(basename "$node")"
+      partition_id=$(cat "${node}partition-id" 2>/dev/null | tr -d '\000')
+      uid=$(cat "${node}uid" 2>/dev/null | tr -d '\000')
+
+      bad=0
+      case "$name" in
+         ''|*[!A-Za-z0-9_.-]*) bad=1 ;;
+      esac
+      case "$partition_id" in
+         ''|*[!0-9A-Fa-fxX]*) bad=1 ;;
+      esac
+      case "$uid" in
+         ''|*[!0-9A-Fa-fxX]*) bad=1 ;;
+      esac
+      if [ "$bad" -eq 1 ]
+      then
+         echo "ERROR: malformed /chosen/slac,aie/${name} properties - skipping aie-partition-init for ${name}"
+         continue
+      fi
+
+      mkdir -p /run/aie
+      printf 'PARTITION_ID=%s\nUID=%s\n' "$partition_id" "$uid" > "/run/aie/${name}.partition.conf.tmp"
+      mv -f "/run/aie/${name}.partition.conf.tmp" "/run/aie/${name}.partition.conf"
+      echo "AIE partition-init: starting aie-partition-init@${name}.service"
+      systemctl start "aie-partition-init@${name}.service" || \
+         echo "WARNING: aie-partition-init@${name}.service failed to start"
+      found=1
+   done
+   if [ "$found" -eq 0 ]
+   then
+      echo "tftp-only boot: no AIE service started from /chosen/slac,aie (U-Boot passed no image, or every node was malformed and is reported above)"
+   fi
 elif [ ! -d /boot/aie ]
 then
    echo "No /boot/aie directory - no AIE images to load"
@@ -190,6 +259,8 @@ else
 
       if [ -f "$conf" ]
       then
+         mkdir -p /run/aie
+         cp "$conf" "/run/aie/${name}.partition.conf"
          echo "AIE partition-init: starting aie-partition-init@${name}.service"
          systemctl start "aie-partition-init@${name}.service" || \
             echo "WARNING: aie-partition-init@${name}.service failed to start"
