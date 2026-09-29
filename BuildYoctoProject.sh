@@ -13,24 +13,39 @@
 #echo -ne "\033c"
 
 function show_help {
-   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-c]"
-   echo " -p PATH      - Path to the build dir (required)"
-   echo " -n NAME      - Target name (required)"
-   echo " -h HWTYPE    - Hardware type, must match directory name in axi-soc-versal-core/hardware (required)"
-   echo " -x XSA       - Path to the XSA file (required)"
-   echo " -T top       - Path to the firmware/ directory. This is usually just above the build/ directory (required)"
-   echo " -l LANES     - Num DMA lanes"
-   echo " -d DESTS     - Num dests"
-   echo " -t TXCNT     - Num TX buffers"
-   echo " -r RXCNT     - Num RX buffers"
-   echo " -s BUFFSZ    - DMA buffer size"
+   echo "USAGE: $0 -p PATH -n NAME -h HWTYPE -x XSA -T PATH [-l LANES] [-d DESTS] [-t TXCNT] [-r RXCNT] [-s BUFFSZ] [-i IMAGE] [-m MODE] [-e] [-c]"
+   echo ""
+   echo "Required:"
+   echo " -p PATH      - Path to the build dir"
+   echo " -n NAME      - Target name"
+   echo " -h HWTYPE    - Hardware type, must match a directory name in axi-soc-versal-core/hardware"
+   echo " -x XSA       - Path to the XSA file"
+   echo " -T PATH      - Path to the firmware/ directory (usually just above the build/ directory)"
+   echo ""
+   echo "Optional:"
+   echo " -l LANES     - Number of DMA lanes"
+   echo " -d DESTS     - Number of DEST per lane"
+   echo " -t TXCNT     - Number of DMA TX buffers"
+   echo " -r RXCNT     - Number of DMA RX buffers"
+   echo " -s BUFFSZ    - DMA buffer size in bytes"
+   echo " -i IMAGE     - Name of the target image (Default: petalinux-image-minimal)"
+   echo " -m MODE      - U-Boot boot mode (Default: sd-only):"
+   echo "                  'sd-only'   skips netboot entirely; fastest boot, no TFTP server needed"
+   echo "                  'fallback'  tries TFTP first, then boots from SD if that fails"
+   echo "                  'tftp-only' tries TFTP first, then halts instead of booting from SD"
+   echo " -e           - Activate the Yocto environment and drop into a shell in the build dir"
+   echo "                (instead of running bitbake)"
    echo " -c           - Force reconfigure if the project has already been configured"
    echo " -H           - Show this help text"
    exit 1
 }
 
 doConfigure=0
-while getopts p:n:h:x:l:d:t:r:s:f:cHT: flag
+image=petalinux-image-minimal
+uboot_netboot_mode=sd-only
+modeExplicit=0
+activateEnv=0
+while getopts p:n:h:x:l:d:t:r:s:ceHT:i:m: flag
 do
     case "${flag}" in
         p) path=${OPTARG};;
@@ -43,10 +58,25 @@ do
         r) dmaRxBuffCount=${OPTARG};;
         s) dmaBuffSize=${OPTARG};;
         c) doConfigure=1;;
+        e) activateEnv=1;;
         T) projTop=${OPTARG};;
+        i) image=${OPTARG};;
+        m) uboot_netboot_mode=${OPTARG}; modeExplicit=1;;
         H) show_help;;
     esac
 done
+
+case "$uboot_netboot_mode" in
+   sd-only|fallback|tftp-only) ;;
+   *) echo "Invalid -m MODE '$uboot_netboot_mode' (expected 'sd-only', 'fallback' or 'tftp-only')"; show_help;;
+esac
+
+##############################################################################
+# Versal: BOOT.BIN carries only the PLM and the static PDI (PS + NoC), which
+# every mode needs, so nothing here is gated per mode. The PL ships separately
+# as pl.pdi plus pl.dtbo below, so there is no per-mode local.conf attribute
+# to set here.
+##############################################################################
 
 if [ -z "$name" ] || [ -z "$path" ] || [ -z "$hwType" ] || [ -z "$xsa" ] || [ -z "$projTop" ]
 then
@@ -260,6 +290,9 @@ then
    echo "DMA_RX_BUFF_COUNT = \"${dmaRxBuffCount}\"" >> $proj_dir/build/conf/local.conf
    echo "DMA_BUFF_SIZE = \"${dmaBuffSize}\""        >> $proj_dir/build/conf/local.conf
 
+   # Set the shared U-Boot netboot hook's build-time mode in the local.conf
+   echo "UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"" >> $proj_dir/build/conf/local.conf
+
    # Install the samples/tests
    echo "IMAGE_INSTALL:append = \" axidmasamples\"" >> $proj_dir/build/conf/local.conf
 
@@ -269,6 +302,9 @@ then
 
    # Copy the meta layers from local source
    ln -s $axi_soc_versal_core/shared/Yocto/recipes-apps $proj_dir/sources/meta-user/recipes-apps
+
+   # Add the shared netboot-hooks BitBake layer (u-boot-xlnx netboot env override)
+   bitbake-layers add-layer "$axi_soc_versal_core/shared/Yocto"
 
    # Update Application with user configuration
    echo "DMA_NUM_LANES = \"${numLane}\"" >> $proj_dir/build/conf/local.conf
@@ -339,10 +375,50 @@ else
 fi
 
 ##############################################################################
+# Re-sync an explicitly requested -m MODE on an existing project
+##############################################################################
+
+# UBOOT_NETBOOT_MODE is only written to local.conf on a fresh/-c configure, so
+# without this a plain re-run would silently ignore -m and rebuild the mode the
+# project was originally configured with. Switching an already-built board to
+# sd-only is exactly the case that hits this, so keep the two in sync.
+#
+# Gated on -m being passed explicitly: editing UBOOT_NETBOOT_MODE in local.conf
+# by hand and re-running bitbake is a supported way to switch modes without a
+# reconfigure, and an unconditional rewrite would silently revert it.
+if [ $modeExplicit -eq 1 ]
+then
+   localConf="$proj_dir/build/conf/local.conf"
+   if grep -q '^UBOOT_NETBOOT_MODE = ' "$localConf"
+   then
+      sed -i "s|^UBOOT_NETBOOT_MODE = .*|UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"|" "$localConf"
+   else
+      echo "UBOOT_NETBOOT_MODE = \"${uboot_netboot_mode}\"" >> "$localConf"
+   fi
+   echo "U-Boot boot mode: ${uboot_netboot_mode}"
+fi
+
+##############################################################################
+# Activate the environment instead of building, if -e was requested
+##############################################################################
+
+# setupsdk has been sourced by both the fresh-configure and existing-project
+# paths above, so the Yocto environment is live here. exec into an interactive
+# shell rather than returning: this script is a child process of the caller, so
+# a plain exit could not hand back either the working directory or the
+# environment, which is the whole point of -e.
+if [ $activateEnv -eq 1 ]
+then
+   cd "$proj_dir/build"
+   echo "Yocto environment active in $proj_dir/build. Type 'exit' to return."
+   exec "${SHELL:-bash}" -i
+fi
+
+##############################################################################
 # Build Everything!
 ##############################################################################
 
-bitbake petalinux-image-minimal || die "bitbake petalinux-image-minimal returned non-zero. Aborting."
+bitbake "${image}" || die "bitbake ${image} returned non-zero. Aborting."
 
 # Resolve the deploy directory from BitBake itself (local.conf may override
 # TMPDIR / DEPLOY_DIR_IMAGE). Do NOT use the shell environment's TMPDIR —
@@ -350,7 +426,7 @@ bitbake petalinux-image-minimal || die "bitbake petalinux-image-minimal returned
 # tooling) and is unrelated to BitBake's TMPDIR.
 deploy_dir=$(bitbake-getvar --value DEPLOY_DIR_IMAGE 2>/dev/null | tail -1)
 if [ -z "$deploy_dir" ] || [ ! -d "$deploy_dir" ]; then
-   deploy_dir="$proj_dir/build/tmp/deploy/images/versal-user"
+  deploy_dir="$proj_dir/build/tmp/deploy/images/versal-user"
 fi
 
 # Check if we need to manual run xilinx-bootbin
@@ -358,6 +434,12 @@ if [ ! -f "$deploy_dir/boot.bin" ]; then
     echo "boot.bin not found. Running bitbake xilinx-bootbin..."
     bitbake xilinx-bootbin || die "bitbake xilinx-bootbin returned non-zero. Aborting."
 fi
+
+##############################################################################
+# Versal: the PL image is the Vivado _dynamic.pdi beside the XSA, copied below
+# as pl.pdi; no Yocto recipe builds it, so there is no bitstream provider to
+# force-build here the way xilinx-bootbin is above.
+##############################################################################
 
 ##############################################################################
 # Package all the images into a .tar.gz
@@ -369,13 +451,20 @@ mkdir -p $proj_dir/linux
 # Go to deploy image dir
 cd $deploy_dir
 
-# Copy over the FSBL, U-boot and .bit files
+# Copy over the pl.pdi, pl.dtbo, system-top.dtb, BOOT.BIN and boot.scr files
+# Versal: there is no FSBL here, since the PLM inside BOOT.BIN replaces it.
+# system-top.dtb is the standalone base DTB, the same file image.its embeds
+# as versal-user-system.dtb (it carries __symbols__); a tftp-only U-Boot
+# fetches it over TFTP and applies pl.dtbo onto it. It is not named
+# system.dtb because the stock boot.scr probes /system.dtb on the SD boot
+# partition.
 dynamicPdi="${xsa%.xsa}_dynamic.pdi"
 if [ ! -f "$dynamicPdi" ]; then
    die "Dynamic PDI not found at $dynamicPdi. Did the build run with USE_SEGMENTED_CONFIG=1?"
 fi
 cp -rfL "$dynamicPdi" $proj_dir/linux/pl.pdi
 cp -rfL devicetree/pl.dtbo                 $proj_dir/linux/pl.dtbo
+cp -rfL devicetree/system-top.dtb          $proj_dir/linux/system-top.dtb
 cp -rfL boot.bin                           $proj_dir/linux/BOOT.BIN
 cp -rfL boot.scr                           $proj_dir/linux/boot.scr
 
@@ -391,7 +480,7 @@ cp $axi_soc_versal_core/shared/Yocto/image.its .
 mkimage -f image.its $proj_dir/linux/image.ub  > /dev/null
 
 # Default file list
-fileList="linux/pl.pdi linux/pl.dtbo linux/BOOT.BIN linux/boot.scr linux/image.ub"
+fileList="linux/pl.pdi linux/pl.dtbo linux/system-top.dtb linux/BOOT.BIN linux/boot.scr linux/image.ub"
 
 if [[ -v SOC_IP_STATIC ]]; then
    # File list with static IP

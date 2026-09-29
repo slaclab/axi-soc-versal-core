@@ -1,5 +1,7 @@
 # axi-soc-versal-core
 
+**Documentation:** https://slaclab.github.io/axi-soc-versal-core/
+
 [DOE Code](https://www.osti.gov/doecode/biblio/165458)
 
 <!--- ######################################################## -->
@@ -10,31 +12,31 @@ https://docs.amd.com/r/en-US/am012-versal-register-reference
 
 <!--- ######################################################## -->
 
+### BuildYoctoProject.sh options
+
+`BuildYoctoProject.sh` (invoked from the target `Makefile`, or via the
+`Simple-VEK280-Example` wrapper's `-i`/`-e`/`-m` passthrough) takes three
+options beyond the required build paths:
+
+- `-i IMAGE` bitbakes the named image (default `petalinux-image-minimal`).
+- `-e` activates the Yocto environment and drops into a shell in the build
+  dir instead of building.
+- `-m MODE` bakes the U-Boot boot mode into `BOOT.BIN`: `sd-only` (default,
+  no DHCP or TFTP), `fallback` (TFTP first, then SD) or `tftp-only`
+  (diskless: U-Boot loads `pl.pdi`, applies `pl.dtbo` and stacks the AIE
+  PDIs over TFTP, and halts instead of falling back to SD). Re-running with
+  an explicit `-m` re-syncs `local.conf`; a run without `-m` keeps a hand
+  edit.
+
+See the how-tos for the TFTP boot modes and for imaging an SD card:
+https://slaclab.github.io/axi-soc-versal-core/how-to/tftp_network_boot.html
+https://slaclab.github.io/axi-soc-versal-core/how-to/sd_card_imaging.html
+
+<!--- ######################################################## -->
+
 ### How to format SD card for SD boot
 
-https://xilinx-wiki.atlassian.net/wiki/x/EYMfAQ
-
-1) Copy For the boot images, simply copy the files to the FAT partition.
-This typically will include BOOT.BIN, image.ub, and boot.scr
-
-```bash
-sudo mkdir -p boot
-sudo mount /dev/sdd1 boot
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/system.bit boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/BOOT.BIN   boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/image.ub   boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/boot.scr   boot/.
-sudo umount boot
-sudo rm -rf boot
-```
-
-2) For the root file system, the process will depend on the format of your root file system image.
-
-`roofts.ext4 -  This is an uncompressed ext4 file system image. To copy the contents to the root partition, you can use the following command: `
-
-```bash
-sudo dd if=<PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/rootfs.ext4 of=/dev/<DEV_NAME>
-```
+Use `scripts/CreateDiskImage.sh` or `scripts/FormatSdCard.sh` on the `.linux.tar.gz`, as described in the SD card imaging how-to: https://slaclab.github.io/axi-soc-versal-core/how-to/sd_card_imaging.html
 
 <!--- ######################################################## -->
 

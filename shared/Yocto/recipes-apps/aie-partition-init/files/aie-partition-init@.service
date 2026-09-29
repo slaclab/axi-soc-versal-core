@@ -2,11 +2,13 @@
 Description=AIE userspace partition-init agent (instance %i)
 Requires=local-fs.target
 After=startup-app-init.service local-fs.target
-ConditionPathExists=/boot/aie/%i.partition.conf
+ConditionPathExists=/run/aie/%i.partition.conf
+StartLimitIntervalSec=30
+StartLimitBurst=5
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/aie-partition-init --conf /boot/aie/%i.partition.conf
+ExecStart=/usr/bin/aie-partition-init --conf /run/aie/%i.partition.conf
 Restart=on-failure
 RestartSec=2
 StandardOutput=journal+console
