@@ -26,8 +26,13 @@ loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
 
 # When using Segmented Configuration, lock the NoC to a pre-computed solution so
 # the static NoC stays identical between the static and dynamic partitions.
+# NOTE: the .ncr is keyed by hierarchical instance name. It assumes the
+# application instantiates AxiSocVersalCore as "U_Core" at the top level.
+# A different label or a changed block design requires regenerating the .ncr
+# from the impl run directory (written next to the routed DCP) and re-checking
+# with pr_verify against the golden routed DCP.
 if { $::env(USE_SEGMENTED_CONFIG) != 0 } {
-   loadNoCSolution -path "$::DIR_PATH/bd/XilinxVek280NoC.ncr"
+   loadNoCSolution -path "$::DIR_PATH/bd/${bdVer}/XilinxVek280NoC.ncr"
 }
 
 #####################################################
