@@ -1,5 +1,7 @@
 # axi-soc-versal-core
 
+**Documentation:** https://slaclab.github.io/axi-soc-versal-core/
+
 [DOE Code](https://www.osti.gov/doecode/biblio/165458)
 
 <!--- ######################################################## -->
@@ -10,31 +12,53 @@ https://docs.amd.com/r/en-US/am012-versal-register-reference
 
 <!--- ######################################################## -->
 
+### BuildYoctoProject.sh options
+
+`BuildYoctoProject.sh` (invoked from the target `Makefile`, or via the
+`Simple-VEK280-Example` wrapper's `-i`/`-e`/`-m` passthrough) takes three
+options beyond the required build paths:
+
+- `-i IMAGE` bitbakes the named image (default `petalinux-image-minimal`).
+- `-e` activates the Yocto environment and drops into a shell in the build
+  dir instead of building.
+- `-m MODE` bakes the U-Boot boot mode into `BOOT.BIN`: `sd-only` (default,
+  no DHCP or TFTP), `fallback` (TFTP first, then SD) or `tftp-only`
+  (diskless: U-Boot loads `pl.pdi`, applies `pl.dtbo` and stacks the AIE
+  PDIs over TFTP, and halts instead of falling back to SD). Re-running with
+  an explicit `-m` re-syncs `local.conf`; a run without `-m` keeps a hand
+  edit.
+
+See the how-tos for the TFTP boot modes and for imaging an SD card:
+https://slaclab.github.io/axi-soc-versal-core/how-to/tftp_network_boot.html
+https://slaclab.github.io/axi-soc-versal-core/how-to/sd_card_imaging.html
+
+<!--- ######################################################## -->
+
 ### How to format SD card for SD boot
 
-https://xilinx-wiki.atlassian.net/wiki/x/EYMfAQ
+Use `scripts/CreateDiskImage.sh` or `scripts/FormatSdCard.sh` on the `.linux.tar.gz`, as described in the SD card imaging how-to: https://slaclab.github.io/axi-soc-versal-core/how-to/sd_card_imaging.html
 
-1) Copy For the boot images, simply copy the files to the FAT partition.
-This typically will include BOOT.BIN, image.ub, and boot.scr
+<!--- ######################################################## -->
 
-```bash
-sudo mkdir -p boot
-sudo mount /dev/sdd1 boot
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/system.bit boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/BOOT.BIN   boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/image.ub   boot/.
-sudo cp <PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/boot.scr   boot/.
-sudo umount boot
-sudo rm -rf boot
+### Maintaining a consistent NoC solution
+
+In order for the runtime switching of the PL firmware to work, one needs to use the Segmented Configuration flow. More info about it can
+be found here: https://github.com/Xilinx/Vivado-Design-Tutorials/tree/2025.2/Versal/Boot_and_Config/Segmented_Configuration
+
+This makes Vivado generate two bitstreams: a static PDI used for booting (generating BOOT.BIN), and a dynamic one with all the PL firmware. These are not
+independent, as they need to have compatible memory space and NoC solutions. To help with this, Vivado outputs a `.ncr` file
+containing a placed description of the NoC solution. In order to build a compatible firmware, i.e. one built with the same NoC solution,
+one needs to set it during implementation with the `NOC_SOLUTION_FILE` option. This is achieved with the `loadNoCSolution` command in
+ruckus.
+
+Compatibility can be verified by comparing the placed and routed netlists with the following TCL command:
+```
+pr_verify -initial <golden>_routed.dcp -additional <new>_routed.dcp
 ```
 
-2) For the root file system, the process will depend on the format of your root file system image.
-
-`roofts.ext4 -  This is an uncompressed ext4 file system image. To copy the contents to the root partition, you can use the following command: `
-
-```bash
-sudo dd if=<PATH_TO_BUILD_DIR>/tmp/deploy/images/versal-user/rootfs.ext4 of=/dev/<DEV_NAME>
-```
+The .ncr is keyed by full hierarchical instance names starting at the application top, e.g. `U_Core/REAL_CPU.U_CPU/U_CPU/Master_NoC/inst/S00_AXI_nmu/...`.
+That means this library now silently requires every consumer to instantiate AxiSocVersalCore with the label U_Core. A different label means the solution
+does not apply, the NoC is re-solved from scratch, and the resulting dynamic PDI is incompatible with the deployed BOOT.BIN.
 
 <!--- ######################################################## -->
 
@@ -61,6 +85,22 @@ skipped - need BOTH /boot/pl.pdi and /boot/pl.dtbo` to journalctl. Both files
 must be in place for the load to proceed.
 
 This flow closes [slaclab/axi-soc-versal-core#6](https://github.com/slaclab/axi-soc-versal-core/issues/6).
+
+<!--- ######################################################## -->
+
+### How to runtime update the PL bitstream (Versal)
+
+The instructions above have the advantage of being persistent, i.e. the firmware
+will survive a reboot. It's possible to reload the PL firmware at run-time as
+follows:
+```bash
+scp pl.pdi  root@<board-ip>:/lib/firmware/pl.pdi
+ssh root@<board-ip> "echo pl.pdi > /sys/class/fpga_manager/fpga0/firmware"
+```
+
+While this operation is being performed, no data should be sent through the DMA and
+no registers should be written. Furthermore, if `pl.pdi` is not updated in `/boot/`
+this operation is not persistent and will not survive a reboot.
 
 <!--- ######################################################## -->
 
@@ -167,8 +207,16 @@ clears prior overlays runs only before the `pl.pdi` load.
 
 For each PDI in the glob:
 
-- Copy the PDI to `/lib/firmware/<name>.pdi` and write the name to
-  `/sys/class/fpga_manager/fpga0/firmware`. The write is synchronous:
+- Copy the PDI to `/lib/firmware/<name>.pdi` and write the filename
+  `<name>.pdi` — *with* the `.pdi` extension — to
+  `/sys/class/fpga_manager/fpga0/firmware`. That write triggers the kernel
+  `request_firmware()` path, which searches `/lib/firmware/` (and
+  `/lib/firmware/updates/`) for a file whose name is the *exact string
+  written*. Two things therefore matter when driving this by hand: the file
+  must be staged under `/lib/firmware/` first (`/boot/aie/` is not a firmware
+  search path), and the written name must include `.pdi` — writing the bare
+  `<name>` gives `Direct firmware load for <name> failed with error -2`
+  (`-ENOENT`) before the PDI is ever parsed. The write is synchronous:
   `fpga0/state` reflects the result when it returns — `operating` on
   success, `write error: 0x<plm-status>` on PLM rejection (e.g.
   `0x03260014` = IDCODE check failed).
@@ -180,6 +228,21 @@ For each PDI in the glob:
   If `.partition.conf` is absent: log `WARNING: <conf> missing - skipping
   aie-partition-init for <name>` — the PDI remains programmed; only
   partition-init is skipped.
+
+The `aie-partition-init` agent holds the partition fd open (via `pause()`) for
+the lifetime of the service, because the `xilinx-ai-engine` driver tears the
+partition down on *last close*. So running the agent a second time by hand
+while the service holds the partition fails the request ioctl with `Invalid
+argument`. `systemctl stop` the service before running it manually — and note
+that a stopped service is not proof the fd is released: if
+`/sys/class/aie/aiepart_<col>_<numcols>/` still exists afterward, some process
+(e.g. a stray manual run, which systemd does not track) still holds
+`/dev/aie0`. Find and clear the holder before retrying:
+
+```bash
+fuser /dev/aie0                 # who has the device open
+kill <process number>
+```
 
 <!--- ######################################################## -->
 

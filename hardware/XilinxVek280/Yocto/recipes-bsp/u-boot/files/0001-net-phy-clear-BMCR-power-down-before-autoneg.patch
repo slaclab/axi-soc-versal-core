@@ -1,0 +1,41 @@
+Subject: [PATCH] net: phy: clear BMCR power-down before autoneg
+
+Linux's genphy_suspend leaves the ADIN1300 PHY in software power-down
+across a warm reboot, and nothing else in U-Boot clears the bit. Left
+set, autonegotiation never completes and dhcp times out waiting on
+the link. Clear the power-down bit before running the existing
+autoneg configuration so a warm reboot after Linux brings the link up
+the same way a cold power-on does.
+
+Signed-off-by: Larry Ruckman <ruckman@slac.stanford.edu>
+Upstream-Status: Pending
+
+--- a/drivers/net/phy/adin.c	2026-09-26 19:45:32.895038546 -0700
++++ b/drivers/net/phy/adin.c	2026-09-26 19:45:50.877196567 -0700
+@@ -260,6 +260,26 @@
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/*
++	 * Linux's genphy_suspend leaves the PHY in software power-down
++	 * across a warm reboot, and nothing else in U-Boot clears the bit.
++	 * If left set, autonegotiation never completes and dhcp times out
++	 * waiting on the link, so clear it here and kick off a fresh
++	 * autoneg on the powered PHY.
++	 */
++	ret = phy_read(phydev, MDIO_DEVAD_NONE, MII_BMCR);
++	if (ret < 0)
++		return ret;
++
++	if (ret & BMCR_PDOWN) {
++		printf("%s: clearing BMCR power-down before autoneg\n",
++		       phydev->drv->name);
++		ret = phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
++				  BMCR_PDOWN, BMCR_ANRESTART);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	return genphy_config(phydev);
+ }
+ 

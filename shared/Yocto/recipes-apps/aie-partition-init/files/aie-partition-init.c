@@ -12,8 +12,8 @@
  *   PARTITION_ID=0x2600
  *   UID=0xc8f9a8af
  *
- * Usage: aie-partition-init --conf /boot/aie/<name>.partition.conf
- *        aie-partition-init -c     /boot/aie/<name>.partition.conf
+ * Usage: aie-partition-init --conf /run/aie/<name>.partition.conf
+ *        aie-partition-init -c     /run/aie/<name>.partition.conf
  *
  * No retry loop (systemd Restart=on-failure handles it).
  */

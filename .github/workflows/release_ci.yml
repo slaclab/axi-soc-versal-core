@@ -1,11 +1,11 @@
 # ----------------------------------------------------------------------------
 # Title      : Release Integration
 # ----------------------------------------------------------------------------
-# This file is part of the 'axi-soc-ultra-plus-core'. It is subject to
+# This file is part of the 'axi-soc-versal-core'. It is subject to
 # the license terms in the LICENSE.txt file found in the top-level directory
 # of this distribution and at:
 #    https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html.
-# No part of the 'axi-soc-ultra-plus-core', including this file, may be
+# No part of the 'axi-soc-versal-core', including this file, may be
 # copied, modified, propagated, or distributed except according to the terms
 # contained in the LICENSE.txt file.
 # ----------------------------------------------------------------------------
@@ -26,11 +26,11 @@ jobs:
     steps:
 
       # This step checks out a copy of your repository.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: 3.12
 
