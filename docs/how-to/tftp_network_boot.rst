@@ -25,14 +25,14 @@ U-Boot falls back to booting that on-SD image automatically. Nothing about
 the first boot stage changes: only where the kernel FIT comes from.
 
 The kernel FIT is fetched **PXE-first**. U-Boot first tries to download
-a PXE ("pxelinux") config from the TFTP server --
-``pxelinux.cfg/01-<MAC>`` (the board's MAC, dash-separated and
-lowercased, with the ``01-`` ARP-hardware-type prefix) if a
-board-specific file exists, otherwise ``pxelinux.cfg/default`` -- parses
+a PXE ("pxelinux") config from the TFTP server
+(``pxelinux.cfg/01-<MAC>``, the board's MAC dash-separated and
+lowercased with the ``01-`` ARP-hardware-type prefix, if a
+board-specific file exists, otherwise ``pxelinux.cfg/default``), parses
 its ``KERNEL`` line, and boots the FIT that line names. Only if no PXE
 config is served does U-Boot fall back to fetching ``image.ub``
 directly by name. The PXE config lets you change a board's boot
-behavior server-side -- pointing it at a different FIT, for example --
+behavior server-side (pointing it at a different FIT, for example)
 **without reflashing U-Boot or editing the board's U-Boot
 environment**. Either path still relies on ``serverip`` (the TFTP
 server address) being set, explicitly or via DHCP.
@@ -49,7 +49,7 @@ diskless flow in order:
    ``pl.dtbo`` to ``fdtoverlay_addr_r``, then ``fdt apply
    ${fdtoverlay_addr_r}`` to live-patch the PL device-tree nodes onto the
    base DTB.
-3. ``fdt set /chosen slac,boot-mode tftp-only`` -- the marker
+3. ``fdt set /chosen slac,boot-mode tftp-only``, which sets the marker
    ``startup-app-init`` reads to know U-Boot already loaded the PL (see
    below).
 4. On a build with the ``aie`` machine feature, fetch ``aie/manifest`` and,
@@ -58,9 +58,9 @@ diskless flow in order:
    into ``/chosen/slac,aie/<name>`` for ``startup-app-init`` to pick up at
    boot.
 5. Fetch ``image.ub`` and ``bootm ${kernel_addr_r} ${kernel_addr_r}
-   ${fdt_addr_r}`` with the patched DTB as the explicit FDT argument -- not
+   ${fdt_addr_r}`` with the patched DTB as the explicit FDT argument (not
    ``pxe boot``, which would boot the FIT's own embedded DTB and drop the
-   overlay.
+   overlay).
 
 Each file is probed most- to least-specific, the per-MAC name before the
 generic one:
@@ -79,19 +79,19 @@ The MAC is dash-separated and lowercased. (U-Boot's ``tftpboot`` treats
 a ``:`` in a filename as a ``hostIP:file`` separator, so the env uses
 ``setexpr gsub`` to rewrite ``${ethaddr}``'s colons to dashes before the
 fetch.) A miss costs one immediate TFTP "not found" reply rather than a
-timeout, so the extra probes are effectively free -- **provided the server
+timeout, so the extra probes are effectively free, **provided the server
 is reachable**. If nothing answers at all, each probe instead waits its
 full request timeout; see **Troubleshooting**.
 
 This whole diskless sequence is one ``&&`` chain: any fetch, ``fpga load``
 or ``fdt apply`` failure aborts netboot before the kernel boots, so a net
 kernel never runs over an unprogrammed or stale PL. A ``fallback`` or
-``sd-only`` build does **not** load the PL in U-Boot at all -- its PL is
+``sd-only`` build does **not** load the PL in U-Boot at all; its PL is
 programmed later, after Linux boots, by ``startup-app-init`` running
 ``fpgautil`` against the SD card's ``/boot/pl.pdi`` and ``/boot/pl.dtbo``
 (unchanged from a normal SD boot). ``BOOT.BIN`` itself carries no PL image
-in any mode -- only the PLM and the static PDI (the PS and NoC
-configuration); the PL always comes from ``pl.pdi``, whichever path loads
+in any mode: only the PLM and the static PDI (the PS and NoC
+configuration). The PL always comes from ``pl.pdi``, whichever path loads
 it.
 
 Why the PL must be programmed before the drivers load: the
@@ -99,7 +99,7 @@ Why the PL must be programmed before the drivers load: the
 endpoints that only exist once the PL is configured, so loading them
 against an unprogrammed PL produces cryptic DMA/AXI errors (or an AXI
 bus hang). To prevent that, ``startup-app-init`` gates the ``insmod``
-step on ``$pl_programmed`` -- set when its own ``fpgautil`` load of
+step on ``$pl_programmed``, which is set when its own ``fpgautil`` load of
 ``/boot/pl.pdi`` plus ``/boot/pl.dtbo`` succeeds, or when the
 ``tftp-only`` ``/chosen slac,boot-mode`` marker is present. It does
 **not** read ``/sys/class/fpga_manager/fpga0/state`` to decide this:
@@ -107,7 +107,7 @@ Versal's FPGA manager has no state-readback op after a U-Boot-driven load
 and reports ``unknown`` regardless of whether the PL is actually
 programmed (see **Verification** below). If the PL is not programmed, it
 logs an ``ERROR: PL not programmed`` line, **skips the driver load, and
-lets Linux continue booting** rather than halting -- so the board still
+lets Linux continue booting** rather than halting, so the board still
 comes up with networking and a shell (a minimal recovery environment)
 instead of stopping. The only path that deliberately halts before Linux
 is a failed diskless fetch or load in ``tftp-only`` mode (the netboot
@@ -116,8 +116,8 @@ reaches Linux.
 
 .. note::
 
-   Because ``BOOT.BIN`` carries no PL image in any mode -- only the PLM and
-   the static PDI -- a ``fallback`` or ``sd-only`` board that is missing
+   Because ``BOOT.BIN`` carries no PL image in any mode (only the PLM and
+   the static PDI), a ``fallback`` or ``sd-only`` board that is missing
    ``/boot/pl.pdi`` or ``/boot/pl.dtbo`` boots with the PL unprogrammed and
    no DMA drivers (``startup-app-init`` prints the both-required
    ``WARNING`` described in **Verification** below); there is no
@@ -187,11 +187,11 @@ Steps
    ``image.ub`` for that board into the TFTP root (``/tftpboot``), stages
    a PXE config at ``/tftpboot/pxelinux.cfg/default``, and launches a
    standalone ``dnsmasq`` instance serving ``/tftpboot``. Re-running it
-   against an already-provisioned host is a no-op -- it does not re-prompt
+   against an already-provisioned host is a no-op: it does not re-prompt
    for ``sudo`` and does not start a second daemon. Do not hand-derive
    the TFTP server configuration yourself.
 
-   The staged ``/tftpboot/pxelinux.cfg/default`` is minimal -- it simply
+   The staged ``/tftpboot/pxelinux.cfg/default`` is minimal; it simply
    names the FIT to boot:
 
    .. code-block:: text
@@ -199,12 +199,12 @@ Steps
       LABEL Linux
       KERNEL image.ub
 
-   To give one board different boot behavior than the rest, add a
+   To give one board different boot behavior from the rest, add a
    MAC-specific override file beside it, named for that board's MAC
    address as ``pxelinux.cfg/01-aa-bb-cc-dd-ee-ff`` (the ``01-`` prefix
    plus the MAC dash-separated and lowercased). U-Boot prefers the
    MAC-specific file over ``default`` when both are present, so you can
-   repoint a single board -- at a different FIT, say -- without touching
+   repoint a single board (at a different FIT, say) without touching
    the shared ``default`` config or reflashing that board's U-Boot.
 
    For a **tftp-only** (diskless) board, also stage the Versal PL set so
@@ -225,8 +225,8 @@ Steps
    ``<name>.partition.conf`` pair from ``<dir>`` into ``aie/`` and writes
    ``aie/manifest``, which U-Boot's ``loadaie_net`` reads to decide which
    AIE images to stack; each name must be 1 to 31 characters from
-   ``A-Za-z0-9_.-``, and each sidecar exactly one ``PARTITION_ID=`` line
-   and one ``UID=`` line. ``-A`` implies ``-B`` and follows ``-M`` -- a
+   ``A-Za-z0-9_.-``, and each sidecar must contain exactly one ``PARTITION_ID=`` line
+   and one ``UID=`` line. ``-A`` implies ``-B`` and follows ``-M``: a
    per-MAC copy is staged for the AIE set too.
 
    ``-B`` without ``-A`` removes the staged AIE set: the generic AIE
@@ -234,14 +234,14 @@ Steps
    on every run that should keep serving AIE, or a rebuilt PL is served
    diskless with a stale AIE image stacked on top of it.
 
-   ``fallback``-mode servers do not need any of this -- omit
+   ``fallback``-mode servers do not need any of this: omit
    ``-B``/``-M``/``-A`` and only ``image.ub`` and the PXE config are
    staged. ``sd-only`` boards need no TFTP server at all, so this whole
    step is unnecessary for them.
 
    The server is **TFTP-only** (``dnsmasq`` runs with DNS and DHCP
    disabled), so it is safe to run alongside an existing site DHCP
-   server on the same segment -- the board still gets its lease from
+   server on the same segment; the board still gets its lease from
    that DHCP server, and this host only answers TFTP requests.
 
    If the script cannot auto-detect a built ``image.ub`` for the board
@@ -283,7 +283,7 @@ Steps
 .. _tftp-boot-modes:
 
 2. Choose the board's boot mode at build time. The boot mode is
-   baked into U-Boot -- and therefore into ``BOOT.BIN`` -- when the Yocto
+   baked into U-Boot (and therefore into ``BOOT.BIN``) when the Yocto
    image is built, via the ``-m`` flag to ``BuildYoctoProject.sh`` (see
    the :repo:`README.md` "BuildYoctoProject.sh options" section for the
    full build invocation):
@@ -310,7 +310,7 @@ Steps
    ``sd-only`` is the default, so it is applied even when ``-m`` is
    omitted, and a default build therefore does **not** netboot. The three
    modes produce byte-distinct ``BOOT.BIN`` images. To read a board's mode
-   straight out of the artifact -- no board required -- grep the ``bootcmd``
+   straight out of the artifact, with no board required, grep the ``bootcmd``
    that was baked into it:
 
    .. code-block:: bash
@@ -345,7 +345,7 @@ Steps
    The mode also decides where the PL comes from. A ``tftp-only`` build
    needs ``pl.pdi``, ``pl.dtbo`` and ``system-top.dtb`` staged on the TFTP
    server (Step 1, ``-B``/``-M``), plus the AIE set when a manifest is
-   served (``-A``), and **halts** rather than boot if any is missing. PL
+   served (``-A``), and **halts** rather than booting if any is missing. PL
    and AIE files may stay on ``/boot`` on a board that boots
    ``tftp-only``: the ``/chosen slac,boot-mode`` marker makes
    ``startup-app-init`` skip both the SD ``fpgautil`` load and the
@@ -371,7 +371,7 @@ Steps
       this: this platform keeps a saved U-Boot environment on that same
       FAT partition (see the ``saveenv`` warning in Step 3), and both a
       saved environment and a ``fatwrite`` write the boot partition from
-      U-Boot -- a path this platform never relies on and has not
+      U-Boot, a path this platform never relies on and has not
       characterized for safety. A raw ``mmc write`` risks bricking the
       boot partition entirely.
 
@@ -382,8 +382,8 @@ Steps
    These commands mirror the built-in ``netboot`` environment command
    (installed via ``CFG_EXTRA_ENV_SETTINGS``, see **How It Works**),
    which waits up to about 12 seconds for the board's EEPROM MAC to
-   become readable before running ``dhcp`` -- skipped entirely if a
-   static ``ipaddr`` is already set -- then runs the mode's PL-load step
+   become readable before running ``dhcp`` (skipped entirely if a
+   static ``ipaddr`` is already set), then runs the mode's PL-load step
    (``loadpl_net`` on ``tftp-only``, the diskless flow described above;
    ``loadpl_skip`` on ``fallback``/``sd-only``, which does nothing) and
    tries ``pxe get`` / ``pxe boot`` and, only if no PXE config is served,
@@ -395,14 +395,14 @@ Steps
    lets you set ``serverip`` explicitly (``netboot`` itself does not) and
    watch each stage.
 
-   On a ``fallback`` or ``tftp-only`` board, boot time reaches ``netboot``
-   through U-Boot's ``bootcmd`` -- ``run netboot; <mode-action>`` -- which
+   On a ``fallback`` or ``tftp-only`` board, U-Boot reaches ``netboot`` at
+   boot time through its ``bootcmd`` (``run netboot; <mode-action>``), which
    runs ``netboot`` and then the mode-specific action from Step 2 (SD boot
    for ``fallback``, halt for ``tftp-only``). The mode action runs whenever
    ``netboot`` **returns to U-Boot at all**: a successful boot hands control
    to the kernel and never comes back, so simply reaching the mode action is
    the failure signal. The fallback therefore does **not** depend on
-   ``netboot`` reporting a nonzero exit code -- some boot methods (notably
+   ``netboot`` reporting a nonzero exit code; some boot methods (notably
    ``pxe boot``) return 0 even when no kernel booted.
 
    An ``sd-only`` board's ``bootcmd`` is not of that form at all: it omits
@@ -422,7 +422,7 @@ Steps
    then ``default``) from ``serverip``, and ``pxe boot`` loads and boots
    the FIT its ``KERNEL`` line names.
 
-   **Mixed addressing -- board IP from DHCP, TFTP server set by hand.**
+   **Mixed addressing: board IP from DHCP, TFTP server set by hand.**
    When your DHCP server assigns the board's IP but does not advertise a
    usable TFTP ``next-server`` (or advertises the wrong one), set
    ``serverip`` yourself and let DHCP handle only the board address, then
@@ -446,7 +446,7 @@ Steps
 
    .. warning::
 
-      ``saveenv`` costs more than it looks. This build keeps a saved
+      ``saveenv`` costs more than it appears to. This build keeps a saved
       U-Boot environment in ``uboot.env`` (and a redundant copy,
       ``uboot-redund.env``) on the SD card's FAT boot partition. A saved
       environment overrides the one compiled into ``BOOT.BIN``, so a
@@ -454,11 +454,11 @@ Steps
       silently ignored: the board keeps booting the old way after an
       apparently successful reflash. Prefer leaving addressing volatile.
       To undo a ``saveenv``, delete ``uboot.env`` and ``uboot-redund.env``
-      from ``/boot`` in Linux and reboot -- U-Boot then falls back to the
+      from ``/boot`` in Linux and reboot; U-Boot then falls back to the
       environment compiled into ``BOOT.BIN``.
 
-   To fetch the FIT directly instead -- the fallback path ``netboot``
-   takes when no PXE config is served -- skip the ``pxe`` commands and
+   To fetch the FIT directly instead (the fallback path ``netboot``
+   takes when no PXE config is served), skip the ``pxe`` commands and
    fetch ``image.ub`` by name:
 
    .. code-block:: text
@@ -472,7 +472,7 @@ Steps
    lease prints ``DHCP client bound to address``). Set ``serverip``
    explicitly to your TFTP host rather than relying on a DHCP
    ``next-server`` option. Use the load address ``0x10000000`` exactly
-   as shown -- this is the address this platform's boot flow is built
+   as shown; this is the address this platform's boot flow is built
    around, not a generic default.
 
    On a ``tftp-only`` build, ``netboot`` first runs its ``loadpl_net``
@@ -497,12 +497,12 @@ Steps
 
    ``run loadpl_net`` does all of this by itself (with the AIE stack added
    on a build with the ``aie`` machine feature) on **any** mode's
-   ``BOOT.BIN``, since ``loadpl_net`` is defined in every mode --
+   ``BOOT.BIN``, since ``loadpl_net`` is defined in every mode;
    ``fallback`` and ``sd-only`` builds simply never call it from
    ``bootcmd``.
 
    If your network has no DHCP server, set a static IP instead (keep
-   it volatile -- do not ``saveenv`` -- so a plain ``reset`` restores the
+   it volatile, without ``saveenv``, so a plain ``reset`` restores the
    DHCP path):
 
    .. code-block:: text
@@ -555,7 +555,7 @@ logs the marker it saw:
    tftp-only boot (/chosen slac,boot-mode): U-Boot loaded pl.pdi and applied pl.dtbo, skipping the SD fpgautil load
    /sys/class/fpga_manager/fpga0/state: unknown
 
-``unknown`` is **expected** here -- Versal's FPGA manager has no
+``unknown`` is **expected** here: Versal's FPGA manager has no
 state-readback op after a U-Boot-driven load, so this line is not a failure
 indicator on ``tftp-only`` (contrast the SD path below). Confirm the mode
 from the device tree itself:
@@ -594,8 +594,8 @@ Reaching a login prompt confirms the board booted:
 The banner hostname comes from the project name of the built image
 (``SimpleVek280Example`` here), not from the ``hardware`` directory name
 (``XilinxVek280``) used in Step 1. It is the same for **all three** boot
-modes, so it does not tell you which mode's ``BOOT.BIN`` is running --
-distinguish the modes with the ``strings -a BOOT.BIN | grep -a
+modes, so it does not tell you which mode's ``BOOT.BIN`` is running.
+Distinguish the modes with the ``strings -a BOOT.BIN | grep -a
 '^bootcmd='`` check from Step 2, or by the runtime behavior (a
 ``fallback`` build SD-boots after its TFTP attempts fail; a ``tftp-only``
 build halts; an ``sd-only`` build prints ``SD-only build: skipping
@@ -638,13 +638,13 @@ Troubleshooting
        timeout (~6 s) when nothing replies: ~85 s with the daemon stopped,
        ~110 s under a silent ``DROP`` firewall rule
      - Expected when TFTP is unreachable, and **not** a hang. ICMP
-       ``destination unreachable`` does *not* shorten it -- a stopped
+       ``destination unreachable`` does *not* shorten it: a stopped
        daemon does emit it, and each attempt still times out anyway, so
        the presence or absence of ICMP lines does not distinguish the two
        cases. Restore TFTP reachability: once the server answers, a
        missing file draws an immediate ``TFTP error: 256`` refusal and the
        whole 14-name walk costs almost nothing. If the board has **no**
-       TFTP server by design, rebuild it with ``-m sd-only`` (Step 2) --
+       TFTP server by design, rebuild it with ``-m sd-only`` (Step 2);
        that removes ``run netboot`` from ``bootcmd`` entirely and is the
        structural fix rather than a workaround
    * - ``TFTP-only build: not falling back to SD`` followed by a halt
@@ -675,7 +675,7 @@ Troubleshooting
    * - Board loads a stale ``pl.pdi`` (or ``pl.dtbo``/``system-top.dtb``)
        even after re-running ``provision_tftp_host.sh``
      - A per-MAC name outranks the generic one, and a run without ``-M``
-       cannot clean per-MAC leftovers -- it only warns about them
+       cannot clean per-MAC leftovers; it only warns about them
      - Re-run with ``-M <board-MAC>``, which refreshes that per-MAC copy
    * - ``tftp-only`` netboot halts at ``Versal>`` after a fetch error on
        a manifest-named AIE PDI or its ``.partition.conf`` sidecar
@@ -688,7 +688,7 @@ Troubleshooting
        ``aie/manifest`` and that image's files with ``curl``
    * - ``ERROR: PL not programmed`` at the end of boot; no runtime
        application starts
-     - ``startup-app-init`` found ``$pl_programmed`` unset -- neither its
+     - ``startup-app-init`` found ``$pl_programmed`` unset: neither its
        own ``fpgautil`` load nor the ``tftp-only`` marker succeeded
      - On a ``tftp-only`` board confirm the diskless set staged and
        ``fpga load``/``fdt apply`` succeeded; on an SD board confirm
@@ -709,7 +709,7 @@ Troubleshooting
      - lwIP ``dhcp`` overwrote ``serverip`` with the DHCP server's own
        address, or set ``tftpserverip`` from the DHCP next-server (which
        ``tftpboot`` and ``pxe`` prefer over ``serverip``)
-     - Set ``serverip`` **before** ``run netboot`` -- the shipped
+     - Set ``serverip`` **before** ``run netboot``; the shipped
        ``netboot`` preserves a non-empty ``serverip`` across its internal
        ``dhcp`` and clears ``tftpserverip``. To return to DHCP-supplied
        addressing, clear it with ``setenv serverip``
@@ -726,7 +726,7 @@ Troubleshooting
      - Expected on a cold power-on: this prints before the EEPROM MAC
        becomes readable; ``netboot`` reads it separately, later, at the
        wait described in the next row
-     - Not a fault -- continue watching the console
+     - Not a fault; continue watching the console
    * - A pause of up to about 12 seconds appears just before ``dhcp``
        runs
      - The EEPROM MAC wait: ``netboot`` polls the board's EEPROM for up
@@ -742,8 +742,8 @@ Troubleshooting
      - Re-stage with ``-A <dir>`` from the AIE build's ``ip`` directory
    * - Journal line ``no AIE service started from /chosen/slac,aie``
      - Either no manifest was served (U-Boot passed no AIE image at
-       all), or every node under ``/chosen/slac,aie`` was malformed --
-       check the ``ERROR: malformed`` line just above it for which
+       all), or every node under ``/chosen/slac,aie`` was malformed
+       (check the ``ERROR: malformed`` line just above it for which one)
      - Re-stage the AIE set with ``-A``, or fix the malformed sidecar it
        names and rebuild
 
@@ -751,7 +751,7 @@ How long the SD fallback takes depends entirely on whether the TFTP
 server *answers*. A single ``tftpboot`` gives up after roughly 6 seconds,
 but ``netboot`` is PXE-first: ``pxe get`` tries 13 ``pxelinux.cfg`` names
 ahead of the direct FIT fetch, so a ``fallback`` board on a network with
-**no reachable TFTP server** pays that timeout 14 times over -- about
+**no reachable TFTP server** pays that timeout 14 times over: about
 85 seconds with the daemon stopped, and about 110 seconds if packets are
 silently dropped. When the server *is* reachable and merely missing a
 file, every attempt is refused immediately and the fallback is effectively
@@ -793,14 +793,14 @@ Notes
 
   .. note::
 
-     A "best-effort" variant -- where U-Boot loads a network PL if one is
-     served but continues (rather than halting) if none is -- would let a
+     A "best-effort" variant, where U-Boot loads a network PL if one is
+     served but continues (rather than halting) if none is, would let a
      net PL override an inserted SD. That is out of scope here; the
      current design keeps each mode a coherent stack (full-network in
      ``tftp-only``, SD-owned PL in ``fallback``, and no network on the
      boot path at all in ``sd-only``). If such a mode is added later, it
-     must preserve netboot's ``&&`` failure chain -- a fetch, ``fpga load``
-     or ``fdt apply`` failure must still be able to abort the boot --
+     must preserve netboot's ``&&`` failure chain (a fetch, ``fpga load``
+     or ``fdt apply`` failure must still be able to abort the boot)
      rather than relaxing the chain to ``;``.
 
 - The per-MAC filename is dash-separated (``pl.pdi.00-0a-35-00-00-01``),
@@ -813,7 +813,7 @@ Notes
   this Versal U-Boot build).
 
 - ``BOOT.BIN`` carries only the PLM and the static PDI (the PS and NoC
-  configuration) in every mode -- Versal's segmented configuration flow
+  configuration) in every mode; Versal's segmented configuration flow
   keeps the PL out of it entirely. The PL always comes from ``pl.pdi``,
   whichever path loads it: U-Boot's ``fpga load`` on ``tftp-only``, or
   ``startup-app-init``'s ``fpgautil`` on ``fallback``/``sd-only``.
