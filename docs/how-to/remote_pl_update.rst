@@ -138,34 +138,6 @@ If the board does not come back on the network at all, remove the SD
 card and restore ``pl.pdi`` on the boot partition from the
 ``.pdi.bak`` copy (or from the ``.linux.tar.gz`` it was imaged with).
 
-Alternative: Runtime Reload Without Reboot
-------------------------------------------
-
-The PL can also be reloaded on the running system through the
-``fpga_manager`` firmware interface.  This is **not persistent**: the
-next boot loads ``/boot/pl.pdi`` again.
-
-1. Stop any host-side clients (Rogue GUI, scripts).  No DMA traffic or
-   register access may happen while the PL is being reprogrammed.
-
-2. Copy the dynamic PDI into the firmware search path and load it:
-
-   .. code-block:: bash
-
-      scp SimpleVek280Example-0x02030001-20261028113245-ruckman-3385699_dynamic.pdi \
-          root@<board-ip>:/lib/firmware/pl.pdi
-      ssh root@<board-ip> 'echo pl.pdi > /sys/class/fpga_manager/fpga0/firmware; cat /sys/class/fpga_manager/fpga0/state'
-
-   The write is synchronous, so the state printed right after it
-   reflects the result (``operating`` on success).
-
-3. Verify with ``ssh root@<board-ip> axiversiondump``.
-
-The DMA kernel driver and the TCP bridge stay loaded across this reload
-and are not re-initialized.  For anything beyond a quick register check,
-prefer the reboot flow above.  To make the new image persistent, also
-perform steps 3 and 4 of the reboot flow.
-
 Notes
 -----
 
