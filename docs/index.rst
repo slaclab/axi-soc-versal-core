@@ -9,4 +9,7 @@ by downstream firmware projects.
    :maxdepth: 2
    :caption: Contents:
 
+   tutorial/index
    how-to/index
+   reference/index
+   explanation/index

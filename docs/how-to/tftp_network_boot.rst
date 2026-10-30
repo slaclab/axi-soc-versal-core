@@ -145,8 +145,7 @@ Prerequisites
 
 - The board has been imaged and booted at least once (see
   :doc:`sd_card_imaging` in this how-to section), or has had the PL updated
-  via the :repo:`README.md` section "How to remote update the PL bitstream
-  (Versal)".
+  as described in :doc:`remote_pl_update`.
 - A development host on the same network as the board, with
   ``dnsmasq`` and ``curl`` installed. The provisioning script in Step 1
   uses ``sudo`` to write the server configuration and launch the
@@ -285,8 +284,7 @@ Steps
 2. Choose the board's boot mode at build time. The boot mode is
    baked into U-Boot (and therefore into ``BOOT.BIN``) when the Yocto
    image is built, via the ``-m`` flag to ``BuildYoctoProject.sh`` (see
-   the :repo:`README.md` "BuildYoctoProject.sh options" section for the
-   full build invocation):
+   :doc:`../reference/yocto_build` for the full build invocation):
 
    .. list-table::
       :header-rows: 1
@@ -356,9 +354,9 @@ Steps
 
    To get the resulting ``BOOT.BIN`` onto the board, see
    :doc:`sd_card_imaging` for a fresh SD card, or replace it in place on a
-   board that is already imaged with the same Linux ``cp`` the
-   :repo:`README.md` section "How to remote update the PL bitstream
-   (Versal)" uses for the PL (see the warning immediately below).
+   board that is already imaged with the same ``scp`` and ``sync`` pattern
+   :doc:`remote_pl_update` uses for the PL (see the warning immediately
+   below).
 
    .. warning::
 
