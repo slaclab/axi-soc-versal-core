@@ -62,6 +62,8 @@ package AxiSocVersalPkg is
    -- List of PCIe Hardware Types
    constant HW_TYPE_UNDEFINED_C     : slv(31 downto 0) := x"00_00_00_00";
    constant HW_TYPE_XILINX_VEK280_C : slv(31 downto 0) := x"00_00_00_01";  -- XilinxVek280
+   constant HW_TYPE_XILINX_VRK160_C : slv(31 downto 0) := x"00_00_00_02";  -- XilinxVrk160
+   constant HW_TYPE_XILINX_VRK165_C : slv(31 downto 0) := x"00_00_00_03";  -- XilinxVrk165
    constant HW_TYPE_RESERVED_C      : slv(31 downto 0) := x"FF_FF_FF_FF";
 
 end package AxiSocVersalPkg;

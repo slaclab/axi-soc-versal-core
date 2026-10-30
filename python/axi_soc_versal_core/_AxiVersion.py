@@ -91,6 +91,8 @@ class AxiVersion(axi.AxiVersion):
             enum        = {
                 0x00_00_00_00: 'Undefined',
                 0x00_00_00_01: 'XilinxVek280',
+                0x00_00_00_02: 'XilinxVrk160',
+                0x00_00_00_03: 'XilinxVrk165',
                 0xFF_FF_FF_FF: 'Reserved',
             },
         ))
