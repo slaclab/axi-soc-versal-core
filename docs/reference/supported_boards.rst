@@ -30,25 +30,70 @@ Planned boards
 
 The following boards have a hardware type code reserved (see
 `Hardware type codes`_) but no ``hardware/`` directory or application
-repo yet.  Both are Versal RF Series devices with LPDDR5 and **no AI
-Engine array**.
+repo yet.  Part numbers and board parts are from the
+`XilinxBoardStore 2026.2 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx>`_
+branch (latest board revision).  Only the VEK385 and VEK386 have an AI
+Engine array; the rest follow `Boards without an AI Engine`_.
 
 .. list-table::
    :header-rows: 1
-   :widths: 22 30 26 22
+   :widths: 16 22 30 16 10
 
    * - Board model
+     - Series
      - Xilinx part number
-     - Board part (BoardStore)
+     - Board part
      - AIE
    * - `AMD VRK160 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vrk160/prod/1.0>`_
+     - Versal RF
      - xcvr1602-vsva2488-2MP-e-S
      - ``vrk160_p``
      - No
    * - `AMD VRK165 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vrk165/prod/1.0>`_
+     - Versal RF
      - xcvr1652-vsva2488-2MP-e-S
      - ``vrk165``
      - No
+   * - `AMD VPK360 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vpk360>`_
+     - Versal Premium Gen 2
+     - xc2vp3602-vsvc3340-2MP-e-S
+     - ``vpk360``
+     - No
+   * - `AMD VPK180 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vpk180>`_
+     - Versal Premium
+     - xcvp1802-lsvc4072-2MP-e-S
+     - ``vpk180``
+     - No
+   * - `AMD VPK120 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vpk120>`_
+     - Versal Premium
+     - xcvp1202-vsva2785-2MP-e-S
+     - ``vpk120``
+     - No
+   * - `AMD VMK365 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vmk365>`_
+     - Versal Prime Gen 2
+     - xc2vm3654-sfvb1440-2MP-e-s
+     - ``vmk365``
+     - No
+   * - `AMD VMK180 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vmk180>`_
+     - Versal Prime
+     - xcvm1802-vsva2197-2MP-e-S
+     - ``vmk180``
+     - No
+   * - `AMD VHK158 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vhk158>`_
+     - Versal HBM
+     - xcvh1582-vsva3697-2MP-e-S
+     - ``vhk158``
+     - No
+   * - `AMD VEK386 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vek386>`_
+     - Versal AI Edge Gen 2
+     - xc2ve3858-ssva2397-2MP-e-S
+     - ``vek386``
+     - Yes
+   * - `AMD VEK385 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vek385>`_
+     - Versal AI Edge Gen 2
+     - xc2ve3858-ssva2112-2MP-e-S
+     - ``vek385``
+     - Yes
 
 Boards without an AI Engine
 ---------------------------
@@ -136,6 +181,30 @@ firmware was built for:
    * - ``0x0000_0003``
      - ``HW_TYPE_XILINX_VRK165_C``
      - ``XilinxVrk165``
+   * - ``0x0000_0004``
+     - ``HW_TYPE_XILINX_VPK360_C``
+     - ``XilinxVpk360``
+   * - ``0x0000_0005``
+     - ``HW_TYPE_XILINX_VPK180_C``
+     - ``XilinxVpk180``
+   * - ``0x0000_0006``
+     - ``HW_TYPE_XILINX_VPK120_C``
+     - ``XilinxVpk120``
+   * - ``0x0000_0007``
+     - ``HW_TYPE_XILINX_VMK365_C``
+     - ``XilinxVmk365``
+   * - ``0x0000_0008``
+     - ``HW_TYPE_XILINX_VMK180_C``
+     - ``XilinxVmk180``
+   * - ``0x0000_0009``
+     - ``HW_TYPE_XILINX_VHK158_C``
+     - ``XilinxVhk158``
+   * - ``0x0000_000A``
+     - ``HW_TYPE_XILINX_VEK386_C``
+     - ``XilinxVek386``
+   * - ``0x0000_000B``
+     - ``HW_TYPE_XILINX_VEK385_C``
+     - ``XilinxVek385``
    * - ``0xFFFF_FFFF``
      - ``HW_TYPE_RESERVED_C``
      - ``Reserved``
