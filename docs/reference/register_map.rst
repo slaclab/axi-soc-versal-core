@@ -58,7 +58,7 @@ with a ``surf.AxiLiteCrossbar``:
 
    * - Block
      - PS address
-     - PyRogue path (``Simple-VEK280-Example``)
+     - Typical PyRogue path
    * - ``AxiVersion``
      - ``0x04_0000_0000``
      - ``Root.AxiSocCore.AxiVersion``

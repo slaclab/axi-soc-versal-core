@@ -8,77 +8,56 @@ Prerequisites
 -------------
 
 - Rogue installed in a conda environment (see :doc:`rogue_install`).
-- The board is powered on and reachable at its IP address (the examples
-  below assume the DHCP-assigned address ``10.0.0.10``).
-- The application repository cloned locally (e.g.
-  ``Simple-VEK280-Example``).
+- The board is powered on and reachable at ``<board-ip>``.
+- The application repository (``<app-repo>``) cloned locally.
 
 Steps
 -----
 
 1. Activate the Rogue environment.  On the SLAC AFS network use the
-   provided setup script:
+   application's setup script:
 
    .. code-block:: bash
 
-      source Simple-VEK280-Example/software/setup_env_slac.sh
+      source <app-repo>/software/setup_env_slac.sh
 
    On a standalone machine, activate your conda Rogue environment
    directly.
 
-2. Launch the GUI, passing the board IP address:
+2. Launch the application's GUI script, passing the board IP address.
+   SLAC example repos use ``software/scripts/devGui.py``:
 
    .. code-block:: bash
 
-      cd Simple-VEK280-Example/software
-      python scripts/devGui.py --ip 10.0.0.10
+      cd <app-repo>/software
+      python scripts/devGui.py --ip <board-ip>
 
-   To run headless (no GUI), add ``--guiType None``; the ``Root`` stays
-   up until ``Ctrl-C``:
+   The application repo's docs list any other options (for example a
+   headless mode) and describe its device tree.
 
-   .. code-block:: bash
+What the platform provides
+--------------------------
 
-      python scripts/devGui.py --ip 10.0.0.10 --guiType None
+On the board, ``startup-app-init`` starts ``roguetcpbridge``, which
+serves:
 
-What the GUI provides
----------------------
-
-``devGui.py`` constructs the application ``Root`` defined in
-`firmware/python/simple_vek280_example/_Root.py
-<https://github.com/slaclab/Simple-VEK280-Example/blob/main/firmware/python/simple_vek280_example/_Root.py>`__
-of the Simple-VEK280-Example repository, which:
-
-- Opens a TCP memory-map connection to the board's Rogue TCP bridge
-  (port 9000) and adds ``AxiSocCore`` at ``0x04_0000_0000`` and the
+- **Port 9000**: memory transactions, forwarded to
+  ``/dev/axi_memory_map``.  The application ``Root`` adds
+  ``axi_soc_versal_core.AxiSocCore`` at ``0x04_0000_0000`` and its own
   ``Application`` device at ``0x04_8000_0000``.
-- Opens TCP stream connections for DMA lane 0 (port 10000) and lane 1
-  (port 10512).
-- Starts a ZMQ server on ``127.0.0.1`` with an auto-assigned port, which
-  the PyDM GUI attaches to.
-- Launches the PyDM GUI via ``pyrogue.pydm.runPyDM()``.
-
-The device tree includes two PRBS loopback paths for exercising the DMA
-lanes:
-
-- ``SwPrbsTx``/``SwPrbsRx``: DMA lane 0 firmware loopback in the PL.
-- ``AiePrbsTx``/``AiePrbsRx``: DMA lane 1 loopback through the AIE
-  array.  This requires the AIE loopback image to be deployed (see
-  :doc:`aie_image_deploy`).
-
-``AiePrbsTx.txPeriod`` defaults to 100 us to pace the round trip below
-the DMA RX buffer pool depth.  Setting ``txPeriod=0`` saturates the TCP
-bridge and drops frames (the AIE datapath itself is lossless).
+- **Ports 10000 + 512*lane + 2*tdest**: DMA streams, one per lane and
+  ``tdest``.
 
 See :doc:`../reference/pyrogue_api` for the platform classes and the
-TCP port scheme.
+port scheme, and :doc:`../reference/register_map` for the address map.
 
 Troubleshooting
 ---------------
 
 - **Connection refused:** verify the board is booted and the IP is
-  correct.  Run ``ping 10.0.0.10`` before launching, and check that
+  correct.  Run ``ping <board-ip>`` before launching, and check that
   ``startup-app-init`` started the bridge with
-  ``ssh root@10.0.0.10 'journalctl -b -u startup-app-init'``.
+  ``ssh root@<board-ip> 'journalctl -b -u startup-app-init'``.
 - **Port 9000 already established:** another ``Root`` (on this or
   another host) already holds the memory connection.
   ``axi_soc_versal_core.connectionTest(ip)`` reports this case.  Close

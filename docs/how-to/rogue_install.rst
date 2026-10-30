@@ -18,8 +18,8 @@ The board image runs the Rogue release pinned in
 :repo:`shared/Yocto/recipes-apps/rogue/rogue.bb` (``ROGUE_VERSION``,
 currently ``6.16.0``) for its TCP bridge.  Keeping the host on the
 same release avoids version skew between the two ends of the TCP
-connection.  On SLAC AFS hosts, ``software/setup_env_slac.sh`` in
-``Simple-VEK280-Example`` activates a matching ``rogue_v6.16.0``
+connection.  On SLAC AFS hosts, application repos provide
+``software/setup_env_slac.sh``, which activates a matching Rogue conda
 environment.
 
 Once Rogue is installed, see :doc:`rogue_gui_launch` to start the

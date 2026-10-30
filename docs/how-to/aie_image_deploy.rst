@@ -7,16 +7,15 @@ where ``startup-app-init`` stacks it on top of the PL at every boot.
 Prerequisites
 -------------
 
-- The board was built for a machine with the ``aie`` feature (the VEK280
-  is; see :doc:`../reference/yocto_build`) and has booted at least once.
+- The board was built for a machine with the ``aie`` feature (see
+  :doc:`../reference/yocto_build`) and has booted at least once.
 - The PL image the AIE design connects to is already on the board
   (``/boot/pl.pdi`` and ``/boot/pl.dtbo``).
-- Vitis 2025.1 or later (``firmware/setup_env_slac.sh`` sources 2025.2).
+- Vitis 2025.1 or later.
 - SSH access to the board as ``root``.
-
-The examples use the ``AieLoopback`` component of
-``Simple-VEK280-Example``, which loops DMA lane 1 through the AIE array
-and back.
+- An AIE component directory in the application repo whose ``Makefile``
+  includes ruckus's ``system_vitis_unified_aie.mk``.  ``<AieComponent>``
+  below stands for its project name.
 
 Steps
 -----
@@ -25,49 +24,48 @@ Steps
    The AIE package step picks the newest ``.xsa`` in the Vivado target's
    ``images/`` directory.
 
-2. Build the AIE image:
+2. Build the AIE image from the AIE component directory:
 
    .. code-block:: bash
 
-      cd Simple-VEK280-Example/firmware/shared/AieLoopback/
       make
 
    This chains project creation, the ``aiecompiler`` build, packaging,
-   and sidecar generation, and writes the deliverable pair to ``ip/``:
+   and sidecar generation (ruckus ``vitis/aie/emit_partition_conf.sh``),
+   and writes the deliverable pair to ``ip/``:
 
    .. code-block:: text
 
-      ip/AieLoopback.pdi             # CDO-only partial PDI (stacks on the PL)
-      ip/AieLoopback.partition.conf  # sidecar consumed by aie-partition-init
+      ip/<AieComponent>.pdi             # CDO-only partial PDI (stacks on the PL)
+      ip/<AieComponent>.partition.conf  # sidecar consumed by aie-partition-init
 
 3. Deploy the pair to the board's ``/boot/aie/`` directory:
 
    .. code-block:: bash
 
-      make program AIE_BOARD_IP=root@10.0.0.10
+      make program AIE_BOARD_IP=root@<board-ip>
 
-   The deploy helper uploads the pair, reboots the board, and verifies
-   that the boot loop loaded the AIE image.  Without ``make program``,
-   the manual equivalent is:
+   ``make program`` runs ruckus ``vitis/aie/program.sh``, which uploads
+   the pair, reboots the board, and verifies that the boot loop loaded
+   the AIE image.  The manual equivalent is:
 
    .. code-block:: bash
 
-      ssh root@10.0.0.10 'mkdir -p /boot/aie'
-      scp ip/AieLoopback.pdi ip/AieLoopback.partition.conf root@10.0.0.10:/boot/aie/
-      ssh root@10.0.0.10 '/bin/sync; /sbin/reboot'
+      ssh root@<board-ip> 'mkdir -p /boot/aie'
+      scp ip/<AieComponent>.pdi ip/<AieComponent>.partition.conf root@<board-ip>:/boot/aie/
+      ssh root@<board-ip> '/bin/sync; /sbin/reboot'
 
 Verification
 ------------
 
 .. code-block:: bash
 
-   ssh root@10.0.0.10 'journalctl -b -u startup-app-init | grep -E "AIE|fpga0/state"'
-   ssh root@10.0.0.10 'systemctl status aie-partition-init@AieLoopback.service'
+   ssh root@<board-ip> 'journalctl -b -u startup-app-init | grep -E "AIE|fpga0/state"'
+   ssh root@<board-ip> 'systemctl status aie-partition-init@<AieComponent>.service'
 
-The journal should show ``AIE load: /boot/aie/AieLoopback.pdi`` followed
-by ``fpga0/state: operating``, and the service should be active.  Then
-run ``AiePrbsTx``/``AiePrbsRx`` from the Rogue GUI
-(:doc:`rogue_gui_launch`).
+The journal should show ``AIE load: /boot/aie/<AieComponent>.pdi``
+followed by ``fpga0/state: operating``, and the service should be
+active.
 
 Notes
 -----

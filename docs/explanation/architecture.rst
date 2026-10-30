@@ -20,7 +20,7 @@ DMA traffic crosses the PS-to-PL boundary through the
 
    ┌──────────────────────────────────────────────────────────────────────┐
    │                  Host Machine (Remote Client)                        │
-   │        PyRogue Root (e.g. software/scripts/devGui.py)                │
+   │        Application PyRogue Root                                      │
    └──────────────────────────────┬───────────────────────────────────────┘
                                   │ TCP: 9000/9001 memory,
                                   │      10000 + 512*lane + 2*tdest streams
@@ -90,9 +90,8 @@ The application connects to ``AxiSocVersalCore`` through:
 - **Clocks**: ``dmaClk`` and ``auxClk`` outputs; ``dspClk``/``dspRst``
   inputs that are only monitored.
 
-``Simple-VEK280-Example`` wires DMA lane 0 to a firmware PRBS loopback
-and routes a second stream through the AIE loopback graph; see
-:doc:`../how-to/rogue_gui_launch`.
+How an application uses these interfaces is documented in each
+application repo (see :doc:`../reference/supported_boards`).
 
 Software stack on the board
 ---------------------------

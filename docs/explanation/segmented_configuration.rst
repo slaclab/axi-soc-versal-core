@@ -44,9 +44,8 @@ Static and dynamic PDIs
 Vivado's `Segmented Configuration
 <https://github.com/Xilinx/Vivado-Design-Tutorials/tree/2025.2/Versal/Boot_and_Config/Segmented_Configuration>`_
 flow is the minimum mechanism that provides a separate runtime PDI.
-Setting ``USE_SEGMENTED_CONFIG = 1`` (in ``Simple-VEK280-Example`` this
-lives in ``firmware/targets/shared_version.mk``) makes the ruckus build
-emit:
+Setting ``USE_SEGMENTED_CONFIG = 1`` (typically in the application's
+``firmware/targets/shared_version.mk``) makes the ruckus build emit:
 
 ``<full-name>_static.pdi``
    PS, PMC and NoC configuration.  The Yocto build packs it into

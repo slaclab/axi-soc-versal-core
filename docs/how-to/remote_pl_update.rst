@@ -58,10 +58,9 @@ Prerequisites
   ``<TargetName>-<PRJ_VERSION>-<YYYYMMDDHHMMSS>-<user>-<git-short-SHA>``).
   No new ``.linux.tar.gz`` is needed.
 
-The example below updates a board running
-``SimpleVek280Example-0x02030000-20261028094242-ruckman-6b669f7`` to
-``SimpleVek280Example-0x02030001-20261028113245-ruckman-3385699``.
-Replace ``<board-ip>`` with the board's address.
+The steps below update a board running ``<old-full-name>`` to
+``<new-full-name>``.  Replace ``<board-ip>`` with the board's address.
+Application repos may show a worked example with real filenames.
 
 Steps
 -----
@@ -72,8 +71,8 @@ Steps
 
       ssh root@<board-ip> axiversiondump
 
-   ``FwVersion`` should read ``0x2030000`` and ``GitHash`` should start
-   with ``6b669f7``.
+   ``FwVersion`` should match the ``PRJ_VERSION`` of ``<old-full-name>``
+   and ``GitHash`` should start with its git short-SHA.
 
 2. Keep a copy of the current PL image on the card for rollback:
 
@@ -85,8 +84,8 @@ Steps
 
    .. code-block:: bash
 
-      cd firmware/targets/SimpleVek280Example/images
-      scp SimpleVek280Example-0x02030001-20261028113245-ruckman-3385699_dynamic.pdi \
+      cd firmware/targets/<your-target-dir>/images
+      scp <new-full-name>_dynamic.pdi \
           root@<board-ip>:/boot/pl.pdi
 
    Use the ``_dynamic.pdi``, never the ``_static.pdi``: the PLM rejects
@@ -122,8 +121,7 @@ Check the PL load result and the firmware version that
    ssh root@<board-ip> 'journalctl -b -u startup-app-init | grep -E "PL load|fpga0/state|ERROR|FwVersion|GitHash|BuildDate"'
 
 The state should be ``operating``, there should be no ``ERROR`` lines,
-``FwVersion`` should read ``0x2030001`` and ``GitHash`` should start
-with ``3385699``.  Running ``ssh root@<board-ip> axiversiondump`` prints
+``FwVersion`` and ``GitHash`` should match ``<new-full-name>``.  Running ``ssh root@<board-ip> axiversiondump`` prints
 the same information on demand.
 
 If the load fails, the journal shows the rejection triplet described in

@@ -3,14 +3,14 @@ Yocto Build
 
 Reference for :repo:`BuildYoctoProject.sh`, the shared Yocto build
 driver.  Application repos call it through a per-target
-``BuildYoctoProject`` wrapper (for example
-``firmware/targets/SimpleVek280Example/BuildYoctoProject``) that fixes
-the board-specific arguments and forwards the rest.
+``BuildYoctoProject`` wrapper
+(``firmware/targets/<TargetName>/BuildYoctoProject``) that fixes the
+board-specific arguments and forwards the rest.
 
 Wrapper options
 ---------------
 
-The ``Simple-VEK280-Example`` wrapper accepts:
+The SLAC example wrappers accept:
 
 .. list-table::
    :header-rows: 1
@@ -30,10 +30,12 @@ The ``Simple-VEK280-Example`` wrapper accepts:
    * - ``-c``
      - Force reconfigure, forwarded as ``-c``
 
-and passes these fixed values: ``-h XilinxVek280``, ``-l 2`` lanes,
-``-d 1`` ``tdest`` per lane, ``-t 128``/``-r 128`` TX/RX buffers, and
-``-s 0x80000`` (512 KiB) buffer size.  The build directory is
-``firmware/build/YoctoProjects/<TargetName>``.
+and pass the application's fixed values for ``-h`` (hardware type),
+``-l``/``-d`` (DMA lanes and ``tdest`` per lane), ``-t``/``-r`` (TX/RX
+buffer counts) and ``-s`` (buffer size); each application repo lists
+its values.  The build directory is
+``firmware/build/YoctoProjects/<TargetName>``, and ``-n`` is the target
+directory name.
 
 BuildYoctoProject.sh options
 ----------------------------
