@@ -3,8 +3,8 @@ Yocto Build
 
 Reference for :repo:`BuildYoctoProject.sh`, the shared Yocto build
 driver.  Application repos call it through a per-target
-``BuildYoctoProject`` wrapper
-(``firmware/targets/<TargetName>/BuildYoctoProject``) that fixes the
+``BuildYoctoProject.sh`` wrapper
+(``firmware/targets/<TargetName>/BuildYoctoProject.sh``) that fixes the
 board-specific arguments and forwards the rest.
 
 Wrapper options

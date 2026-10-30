@@ -5,7 +5,7 @@ The following application repos target Versal boards using the
 ``axi-soc-versal-core`` platform.  Each repo contains a board-specific
 FPGA target under ``firmware/targets/<TargetName>/`` with its own
 top-level VHDL entity, ``Makefile`` and ``ruckus.tcl``, and a
-``BuildYoctoProject`` wrapper that selects the matching
+``BuildYoctoProject.sh`` wrapper that selects the matching
 ``hardware/<HwType>/`` directory of this repo.
 
 .. list-table:: Versal Application Repos
@@ -151,7 +151,7 @@ between boards.  For the VEK280:
        and the U-Boot PHY patch
 
 The ``hardware/`` directory name must match the ``hwType`` set in the
-application's ``BuildYoctoProject`` wrapper, and its ``HW_TYPE_C`` value
+application's ``BuildYoctoProject.sh`` wrapper, and its ``HW_TYPE_C`` value
 must be listed in ``AxiSocVersalPkg.vhd`` and in the ``HW_TYPE_C`` enums
 of :repo:`python/axi_soc_versal_core/_AxiVersion.py` and
 :repo:`shared/Yocto/recipes-apps/axiversiondump/files/axiversiondump`.

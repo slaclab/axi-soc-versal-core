@@ -138,13 +138,13 @@ Yocto build
 
 The Yocto build produces the embedded Linux boot images that run on the
 Versal Processing System.  From the target directory, pass the ``.xsa``
-from the firmware build to the application's ``BuildYoctoProject``
+from the firmware build to the application's ``BuildYoctoProject.sh``
 wrapper:
 
 .. code-block:: bash
 
    cd <app-repo>/firmware/targets/<your-target-dir>/
-   ./BuildYoctoProject -f images/<full-name>.xsa
+   ./BuildYoctoProject.sh -f images/<full-name>.xsa
 
 The wrapper fixes the board-specific settings (hardware type, DMA lane
 and buffer counts) and forwards ``-m``, ``-i``, ``-e`` and ``-c`` to the
