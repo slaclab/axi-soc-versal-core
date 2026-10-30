@@ -64,6 +64,14 @@ package AxiSocVersalPkg is
    constant HW_TYPE_XILINX_VEK280_C : slv(31 downto 0) := x"00_00_00_01";  -- XilinxVek280
    constant HW_TYPE_XILINX_VRK160_C : slv(31 downto 0) := x"00_00_00_02";  -- XilinxVrk160
    constant HW_TYPE_XILINX_VRK165_C : slv(31 downto 0) := x"00_00_00_03";  -- XilinxVrk165
+   constant HW_TYPE_XILINX_VPK360_C : slv(31 downto 0) := x"00_00_00_04";  -- XilinxVpk360
+   constant HW_TYPE_XILINX_VPK180_C : slv(31 downto 0) := x"00_00_00_05";  -- XilinxVpk180
+   constant HW_TYPE_XILINX_VPK120_C : slv(31 downto 0) := x"00_00_00_06";  -- XilinxVpk120
+   constant HW_TYPE_XILINX_VMK365_C : slv(31 downto 0) := x"00_00_00_07";  -- XilinxVmk365
+   constant HW_TYPE_XILINX_VMK180_C : slv(31 downto 0) := x"00_00_00_08";  -- XilinxVmk180
+   constant HW_TYPE_XILINX_VHK158_C : slv(31 downto 0) := x"00_00_00_09";  -- XilinxVhk158
+   constant HW_TYPE_XILINX_VEK386_C : slv(31 downto 0) := x"00_00_00_0A";  -- XilinxVek386
+   constant HW_TYPE_XILINX_VEK385_C : slv(31 downto 0) := x"00_00_00_0B";  -- XilinxVek385
    constant HW_TYPE_RESERVED_C      : slv(31 downto 0) := x"FF_FF_FF_FF";
 
 end package AxiSocVersalPkg;
