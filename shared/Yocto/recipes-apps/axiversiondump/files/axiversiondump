@@ -234,6 +234,16 @@ if __name__ == "__main__":
                 enum        = {
                     0x00_00_00_00: 'Undefined',
                     0x00_00_00_01: 'XilinxVek280',
+                    0x00_00_00_02: 'XilinxVrk160',
+                    0x00_00_00_03: 'XilinxVrk165',
+                    0x00_00_00_04: 'XilinxVpk360',
+                    0x00_00_00_05: 'XilinxVpk180',
+                    0x00_00_00_06: 'XilinxVpk120',
+                    0x00_00_00_07: 'XilinxVmk365',
+                    0x00_00_00_08: 'XilinxVmk180',
+                    0x00_00_00_09: 'XilinxVhk158',
+                    0x00_00_00_0A: 'XilinxVek386',
+                    0x00_00_00_0B: 'XilinxVek385',
                     0xFF_FF_FF_FF: 'Reserved',
                 },
             ))

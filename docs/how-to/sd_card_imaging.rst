@@ -380,7 +380,7 @@ After imaging
 
    .. code-block:: bash
 
-      ping -c 4 10.0.0.10
+      ping -c 4 <board-ip>
 
 5. Connect a serial console (115200 baud, e.g. ``/dev/ttyUSB1``) if the
    network does not come up; the serial console shows the bootloader and
@@ -392,7 +392,7 @@ After imaging
 
 6. The tarball carries no AIE image.  Deploy the AIE pair after the
    first boot with ``make program AIE_BOARD_IP=root@<board-ip>`` from
-   the AIE component directory (for example ``firmware/shared/AieLoopback``
-   in Simple-VEK280-Example), or copy ``<name>.pdi`` and
+   the application's AIE component directory (see
+   :doc:`aie_image_deploy`), or copy ``<name>.pdi`` and
    ``<name>.partition.conf`` into ``/boot/aie/`` on the board, ``sync``
    and reboot.
