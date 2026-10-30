@@ -518,7 +518,7 @@ A bound DHCP lease is the first sign networking is up:
 
 .. code-block:: text
 
-   DHCP client bound to address 10.0.0.10 (1015 ms)
+   DHCP client bound to address <board-ip> (1015 ms)
 
 A successful kernel FIT fetch reports its size (roughly 111 MiB for this
 build):
@@ -533,7 +533,7 @@ draws an immediate refusal and the generic name follows right behind it:
 .. code-block:: text
 
    Filename 'pl.pdi.00-0a-35-00-00-01'.
-   TFTP error: 256 (file /tftpboot/pl.pdi.00-0a-35-00-00-01 not found for 10.0.0.10)
+   TFTP error: 256 (file /tftpboot/pl.pdi.00-0a-35-00-00-01 not found for <board-ip>)
    Filename 'pl.pdi'.
    Bytes transferred = 2274720
 
@@ -602,7 +602,7 @@ reachable over the network:
 
 .. code-block:: bash
 
-   ping -c 4 10.0.0.10
+   ping -c 4 <board-ip>
 
 Troubleshooting
 ----------------
