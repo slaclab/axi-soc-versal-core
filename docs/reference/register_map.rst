@@ -156,6 +156,7 @@ Clocks
    * - ``aieClk``
      - application
      - Input; clocks the ``aieIbMasters``/``aieObMasters`` streams
+       (AIE-capable boards only)
 
 Stream configurations
 ---------------------
@@ -165,8 +166,8 @@ application must match:
 
 - ``DMA_AXIS_CONFIG_C``: 16-byte (128-bit) ``tData``, 8-bit ``tDest``,
   3-bit ``tId``, 4-bit ``tUser`` (first/last mode), compact ``tKeep``.
-- ``AIE_AXIS_CONFIG_C``: 16-byte (128-bit) ``tData``, no ``tDest``,
-  ``tId`` or ``tUser``, normal ``tKeep``.
+- ``AIE_AXIS_CONFIG_C`` (AIE-capable boards): 16-byte (128-bit)
+  ``tData``, no ``tDest``, ``tId`` or ``tUser``, normal ``tKeep``.
 
 External references
 -------------------

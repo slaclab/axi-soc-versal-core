@@ -157,8 +157,9 @@ The board's ``versal-user.conf`` gates optional userspace:
    ``versal-user.conf`` (for the VEK280:
    ``MACHINE_FEATURES:append = " vdu aie"``), the build prints
    ``MACHINE_FEATURES=aie detected: Including AIE partition-init`` and
-   adds ``aie-partition-init`` to ``IMAGE_INSTALL``.  Boards without the
-   token get no AIE recipe, binary or unit.
+   adds ``aie-partition-init`` to ``IMAGE_INSTALL``.  Boards without an
+   AI Engine array (for example the VRK160 and VRK165) omit the token
+   and get no AIE recipe, binary or unit.
 
 ``rfsoc``
    When ``MACHINE_FEATURES:append = " rfsoc"`` is present, ``pyrfdc`` is

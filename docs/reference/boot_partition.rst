@@ -60,9 +60,10 @@ Files in ``/boot``
    * - ``ssh/``
      - Persistent SSH host keys, generated on first boot
    * - ``aie/<name>.pdi``
-     - CDO-only AIE partial PDI (see :doc:`../how-to/aie_image_deploy`)
+     - CDO-only AIE partial PDI (see :doc:`../how-to/aie_image_deploy`);
+       AIE-capable boards only
    * - ``aie/<name>.partition.conf``
-     - Sidecar for ``aie-partition-init``
+     - Sidecar for ``aie-partition-init``; AIE-capable boards only
 
 startup-app-init sequence
 -------------------------

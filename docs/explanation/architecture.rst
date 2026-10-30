@@ -4,7 +4,7 @@ Platform Architecture
 This page is the platform-level architecture narrative for
 ``axi-soc-versal-core``.  The platform provides the core infrastructure
 (PS block design wrapper, AXI-Lite register bridge, DMA engine, AIE
-stream ports, and the shared Yocto build) that every Versal application
+stream ports on AIE-capable devices, and the shared Yocto build) that every Versal application
 repo builds upon.  Per-board details are in
 :doc:`../reference/supported_boards`.
 
@@ -25,7 +25,7 @@ DMA traffic crosses the PS-to-PL boundary through the
                                   │ TCP: 9000/9001 memory,
                                   │      10000 + 512*lane + 2*tdest streams
    ┌──────────────────────────────▼───────────────────────────────────────┐
-   │                      Versal Board (PS + PL + AIE)                    │
+   │                    Versal Board (PS + PL [+ AIE])                    │
    │                                                                      │
    │  PS (Linux): roguetcpbridge ── /dev/axi_memory_map                   │
    │                             └─ /dev/axi_stream_dma_0                 │
@@ -33,7 +33,7 @@ DMA traffic crosses the PS-to-PL boundary through the
    │  ┌─────▼────────────────────▼──────────────────────────┴───────────┐ │
    │  │                  AxiSocVersalCore  (U_Core)                     │ │
    │  │  AxiSocVersalCpu ── AxiSocVersalReg ── AxiSocVersalDma          │ │
-   │  │  (CIPS/NoC/AIE BD)  (AxiVersion,       (AxiStreamDmaV2,         │ │
+   │  │  (CIPS/NoC[/AIE] BD)(AxiVersion,       (AxiStreamDmaV2,         │ │
    │  │                      AXIS monitors)     DMA_SIZE_G lanes)       │ │
    │  └──────┬─────────────────┬──────────────────────┬─────────────────┘ │
    │         │ aie* streams    │ app AXI-Lite         │ dma* streams      │
@@ -50,8 +50,8 @@ application instantiates.  It contains three blocks:
 
 ``AxiSocVersalCpu`` (board-specific, ``hardware/<HwType>/rtl/``)
    Wraps the Vivado block design ``AxiSocVersalCpuCore.bd``: the CIPS
-   (PS and PMC), the NoC with LPDDR controllers, and the AI Engine
-   array.  It converts the PS ``M_AXI_FPD`` and ``M_AXI_LPD`` masters to
+   (PS and PMC), the NoC with LPDDR controllers, and, on AIE-capable
+   devices, the AI Engine array.  It converts the PS ``M_AXI_FPD`` and ``M_AXI_LPD`` masters to
    AXI-Lite (``AxiSocVersalAxiConvt``), exposes a 128-bit AXI4 slave
    through the NoC for DMA data, and generates ``dmaClk`` (250 MHz) and
    ``auxClk`` (100 MHz) from the PL reference clock with a
@@ -86,7 +86,9 @@ The application connects to ``AxiSocVersalCore`` through:
   the ``dmaClk`` domain with ``DMA_AXIS_CONFIG_C`` (128-bit).
 - **AIE streams** (``aieIbMasters``/``aieObMasters``), ``AIE_SIZE_G``
   ports in the application-supplied ``aieClk`` domain with
-  ``AIE_AXIS_CONFIG_C`` (128-bit).
+  ``AIE_AXIS_CONFIG_C`` (128-bit).  On boards without an AI Engine array
+  the ports are tied off inside ``AxiSocVersalCpu`` and the application
+  leaves them unconnected.
 - **Clocks**: ``dmaClk`` and ``auxClk`` outputs; ``dspClk``/``dspRst``
   inputs that are only monitored.
 
@@ -120,7 +122,7 @@ Boot flow
    modes, see :doc:`../how-to/tftp_network_boot`).
 3. Linux runs ``startup-app-init``, which loads the dynamic PDI
    ``/boot/pl.pdi`` with its overlay ``/boot/pl.dtbo``, then the drivers,
-   then any AIE images.
+   then any AIE images (AIE-capable boards only).
 
 Splitting the PL from ``BOOT.BIN`` is what makes remote PL updates
 possible, and it is also why the NoC must be locked between builds.
@@ -136,3 +138,5 @@ Further reading
 - :doc:`segmented_configuration`: static and dynamic PDIs and the NoC
   lock
 - :doc:`aie_runtime_loading`: how AIE images are stacked on the PL
+- :doc:`../reference/supported_boards`: which boards have an AI Engine,
+  and what differs on boards without one

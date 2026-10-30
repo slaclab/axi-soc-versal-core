@@ -7,8 +7,10 @@ where ``startup-app-init`` stacks it on top of the PL at every boot.
 Prerequisites
 -------------
 
-- The board was built for a machine with the ``aie`` feature (see
-  :doc:`../reference/yocto_build`) and has booted at least once.
+- The board has an AI Engine array (see the AIE column in
+  :doc:`../reference/supported_boards`), was built for a machine with the
+  ``aie`` feature (see :doc:`../reference/yocto_build`), and has booted
+  at least once.  Boards without an AI Engine skip this page.
 - The PL image the AIE design connects to is already on the board
   (``/boot/pl.pdi`` and ``/boot/pl.dtbo``).
 - Vitis 2025.1 or later.

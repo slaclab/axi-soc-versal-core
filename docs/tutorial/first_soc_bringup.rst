@@ -238,7 +238,7 @@ Next steps
 
 - Iterate on the PL without re-imaging the card:
   :doc:`../how-to/remote_pl_update`.
-- Load an AI Engine image on top of the PL:
+- Load an AI Engine image on top of the PL (AIE-capable boards only):
   :doc:`../how-to/aie_image_deploy`.
 - Understand the platform blocks and address map:
   :doc:`../explanation/architecture` and

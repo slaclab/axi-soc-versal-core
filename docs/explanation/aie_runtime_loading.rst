@@ -6,6 +6,13 @@ boot, and why the loader is built the way it is.  The file layout and
 the exact sequence are in :doc:`../reference/boot_partition`; the
 deploy procedure is in :doc:`../how-to/aie_image_deploy`.
 
+This applies only to boards with an AI Engine array.  On a board without
+one, the board's ``versal-user.conf`` omits the ``aie`` machine feature,
+so the image carries no ``aie-partition-init``, the kernel exposes no
+``/sys/class/aie``, and ``startup-app-init`` logs
+``AIE not present (no /sys/class/aie) - skipping AIE PDI load`` and
+continues.
+
 Images stack on the PL
 ----------------------
 
