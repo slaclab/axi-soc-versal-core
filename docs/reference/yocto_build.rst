@@ -158,7 +158,7 @@ The board's ``versal-user.conf`` gates optional userspace:
    ``MACHINE_FEATURES:append = " vdu aie"``), the build prints
    ``MACHINE_FEATURES=aie detected: Including AIE partition-init`` and
    adds ``aie-partition-init`` to ``IMAGE_INSTALL``.  Boards without an
-   AI Engine array (for example the VRK160 and VRK165) omit the token
+   AI Engine array (for example the VPK180 and VMK180) omit the token
    and get no AIE recipe, binary or unit.
 
 ``rfsoc``
