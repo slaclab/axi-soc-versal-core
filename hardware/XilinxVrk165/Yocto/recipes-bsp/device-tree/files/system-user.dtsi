@@ -1,0 +1,84 @@
+/ {
+	chosen {
+		bootargs = " earlycon console=ttyAMA0,115200 clk_ignore_unused root=/dev/ram0 rw net.ifnames=0 biosdevname=0 cma=1536M";
+		stdout-path = "serial0:115200n8";
+		xlnx,eeprom = &eeprom;
+	};
+
+	aliases {
+		nvmem0 = &eeprom;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		cma_reserved: cma@0 {
+			compatible = "shared-dma-pool";
+			reusable;
+			reg = <0x0 0x80000000 0x0 0x60000000>; /* 1.5 GB reserved at 2GB boundary */
+			alignment = <0 0x1000>;
+			no-map;
+		};
+	};
+};
+&i2c1 { /* PMC_MIO44/45 */
+	/* From versal-vrk160-revA.dts of u-boot-xlnx: the board EEPROM sits behind the PCA9541 arbitrator shared with the SC */
+	i2carb: i2c-arbitrator@72 { /* u18 */
+		compatible = "nxp,pca9541";
+		reg = <0x72>;
+
+		i2carb1: i2c-arb {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			/* Use for storing information about board */
+			eeprom: eeprom@54 { /* u21 - m24128 16kB */
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "st,24c128", "atmel,24c128";
+				reg = <0x54>; /* & 0x5c */
+				/* Versal MAC of the FRU 0xD2 record, at the XilinxVek280 offset; to be confirmed at bring-up */
+				mac_address: mac-address@A8 {
+					reg = <0xA8 6>;
+				};
+			};
+		};
+	};
+};
+&gem0 { /* PMC_MIO_48, LPD_MIO0-11/24/25 */
+	nvmem-cells = <&mac_address>;
+	nvmem-cell-names = "mac-address";
+	/* From versal-vrk165-revA.dts of u-boot-xlnx; delays as numbers (0xb = 3.00 ns, 0xa = 2.75 ns) */
+	phy-handle = <&phy0>;
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		phy0: ethernet-phy@1 {
+			#phy-cells = <1>;
+			compatible = "ethernet-phy-id2000.a231";
+			reg = <1>;
+			ti,rx-internal-delay = <0xb>;
+			ti,tx-internal-delay = <0xa>;
+			ti,fifo-depth = <1>;
+			ti,dp83867-rxctrl-strap-quirk;
+			reset-assert-us = <100>;
+			reset-deassert-us = <280>;
+			reset-gpios = <&gpio0 12 1>; /* GPIO_ACTIVE_LOW */
+		};
+	};
+};
+&sdhci1 { /* PMC_MIO26-36/51 */
+	status = "okay";
+	no-1-8-v;
+	disable-wp;
+};
+/ {
+	axi_stream_dma_0@80000000 {
+		compatible = "axi_stream_dma";
+		reg = <0x0 0x80000000 0x0 0x10000>;
+		interrupts = <0 84 4>;
+		interrupt-parent = <&gic>;
+	};
+};
