@@ -24,6 +24,23 @@ top-level VHDL entity, ``Makefile`` and ``ruckus.tcl``, and a
      - SimpleVek280Example
      - XilinxVek280
      - Yes
+   * - `Simple-VRK160-Example <https://github.com/slaclab/Simple-VRK160-Example>`_
+     - AMD VRK160
+     - xcvr1602-vsva2488-2MP-e-S
+     - SimpleVrk160Example
+     - XilinxVrk160
+     - Yes
+   * - `Simple-VRK165-Example <https://github.com/slaclab/Simple-VRK165-Example>`_
+     - AMD VRK165
+     - xcvr1652-vsva2488-2MP-e-S
+     - SimpleVrk165Example
+     - XilinxVrk165
+     - Yes
+
+The VRK160 and VRK165 entries are build-verified (synthesis,
+implementation with timing met, AI Engine graph compile and Yocto build)
+with no on-board verification yet.  No PL device image has been produced
+for these parts yet.
 
 Planned boards
 --------------
@@ -32,8 +49,8 @@ The following boards have a hardware type code reserved (see
 `Hardware type codes`_) but no ``hardware/`` directory or application
 repo yet.  Part numbers and board parts are from the
 `XilinxBoardStore 2026.2 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx>`_
-branch (latest board revision).  The VRK160, VRK165, VEK385 and VEK386
-have an AI Engine array; the rest follow `Boards without an AI Engine`_.
+branch (latest board revision).  The VEK385 and VEK386 have an AI Engine
+array; the rest follow `Boards without an AI Engine`_.
 
 .. list-table::
    :header-rows: 1
@@ -44,16 +61,6 @@ have an AI Engine array; the rest follow `Boards without an AI Engine`_.
      - Xilinx part number
      - Board part
      - AIE
-   * - `AMD VRK160 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vrk160/prod/1.0>`_
-     - Versal RF
-     - xcvr1602-vsva2488-2MP-e-S
-     - ``vrk160_p``
-     - Yes
-   * - `AMD VRK165 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vrk165/prod/1.0>`_
-     - Versal RF
-     - xcvr1652-vsva2488-2MP-e-S
-     - ``vrk165``
-     - Yes
    * - `AMD VPK360 <https://github.com/Xilinx/XilinxBoardStore/tree/2026.2/boards/Xilinx/vpk360>`_
      - Versal Premium Gen 2
      - xc2vp3602-vsvc3340-2MP-e-S
