@@ -1,8 +1,8 @@
 # Load RUCKUS environment and library
 source $::env(RUCKUS_PROC_TCL)
 
-# Check for version 2026.1.1 of Vivado (or later): Vivado 2026.1 installs only the ES1 board files
-if { [VersionCheck 2026.1.1] < 0 } {exit -1}
+# Check for version 2026.2 of Vivado (or later)
+if { [VersionCheck 2026.2] < 0 } {exit -1}
 
 # Check for valid FPGA (production silicon only, reject ES1 parts first)
 if { [string match "*-es1*" $::env(PRJ_PART)] } {

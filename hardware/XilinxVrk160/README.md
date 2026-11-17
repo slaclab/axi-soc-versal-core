@@ -1,7 +1,7 @@
 # XilinxVrk160
 
 Hardware support for the AMD VRK160 evaluation board (Versal RF, part `xcvr1602-vsva2488-2MP-e-S`, board part
-`xilinx.com:vrk160_p:part0:1.0`). `ruckus.tcl` accepts production silicon only, aborts on ES1 parts and needs Vivado 2026.1.1 or
+`xilinx.com:vrk160_p:part0:1.0`). `ruckus.tcl` accepts production silicon only, aborts on ES1 parts and needs Vivado 2026.2 or
 later.
 
 ## Board files
@@ -10,13 +10,13 @@ The board files come from the Vivado install; nothing is stored in this director
 `xilinx.com:vrk160_p:part0:1.0` directly. Vivado 2026.1.1 installs the production `vrk160_p` 1.0 files
 (`data/xhub/boards/XilinxBoardStore/boards/Xilinx/vrk160/prod/1.0` of the install). Vivado 2026.1 installs
 only the ES1 board files (`xilinx.com:vrk160:part0:1.2`), whose ES1 parts are missing from the 2026.1 device
-library, which is why `ruckus.tcl` asks for Vivado 2026.1.1 or later.
+library, so Vivado 2026.1 cannot build this board. `ruckus.tcl` requires Vivado 2026.2 or later.
 
 ## Block design seed
 
 The seed of `bd/2026.1/AxiSocVersalCpuCore.tcl` is produced by `scripts/gen_vrk_bd_seed.tcl` from the AMD Versal
 Embedded Common Platform 2.0 example design (`versal_comn_platform`, `vrk_base_board.tcl`) in Vivado 2026.1. To
-regenerate it, use Vivado 2026.1.1 or later and run from a scratch directory outside the repository:
+regenerate it, use Vivado 2026.2 or later and run from a scratch directory outside the repository:
 
 ```
 vivado -mode batch -notrace -nojournal -source <core root>/scripts/gen_vrk_bd_seed.tcl \
@@ -99,7 +99,7 @@ DDRMC5 (per controller):
 from the seed. Do not edit them by hand; change the script and regenerate. Two independent runs (seed generator
 followed by the builder) on Vivado 2026.1 reproduce both files byte for byte; on Vivado 2026.1.1 the `.tcl` is unchanged
 and the `.bd` differs only in the recorded tool version and IP revision lines. `ruckus.tcl` loads the `.bd`; the `.tcl`
-line stays commented. To regenerate, use Vivado 2026.1.1 or later and run from a scratch directory outside the
+line stays commented. To regenerate, use Vivado 2026.2 or later and run from a scratch directory outside the
 repository:
 
 ```
