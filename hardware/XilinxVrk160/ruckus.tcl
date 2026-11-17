@@ -1,8 +1,8 @@
 # Load RUCKUS environment and library
 source $::env(RUCKUS_PROC_TCL)
 
-# Check for version 2026.1.1 of Vivado (or later): Vivado 2026.1 installs only the ES1 board files
-if { [VersionCheck 2026.1.1] < 0 } {exit -1}
+# Check for version 2026.2 of Vivado (or later)
+if { [VersionCheck 2026.2] < 0 } {exit -1}
 
 # Check for valid FPGA (production silicon only, reject ES1 parts first)
 if { [string match "*-es1*" $::env(PRJ_PART)] } {
@@ -18,10 +18,10 @@ loadConstraints -dir "$::DIR_PATH/xdc"
 loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/rtl"
 
 # Set the board part
-set_property board_part xilinx.com:vrk160_p:part0:1.0 [current_project]
+set_property board_part xilinx.com:vrk160_p:part0:1.1 [current_project]
 
 # Load the block design
-set bdVer "2026.1"
+set bdVer "2026.2"
 loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
 # loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
 
