@@ -41,8 +41,8 @@ The example design hardcodes `LPDDR5X-8533` with `DDRMC5_F0_TCK` 938 (C0, C1) an
 values. With the production board loaded, the board preset yields `LPDDR5X-7500` with tCK 1087 (C0, C1) and 1081
 (C2, C3). The generator asserts this on every controller and aborts otherwise, instead of re-applying the preset.
 
-- The wrapper-level `DDRMC5_F0_RL` 25 and `DDRMC5_F0_WL` 12 are left over from the 8533 values. The inner memory
-  controller IP ignores them (inner values 22 and 11, `IP_Flow 19-3374` warning expected). They are left as generated.
+- The generated `DDRMC5_CONFIG` kept values left over from 8533 (`F0`/`F1` RL 25 and WL 12, `LP5_TCSPD` 10938 and
+  10952, `F1_TCK` 938 and 952). The 2026.2 template alignment (see SLAC block design) replaces them with the 7500 values.
 - The reference clock of C0 and C1 is plain at 3125 ps. C2 and C3 use `Lpddr5_Controller_C2_Bank_706_707_int` and
   `Lpddr5_Controller_C3_Bank_709_710_int` at 5000 ps, following the example design.
 
@@ -110,6 +110,20 @@ The re-save records the 2026.2 tool version and IP revisions, adds the new `DDRM
 pins `PMC_MIO0` to `PMC_MIO10` (the 2026.2 `ps_wizard` default, which the 1.1 board files no longer override). The
 wrapper port list is unchanged.
 
+The re-saved files are then aligned with the Vivado 2026.2 `edf_base` 3.0 example design (Versal Embedded Common
+Platform - No PL, the successor of `versal_comn_platform`) instantiated on board part `xilinx.com:vrk160_p:part0:1.1`. Apart
+from the seed overrides below, every `PS_PMC_CONFIG` and `DDRMC5_CONFIG` key now matches that design:
+
+- `DDRMC5_CONFIG` of `NoC_C0` to `NoC_C3` takes the template values: `F0` and `F1` RL 22 and WL 11, `F1_TCK` equal to
+  `F0_TCK`, `LP5_TCSPD` 11087 (C0, C1) and 11081 (C2, C3), `SCRUB_SIZE` 0 and no `ON_DIE_ECC`. The NoC IP keeps its own
+  `MCx_CONFIG_SEL` and drops `DRAM_WIDTH` on any `DDRMC5_CONFIG` change (`DATA_WIDTH` stays 16).
+- `PMC_MIO0` to `PMC_MIO10` are removed from `PS_PMC_CONFIG`, so the OSPI pins use the `ps_wizard` defaults as in the
+  template.
+- The nine `SMON_MEAS*` supply channels of the template are added (VCCAUX, VCCAUX_PMC, VCCINT, VCC_PMC, VCC_PSFP,
+  VCC_PSLP, VCC_RAM, VCC_SOC, VP_VN; alarms off).
+
+The generator scripts below do not reproduce this alignment.
+
 To regenerate, use Vivado 2026.2 or later and run from a scratch directory outside the repository:
 
 ```
@@ -141,7 +155,7 @@ contract by name, direction and type.
 | `PS_LPD_AXI_PL_DATA_WIDTH` | absent (128) | `32` | 32-bit `dmaCtrl` |
 | `clk_wizard_0`, `rst_clk` | present | removed | `plClk` and `plRstL` are driven from `pl0_ref_clk` and `pl0_resetn` |
 
-No other `PS_PMC_CONFIG` key differs from the seed. In particular the board preset settings of the Ethernet, USB, SD,
+Apart from the 2026.2 template alignment, no other `PS_PMC_CONFIG` key differs from the seed. In particular the board preset settings of the Ethernet, USB, SD,
 OSPI, I2C, UART, TTC, GPIO and MIO blocks are untouched. The AIE array is set to one clock (`aclk0`), 16 slave and 16
 master PL streams, 16 byte `TDATA` on the master side, with `ASSOCIATED_BUSIF` listing all 32 interfaces.
 
