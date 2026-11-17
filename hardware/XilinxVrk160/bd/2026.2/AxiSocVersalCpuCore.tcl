@@ -20,16 +20,16 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2026.1
-set current_vivado_version [version -short]
+set scripts_product_version 2026.2
+set current_product_version [version -short]
 
-if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
+if { [string first $scripts_product_version $current_product_version] == -1 } {
    puts ""
-   if { [string compare $scripts_vivado_version $current_vivado_version] > 0 } {
-      catch {common::send_gid_msg -ssname BD::TCL -id 2042 -severity "ERROR" " This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Sourcing the script failed since it was created with a future version of Vivado."}
+   if { [string compare $scripts_product_version $current_product_version] > 0 } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2042 -severity "ERROR" " This script was generated using Vivado <$scripts_product_version> and is being run in Vivado <$current_product_version>. Sourcing the script failed since it was created with a future version of Vivado."}
 
    } else {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+     catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_product_version> and is being run in Vivado <$current_product_version>. Please run the script in Vivado <$scripts_product_version> then open the design in Vivado <$current_product_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
 
    }
 
@@ -49,8 +49,8 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvr1652-vsva2488-2MP-e-S
-   set_property BOARD_PART xilinx.com:vrk165:part0:1.0 [current_project]
+   create_project project_1 myproj -part xcvr1602-vsva2488-2MP-e-S
+   set_property BOARD_PART xilinx.com:vrk160_p:part0:1.1 [current_project]
 }
 
 
@@ -601,19 +601,19 @@ proc create_root_design { parentCell } {
     CONFIG.PS_PMC_CONFIG(PMC_CRP_HSM1_REF_CTRL_FREQMHZ) {200} \
     CONFIG.PS_PMC_CONFIG(PMC_CRP_PL0_REF_CTRL_FREQMHZ) {250} \
     CONFIG.PS_PMC_CONFIG(PMC_HSM1_CLK_OUT_ENABLE) {1} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO0) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION out} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO1) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO10) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION out} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO0) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION out} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO1) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO10) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION out} \
     CONFIG.PS_PMC_CONFIG(PMC_MIO12) {DRIVE_STRENGTH 8mA SLEW slow PULL pullup SCHMITT 0 AUX_IO 0 USAGE GPIO OUTPUT_DATA default DIRECTION out} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO2) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO3) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO2) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO3) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
     CONFIG.PS_PMC_CONFIG(PMC_MIO36) {DRIVE_STRENGTH 8mA SLEW slow PULL pullup SCHMITT 0 AUX_IO 0 USAGE GPIO OUTPUT_DATA default DIRECTION in} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO4) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO5) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO6) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION in} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO7) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO8) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
-    CONFIG.PS_PMC_CONFIG(PMC_MIO9) {DRIVE_STRENGTH 12mA SLEW slow PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO4) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO5) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO6) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION in} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO7) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO8) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
+    CONFIG.PS_PMC_CONFIG(PMC_MIO9) {DRIVE_STRENGTH 12mA SLEW fast PULL pullup SCHMITT 1 AUX_IO 0 USAGE Reserved OUTPUT_DATA default DIRECTION inout} \
     CONFIG.PS_PMC_CONFIG(PMC_OSPI_PERIPHERAL) {PRIMARY_ENABLE 1 SECONDARY_ENABLE 0 IO PMC_MIO_0:13 MODE Single} \
     CONFIG.PS_PMC_CONFIG(PMC_SD0_30AD) {CD_ENABLE 0 POW_ENABLE 0 WP_ENABLE 0 RESET_ENABLE 0 CD_IO PMC_MIO_24 POW_IO PMC_MIO_17 WP_IO PMC_MIO_25 RESET_IO PMC_MIO_17 CLK_50_SDR_ITAP_DLY 0x00 CLK_50_SDR_OTAP_DLY\
 0x00 CLK_50_DDR_ITAP_DLY 0x00 CLK_50_DDR_OTAP_DLY 0x00 CLK_100_SDR_OTAP_DLY 0x00 CLK_200_SDR_OTAP_DLY 0x00} \
@@ -679,7 +679,6 @@ proc create_root_design { parentCell } {
     CONFIG.NUM_MI {0} \
     CONFIG.NUM_NMI {8} \
     CONFIG.NUM_SI {8} \
-    CONFIG.SI_SIDEBAND_PINS {} \
   ] $Master_NoC
 
 
@@ -886,6 +885,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {3125} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {128} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_IP_TIMEPERIOD0_FOR_OP) {2500} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
@@ -906,6 +906,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TIMEPERIOD0) {313} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {ROW_BANK_COLUMN} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
@@ -1029,6 +1030,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {3125} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {128} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_IP_TIMEPERIOD0_FOR_OP) {2500} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
@@ -1049,6 +1051,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TIMEPERIOD0) {313} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {ROW_BANK_COLUMN} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
@@ -1161,6 +1164,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {5000} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_IP_TIMEPERIOD0_FOR_OP) {2500} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
@@ -1181,6 +1185,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TIMEPERIOD0) {313} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {ROW_BANK_COLUMN} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
@@ -1294,6 +1299,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {5000} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_IP_TIMEPERIOD0_FOR_OP) {2500} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
@@ -1314,6 +1320,7 @@ proc create_root_design { parentCell } {
     CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TIMEPERIOD0) {313} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {ROW_BANK_COLUMN} \
     CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
@@ -1565,7 +1572,6 @@ proc create_root_design { parentCell } {
   # Create instance: ConfigNoc, and set properties
   set ConfigNoc [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc2:1.1 ConfigNoc ]
   set_property -dict [list \
-    CONFIG.MI_SIDEBAND_PINS {} \
     CONFIG.NUM_NSI {1} \
     CONFIG.NUM_SI {0} \
   ] $ConfigNoc

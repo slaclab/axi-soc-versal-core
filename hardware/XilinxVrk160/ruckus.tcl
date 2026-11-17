@@ -18,10 +18,10 @@ loadConstraints -dir "$::DIR_PATH/xdc"
 loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/rtl"
 
 # Set the board part
-set_property board_part xilinx.com:vrk160_p:part0:1.0 [current_project]
+set_property board_part xilinx.com:vrk160_p:part0:1.1 [current_project]
 
 # Load the block design
-set bdVer "2026.1"
+set bdVer "2026.2"
 loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
 # loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
 
