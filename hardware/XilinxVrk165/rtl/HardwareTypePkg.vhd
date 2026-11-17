@@ -27,8 +27,12 @@ package HardwareTypePkg is
    -- Flat vectors on purpose: the top-level ports of a VHDL record are named
    -- psMemOut[<field>][<bit>], and with such names the LPDDR5 controller placement
    -- check of opt_design (Mig 66-441) rejects the legal WCK pins. Vector ports pass.
-   -- Bit order is the port order of the AxiSocVersalCpuCore component, see the
-   -- psMem port map region of AxiSocVersalCpu.vhd for the bit of every memory port.
+   -- Bit order is the port order of the AxiSocVersalCpuCore component, except that
+   -- psMemInOut packs every DQ bus first, each one starting on a multiple of its
+   -- width, then the DMI buses: Vivado 2026.2 opt_design (Mig 66-441) takes the DQ
+   -- byte lane from the port bit index and rejects a DQ bus that does not start on a
+   -- byte boundary. See the psMem port map region of AxiSocVersalCpu.vhd for the bit
+   -- of every memory port.
    subtype psMemOutType is slv(97 downto 0);
    subtype psMemInOutType is slv(143 downto 0);
    subtype psMemInType is slv(33 downto 0);
