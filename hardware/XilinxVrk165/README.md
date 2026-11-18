@@ -1,8 +1,12 @@
 # XilinxVrk165
 
 Hardware support for the AMD VRK165 evaluation board (Versal RF, part `xcvr1652-vsva2488-2MP-e-S`, board part
-`xilinx.com:vrk165:part0:1.1`). `ruckus.tcl` accepts production silicon only, aborts on ES1 parts and needs Vivado 2026.2 or
-later.
+`xilinx.com:vrk165:part0:1.1`). `ruckus.tcl` needs Vivado 2026.2 or
+later. Setting `PRJ_PART = xcvr1652-vsva2488-2MP-e-S-es1` targets the ES1 board instead (board part
+`xilinx.com:vrk165_es:part0:1.2`): the block design is regenerated from `AxiSocVersalCpuCore.tcl` because the `.bd` is tied to the
+production part, and `USE_SEGMENTED_CONFIG` is rejected because the NoC solution was computed on the production part.
+The ES1 board pinout is identical to production; only the LPDDR5 board presets differ. The ES1 part must be visible in
+the Vivado device library (`get_parts xcvr1652-vsva2488-2MP-e-S-es1` must not be empty).
 
 ## Board files
 

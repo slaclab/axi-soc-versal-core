@@ -4,12 +4,19 @@ source $::env(RUCKUS_PROC_TCL)
 # Check for version 2026.2 of Vivado (or later)
 if { [VersionCheck 2026.2] < 0 } {exit -1}
 
-# Check for valid FPGA (production silicon only, reject ES1 parts first)
-if { [string match "*-es1*" $::env(PRJ_PART)] } {
-   puts "\n\nERROR: PRJ_PART ($::env(PRJ_PART)) is an ES1 part. Production silicon (xcvr1602-vsva2488-2MP-e-S) is required\n\n"; exit -1
+# Check for valid FPGA (production silicon, or ES1 silicon on the VRK160 ES1 board)
+if { $::env(PRJ_PART) == "xcvr1602-vsva2488-2MP-e-S" } {
+   set isEs1 0
+} elseif { $::env(PRJ_PART) == "xcvr1602-vsva2488-2MP-e-S-es1" } {
+   set isEs1 1
+   puts "\n\nWARNING: PRJ_PART ($::env(PRJ_PART)) is an ES1 part, targeting the VRK160 ES1 board (xilinx.com:vrk160:part0:1.4)\n\n"
+} else {
+   puts "\n\nERROR: PRJ_PART must be xcvr1602-vsva2488-2MP-e-S (or xcvr1602-vsva2488-2MP-e-S-es1 for the ES1 board) in the Makefile\n\n"; exit -1
 }
-if { $::env(PRJ_PART) != "xcvr1602-vsva2488-2MP-e-S" } {
-   puts "\n\nERROR: PRJ_PART must be xcvr1602-vsva2488-2MP-e-S in the Makefile\n\n"; exit -1
+
+# The NoC solution (.ncr) was computed on the production part
+if { $isEs1 && $::env(USE_SEGMENTED_CONFIG) != 0 } {
+   puts "\n\nERROR: USE_SEGMENTED_CONFIG is not supported on the ES1 part (the NoC solution is for xcvr1602-vsva2488-2MP-e-S)\n\n"; exit -1
 }
 
 # Load shared source code
@@ -18,12 +25,21 @@ loadConstraints -dir "$::DIR_PATH/xdc"
 loadSource -lib axi_soc_versal_core -dir "$::DIR_PATH/rtl"
 
 # Set the board part
-set_property board_part xilinx.com:vrk160_p:part0:1.1 [current_project]
+if { $isEs1 } {
+   set_property board_part xilinx.com:vrk160:part0:1.4 [current_project]
+} else {
+   set_property board_part xilinx.com:vrk160_p:part0:1.1 [current_project]
+}
 
 # Load the block design
 set bdVer "2026.2"
-loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
-# loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
+# The .bd is tied to the production part, so the ES1 build regenerates it from the .tcl
+if { $isEs1 } {
+   loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
+} else {
+   loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.bd"
+   # loadBlockDesign -path "$::DIR_PATH/bd/${bdVer}/AxiSocVersalCpuCore.tcl"
+}
 
 # When using Segmented Configuration, lock the NoC to a pre-computed solution so
 # the static NoC stays identical between the static and dynamic partitions.
